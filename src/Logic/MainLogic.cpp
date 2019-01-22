@@ -41,8 +41,8 @@ namespace UI
 	
 
 	std::string MainLogic::loadFileName = "../result.txt";
-	std::vector<std::stringstream*> MainLogic::loadFileStream = *(new std::vector<std::stringstream*>());
-	std::vector<UI::UIObject*>MainLogic::uiObjects = *(new std::vector<UI::UIObject*>());
+	FILE* MainLogic::loadFilePtr = nullptr;
+	
 	std::vector<UI::TTower*>MainLogic::towers = *(new std::vector<UI::TTower*>());
 	std::vector<UI::TSoldier*>MainLogic::soldiers = *(new std::vector<UI::TSoldier*>());
 	std::vector<UI::TPlayer*>MainLogic::players = *(new std::vector<UI::TPlayer*>());
@@ -225,14 +225,15 @@ namespace UI
 		// use the contents of szFile to initialize itself.
 		ofn.lpstrFile[0] = '\0';
 		ofn.nMaxFile = sizeof(szFile);
-		ofn.lpstrFilter = LPCWSTR("All\0*.*\0Text\0*.TXT\0");
+		ofn.lpstrFilter = LPCWSTR("All\0*.*\0*.csv\0*.txt\0");
 		ofn.nFilterIndex = 1;
 		ofn.lpstrFileTitle = NULL;
 		ofn.nMaxFileTitle = 0;
 		ofn.lpstrInitialDir = NULL;
 		ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
 
-		// Display the Open dialog box. 
+		// Display the Open dialog box.
+		char filename[260] = "";
 
 		if (GetOpenFileName(&ofn) == TRUE)
 		{
@@ -243,89 +244,166 @@ namespace UI
 				OPEN_EXISTING,
 				FILE_ATTRIBUTE_NORMAL,
 				(HANDLE)NULL);
-			//MainLogic::WriteLog("Successfully opened the file");
-			//MainLogic::WriteLog("the lpstrFileTitle is ");
-			//MainLogic::WriteLog((char*)ofn.lpstrFileTitle);
-			//MainLogic::WriteLog("the initial dir is ");
-			//MainLogic::WriteLog((char*)ofn.lpstrInitialDir);
-
+			bool first = true;
+			MainLogic::WriteLog("The szFile");
+			
+			int j = 0;
+			for (int i = 0; i < 260; i++)
+			{
+				if (szFile[i] != '\0')
+					filename[j++] = szFile[i];
+				if (j > 4 && std::string(filename + j - 4, 4) == ".txt")
+				{
+					filename[j] = '\0';
+					break;
+				}
+			}
 		}
-		else
-			MainLogic::WriteLog("Fail to open the file");
-		return std::string((char*)ofn.lpstrFile);
+		return std::string(filename);
 	}
 
 	void MainLogic::LoadData()
 	{
 		loadFileName = getFileDialogName();
 		MainLogic::WriteLog("Loading file from  " + loadFileName);
-	/*	if (!loadFileName.size())
+		if (!loadFileName.size())
 		{
 			return;
 		}
-		std::ifstream loadFile(loadFileName, std::ios::in);
-		std::string temp;
-		std::stringstream* tempStream = new std::stringstream();
-		
-		loadFile >> temp;
-		for(int i = 1;i<=MAX_ROUND;i++)
+		fopen_s(&MainLogic::loadFilePtr, MainLogic::loadFileName.c_str(), "r");
+		if (loadFilePtr == nullptr)
 		{
-			
-			tempStream->clear();
-			loadFile >> temp;
-			(*tempStream) << " Round " << temp;
-			while (loadFile >> temp)
-			{
-				if (temp == "Round")
-					break;
-				(*tempStream) <<""<< temp<<" ";
-
-			};
-			loadFileStream.push_back(tempStream);
+			return;
 		}
-		loadFile.close();*/
 	}
 
 	void MainLogic::LogicUpdate()
-	{/*
-		std::stringstream tempStream = this->loadFileStream[MainLogic::gameRound];
-		tempStream >> "Round" >> MainLogic::gameRound;
-		tempStream >> "PlayerAlive:" >> playerAlive;
+	{
+		FILE* fp = MainLogic::loadFilePtr;
 		int playerID;
+		int a, b, c, d, e, f, g, o, p;
+		
+		
+		
+		char h[30], m[30];
+		if (fscanf_s(fp, "Round %d\n", &MainLogic::gameRound) != 2)
+		{
+			GameOver();
+		}
+		fscanf_s(fp, "PlayerAlive: %d\n", &MainLogic::playerAlive);
+		
+
 		for (int i = 0; i < PLAYER_NUM; i++)
 		{
-			tempStream >> "Player" >> playerID >> "Info";
-			tempStream >> "Rank" >> players[playerID]->rank;
-			tempStream >> "Score" >> players[playerID]->score;
-			tempStream >> "KillNum" >> players[playerID]->killNum;
-			tempStream >> "TowerNum" >> players[playerID]->towerNum;
-			tempStream >> "SurvivalRound" >> players[playerID]->survivalRound;
-			tempStream >> "SoldierNum" >> players[playerID]->soldierNum;
-			tempStream >> "Resources" >> players[playerID]->resource;
-			tempStream >> "MaxPopulation" >> players[playerID]->maxPopulation;
-			tempStream >> "Population" >> players[playerID]->population;
+			fscanf_s(fp, "Player");
+			fscanf_s(fp, "%d", &playerID);
+			fscanf_s(fp, "Info\n");
+			
+			fscanf_s(fp, "Rank %d Score %d KillNum %d TowerNum %d SurvivalRound %d SoldierNum %d Resource %d MaxPopulation %d Population %d\n", &a, &b, &c, &d, &e, &f, &g, &o, &p);
+			MainLogic::players[playerID]->rank = a;
+			MainLogic::players[playerID]->score = b;
+			MainLogic::players[playerID]->killNum = c;
+			MainLogic::players[playerID]->towerNum = d;
+			MainLogic::players[playerID]->survivalRound = e;
+			MainLogic::players[playerID]->soldierNum = f;
+			MainLogic::players[playerID]->resource = g;
+			MainLogic::players[playerID]->maxPopulation = o;
+			MainLogic::players[playerID]->population = p;
 		}
-		tempStream >> "TowerInfo";
-		int towerID;
-		int ownerID;
-		int towerLevel;
-		while (tempStream >> "TowerID")
-		{
-			tempStream >> towerID;
-			tempStream >> "Owner" >> ownerID;
-			if (ownerID == -1)
-				towers[towerID]->owner = nullptr;
-			else
-				towers[towerID]->owner = players[ownerID];
-			tempStream >> "Level" >> towerLevel;
-			towers[towerID]->level = TTower::TowerLEVEL(towerLevel);
-			tempStream >> "Blood" >> towers[towerID]->blood;
-			tempStream >> "Recruiting" >> towers[towerID]->recruiting;
-			tempStream >> "Recruiting" >> towers[towerID]->recruitingRound;
-			tempStream >>"RecruitingType">>towers[towerID]->
+		
+		//Towers
+		for (auto item : MainLogic::towers)
+			delete item;
+		MainLogic::towers.clear();
+		TTower* newTower;
 
+		fscanf_s(fp, "TowerInfo\n");
+		while(fscanf_s(fp, "TowerID %d Owner %d Level %d Blood %d Recruiting %d RecruitingRound %d RecruitingType %s\n",
+				&a, &b, &c, &d, &e, &f, h, 20)==7)
+		{
+			newTower = new TTower(a, b, c, d, e, f, std::string(h));
+			MainLogic::towers.push_back(newTower);
 		}
-		*/
+		fscanf_s(fp, "SoldierInfo\n");
+		for (auto item : MainLogic::soldiers)
+			delete item;
+		MainLogic::soldiers.clear();
+		TSoldier* newSoldier=nullptr;
+		while (fscanf_s(fp, "SoldierID %d Owner %d Type %s Level %d Blood %d X_Position %d Y_Position %d\n", &a, &b, h, 20, &d, &e, &f, &g) == 7)
+		{
+			newSoldier = new TSoldier(a, b, h, d, e, f, g);
+			MainLogic::soldiers.push_back(newSoldier);
+		}
+
+		fscanf_s(fp, "CommandsInfo\n");
+		
+		for (int i = 0; i < PLAYER_NUM; i++)
+		{
+			if (fscanf_s(fp, "Player%dCommands\n", &playerID) != 1)
+				break;
+			while (true)
+			{
+				if (fscanf_s(fp, "Command Move SoldierID %d Direction %s Distance %d\n", &a, h, 20, &b)==3)
+				{
+					try
+					{
+						MainLogic::soldiers[a]->soldierMove.move = true;
+						MainLogic::soldiers[a]->soldierMove.moveDirection = moveDirStr2Enum(std::string(h));
+						MainLogic::soldiers[a]->soldierMove.moveDistance = b;
+					}
+					catch (const std::exception&)
+					{
+						//Nothing
+					}
+					continue;
+				}
+				else if (fscanf_s(fp, "Command Attack SoldierID %d VicType %s VictimID %d\n", &a, h, 20, &b) == 3)
+				{
+					try
+					{
+						if (std::string(h) == "Soldier")
+							MainLogic::soldiers[a]->victim = MainLogic::soldiers[b];
+						else if (std::string(h) == "Tower")
+							MainLogic::soldiers[a]->victim = MainLogic::towers[b];
+					}
+					catch (const std::exception&)
+					{
+						//Nothing
+					}
+					continue;
+				}
+				else if (fscanf_s(fp, "Command Upgrade TowerID %d\n", &a) == 1)
+				{
+					try
+					{
+						MainLogic::towers[a]->upgrade = true;
+					}
+					catch (const std::exception&)
+					{
+
+					}
+					
+					continue;
+				}
+				else if (fscanf_s(fp, "Command Produce TowerID %d Type %s\n", &a, h, 20) == 2)
+				{
+					try
+					{
+						MainLogic::towers[a]->produceSoldier.is_produce = true;
+						MainLogic::towers[a]->produceSoldier.soldierType = SoldierTypeStr2Enum(std::string(h));
+					}
+					catch (const std::exception&)
+					{
+
+					}
+				}
+				else
+				{
+					break;
+				}
+			}
+		}
+
 	}
 
 	void MainLogic::UIUpdate()
@@ -335,8 +413,8 @@ namespace UI
 	void MainLogic::clearData()
 	{
 		loadFileName = "";
-		loadFileStream.clear();
-		loadFileStream.resize(MAX_ROUND);
+		
+		
 					
 	}
 

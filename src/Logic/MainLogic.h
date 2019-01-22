@@ -23,10 +23,10 @@ namespace UI {
 		static std::ofstream logFile;
 		
 		static std::string loadFileName;
-		static std::vector<std::stringstream*> loadFileStream;
+		static FILE* loadFilePtr;
 
 
-		static std::vector<UI::UIObject*>uiObjects;
+		
 
 		static std::vector<UI::TTower*>towers;
 		static std::vector<UI::TSoldier*>soldiers;

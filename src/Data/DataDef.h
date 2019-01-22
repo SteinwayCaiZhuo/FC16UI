@@ -8,8 +8,8 @@
 namespace UI
 {
 	extern std::string logFileName;
-	extern const int MAX_ROUND;
-	extern const int PLAYER_NUM;
+	extern int MAX_ROUND;
+	extern int PLAYER_NUM;
 	
 	class MainLogic;
 	class StartScene;
@@ -24,6 +24,7 @@ namespace UI
 		, RIGHT = 4
 	};
 
+	MoveDirection moveDirStr2Enum(std::string str);
 
 	class UIObject
 	{
@@ -92,22 +93,27 @@ namespace UI
 			int moveDistance;
 		};
 
+
 		int ID;
 		TPlayer* owner;
 		int blood;
 		SoldierType type;
 		cocos2d::Vec2 position;
+		int level;
 
 		SoldierMoveType soldierMove;
 		UIObject* victim;
 
 		TSoldier();
+		TSoldier(int soldierID, int owner, std::string type, int level, int blood, int x_position, int y_position);
 		~TSoldier();
 		virtual void clear();
 		virtual void UIUpdate();
 
 
 	};
+
+	TSoldier::SoldierType SoldierTypeStr2Enum(std::string str);
 
 	class TTower: public UIObject
 	{
@@ -118,6 +124,12 @@ namespace UI
 			LV2 = 1,
 			LV3 = 2
 		};
+		struct ProduceType
+		{
+			bool is_produce;
+			TSoldier::SoldierType soldierType;
+		};
+		ProduceType produceSoldier;
 		int ID;
 		TPlayer* owner;
 		TowerLEVEL level;
@@ -126,15 +138,18 @@ namespace UI
 		int recruiting;
 		TSoldier::SoldierType recruitingType;
 		int recruitingRound;
+		bool upgrade; //
+		
 
 		cocos2d::Vec2 position;
 
 		TTower();
+		TTower(int towerID, int owner, int level, int blood, int recruiting, int recruitingRound, std::string recruitingType);
 		~TTower();
 		virtual void clear();
 		virtual void UIUpdate();
 
-		bool upgrade; //
+		
 	};
 
 	
