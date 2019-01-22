@@ -1,10 +1,11 @@
 #include "DataDef.h"
 
+
 namespace UI
 {
 	const int PLAYER_NUM = 4;
 	const int MAX_ROUND = 300;
-	std::string logFileName;
+	std::string logFileName = "Log/log.txt";
 	
 	UIObject::UIObject(UIObjectType uiObjectType, bool visiable):uiObjectType(uiObjectType), visiable(visiable){}
 

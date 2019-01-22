@@ -19,7 +19,7 @@ namespace UI {
 		static int MainLogic::gameRound;
 		static int playerAlive;
 		static LONGLONG delayPerRound;	//ms
-	private:
+	public:
 		static std::ofstream logFile;
 		
 		static std::string loadFileName;
@@ -57,7 +57,7 @@ namespace UI {
 		static void LogicUpdate();
 		static void UIUpdate();
 		static void clearData();
-		static void WriteLog(std::string& message);
+		static void WriteLog(std::string message);
 	};
 
 }

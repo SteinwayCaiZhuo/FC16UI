@@ -213,7 +213,7 @@ namespace UI
 	{
 		OPENFILENAME ofn;       // common dialog box structure
 		char szFile[260];       // buffer for file name
-		HWND hwnd;              // owner window
+		HWND hwnd = GetActiveWindow();              // owner window
 		HANDLE hf;              // file handle
 
 								// Initialize OPENFILENAME
@@ -235,6 +235,7 @@ namespace UI
 		// Display the Open dialog box. 
 
 		if (GetOpenFileName(&ofn) == TRUE)
+		{
 			hf = CreateFile(ofn.lpstrFile,
 				GENERIC_READ,
 				0,
@@ -242,14 +243,23 @@ namespace UI
 				OPEN_EXISTING,
 				FILE_ATTRIBUTE_NORMAL,
 				(HANDLE)NULL);
-		return std::string((char*)(ofn.lpstrFile));
-		//return nullptr;
+			//MainLogic::WriteLog("Successfully opened the file");
+			//MainLogic::WriteLog("the lpstrFileTitle is ");
+			//MainLogic::WriteLog((char*)ofn.lpstrFileTitle);
+			//MainLogic::WriteLog("the initial dir is ");
+			//MainLogic::WriteLog((char*)ofn.lpstrInitialDir);
+
+		}
+		else
+			MainLogic::WriteLog("Fail to open the file");
+		return std::string((char*)ofn.lpstrFile);
 	}
 
 	void MainLogic::LoadData()
-	{/*
+	{
 		loadFileName = getFileDialogName();
-		if (!loadFileName.size())
+		MainLogic::WriteLog("Loading file from  " + loadFileName);
+	/*	if (!loadFileName.size())
 		{
 			return;
 		}
@@ -331,7 +341,7 @@ namespace UI
 	}
 
 
-	void MainLogic::WriteLog(std::string & message)
+	void MainLogic::WriteLog(std::string  message)
 	{
 		logFile << message << std::endl;
 	}
