@@ -150,13 +150,17 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="src\AppDelegate.cpp" />
-    <ClCompile Include="src\HelloWorldScene.cpp" />
+    <ClCompile Include="src\Data\DataDef.cpp" />
+    <ClCompile Include="src\Logic\MainLogic.cpp" />
+    <ClCompile Include="src\UI\PlayScene.cpp" />
+    <ClCompile Include="src\UI\StartScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h" />
-    <ClInclude Include="src\AppDelegate.h" />
-    <ClInclude Include="src\HelloWorldScene.h" />
+    <ClInclude Include="src\Data\DataDef.h" />
+    <ClInclude Include="src\Logic\MainLogic.h" />
+    <ClInclude Include="src\UI\PlayScene.h" />
+    <ClInclude Include="src\UI\StartScene.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\cocos2d\cocos\2d\libcocos2d.vcxproj">
@@ -172,6 +176,9 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
