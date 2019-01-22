@@ -16,3 +16,7 @@ We didn't include the cocos2d library necessary for the project.
 We should make sure the parent directory of this project contains the cocos2d library and some other files.  
 Please refer to the tutorial given in <a href="https://www.gamefromscratch.com/page/cocos2d-x-CPP-Game-Programming-Tutorial-Series.aspx" target="_blank">tutorial page</a>. 
 
+# About develop
+## Step1
+Use static map as background. 
+Every loop renew the towers, players and soldiers.  
