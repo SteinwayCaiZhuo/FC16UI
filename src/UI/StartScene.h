@@ -13,9 +13,9 @@ namespace UI
 	class StartScene : public cocos2d::Scene
 	{
 	public:
-		StartScene(MainLogic* mainLogic = nullptr);
+		
 		static cocos2d::Scene* createScene();
-		MainLogic* mainLogic;
+		
 		virtual bool init();
 
 		void loadFileClickedCallback(cocos2d::Ref* pSender);

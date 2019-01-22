@@ -15,23 +15,23 @@ namespace UI {
 			GAME_PAUSE
 		};
 	public:
-		GameState gameState;
-		int gameRound;
-		int playerAlive;
-		LONGLONG delayPerRound;	//ms
+		static GameState MainLogic::gameState;
+		static int MainLogic::gameRound;
+		static int playerAlive;
+		static LONGLONG delayPerRound;	//ms
 	private:
-		std::ofstream logFile;
+		static std::ofstream logFile;
 		
-		std::string loadFileName;
-		std::vector<std::stringstream*> loadFileStream;
+		static std::string loadFileName;
+		static std::vector<std::stringstream*> loadFileStream;
 
 
-		std::vector<UI::UIObject*>uiObjects;
+		static std::vector<UI::UIObject*>uiObjects;
 
-		std::vector<UI::TTower*>towers;
-		std::vector<UI::TSoldier*>soldiers;
-		std::vector<UI::TPlayer*>players;
-		std::string mapFile;
+		static std::vector<UI::TTower*>towers;
+		static std::vector<UI::TSoldier*>soldiers;
+		static std::vector<UI::TPlayer*>players;
+		static std::string mapFile;
 	public:
 		
 
@@ -46,18 +46,18 @@ namespace UI {
 		virtual void applicationDidEnterBackground();
 		virtual void applicationWillEnterForeground();
 
-		void GameStart();
-		void GameLoop();
-		void GameOver();
-		void GamePause();
-		void GameResume();
-
-		std::string getFileDialogName();
-		void LoadData();
-		void LogicUpdate();
-		void UIUpdate();
-		void clearData();
-		void WriteLog(std::string& message);
+		static void GameStart();
+		static void GameLoop();
+		static void GameOver();
+		static void GamePause();
+		static void GameResume();
+		 
+		static std::string getFileDialogName();
+		static void LoadData();
+		static void LogicUpdate();
+		static void UIUpdate();
+		static void clearData();
+		static void WriteLog(std::string& message);
 	};
 
 }

@@ -23,16 +23,36 @@ static cocos2d::Size smallResolutionSize = cocos2d::Size(480, 320);
 static cocos2d::Size mediumResolutionSize = cocos2d::Size(1024, 768);
 static cocos2d::Size largeResolutionSize = cocos2d::Size(2048, 1536);
 
+
+
+
+
+
 namespace UI
 {
+
+	std::ofstream MainLogic::logFile(logFileName
+		, std::ios::out);
+	MainLogic::GameState MainLogic::gameState = GameState::GAME_NOT_START;
+	int MainLogic::gameRound = 0;
+	LONGLONG MainLogic::delayPerRound = 100;
+	
+	int MainLogic::playerAlive=4;
+	
+
+	std::string MainLogic::loadFileName = "../result.txt";
+	std::vector<std::stringstream*> MainLogic::loadFileStream = *(new std::vector<std::stringstream*>());
+	std::vector<UI::UIObject*>MainLogic::uiObjects = *(new std::vector<UI::UIObject*>());
+	std::vector<UI::TTower*>MainLogic::towers = *(new std::vector<UI::TTower*>());
+	std::vector<UI::TSoldier*>MainLogic::soldiers = *(new std::vector<UI::TSoldier*>());
+	std::vector<UI::TPlayer*>MainLogic::players = *(new std::vector<UI::TPlayer*>());
+	
+	std::string MainLogic::mapFile = "gameMap.png";
+
 	MainLogic::MainLogic()
 	{
 		//Start Scene
-		logFile.open(logFileName
-			, std::ios::out);
-		gameState = GameState::GAME_NOT_START;
-		gameRound = 0;
-		clearData();
+		
 		
 
 	}
@@ -45,7 +65,7 @@ namespace UI
 #elif USE_SIMPLE_AUDIO_ENGINE
 		SimpleAudioEngine::end();
 #endif
-		logFile.close();
+		MainLogic::logFile.close();
 	}
 
 	void MainLogic::initGLContextAttrs()
@@ -91,6 +111,8 @@ namespace UI
 		}
 
 		auto scene = StartScene::createScene();
+		
+
 
 		director->runWithScene(scene);
 		return true;
@@ -123,29 +145,29 @@ namespace UI
 
 	void MainLogic::GameStart()
 	{
-		if (gameState != GameState::GAME_NOT_START)
+		if (MainLogic::gameState != GameState::GAME_NOT_START)
 			return;
 
-		gameRound = 0;
-		gameState = GameState::GAME_RUNNING;
-		clearData();
-		while (gameRound < MAX_ROUND)
+		MainLogic::gameRound = 0;
+		MainLogic::gameState = GameState::GAME_RUNNING;
+		MainLogic::clearData();
+		while (MainLogic::gameRound < MAX_ROUND)
 		{
-			GameLoop();
+			MainLogic::GameLoop();
 		};
-		GameOver();
+		MainLogic::GameOver();
 	}
 
 	void MainLogic::GameLoop()
 	{
-		if (gameState != GameState::GAME_RUNNING)
+		if (MainLogic::gameState != GameState::GAME_RUNNING)
 		{
 			return;
 		}
 		else
 		{
-			LogicUpdate();
-			UIUpdate();
+			MainLogic::LogicUpdate();
+			MainLogic::UIUpdate();
 			std::this_thread::sleep_for(std::chrono::milliseconds(delayPerRound));
 			
 		}
@@ -153,42 +175,42 @@ namespace UI
 
 	void MainLogic::GameOver()
 	{
-		if (gameState == GameState::GAME_NOT_START)
+		if (MainLogic::gameState == GameState::GAME_NOT_START)
 		{
 			return;
 		}
 
 		else
 		{
-			gameRound = 0;
-			gameState = GameState::GAME_NOT_START;
-			clearData();
+			MainLogic::gameRound = 0;
+			MainLogic::gameState = GameState::GAME_NOT_START;
+			MainLogic::clearData();
 		}
 
 	}
 
 	void MainLogic::GamePause()
 	{
-		if (gameState != GameState::GAME_RUNNING)
+		if (MainLogic::gameState != GameState::GAME_RUNNING)
 			return;
 		else
 		{
-			gameState = GameState::GAME_PAUSE;
+			MainLogic::gameState = GameState::GAME_PAUSE;
 		}
 	}
 
 	void MainLogic::GameResume()
 	{
-		if (gameState != GameState::GAME_PAUSE)
+		if (MainLogic::gameState != GameState::GAME_PAUSE)
 			return;
 		else
 		{
-			gameState = GameState::GAME_RUNNING;
+			MainLogic::gameState = GameState::GAME_RUNNING;
 		}
 	}
 
 	std::string MainLogic::getFileDialogName()
-	{/*
+	{
 		OPENFILENAME ofn;       // common dialog box structure
 		char szFile[260];       // buffer for file name
 		HWND hwnd;              // owner window
@@ -220,8 +242,8 @@ namespace UI
 				OPEN_EXISTING,
 				FILE_ATTRIBUTE_NORMAL,
 				(HANDLE)NULL);
-		return std::string((char*)(ofn.lpstrFile));*/
-		return nullptr;
+		return std::string((char*)(ofn.lpstrFile));
+		//return nullptr;
 	}
 
 	void MainLogic::LoadData()
@@ -256,8 +278,8 @@ namespace UI
 
 	void MainLogic::LogicUpdate()
 	{/*
-		std::stringstream tempStream = this->loadFileStream[gameRound];
-		tempStream >> "Round" >> gameRound;
+		std::stringstream tempStream = this->loadFileStream[MainLogic::gameRound];
+		tempStream >> "Round" >> MainLogic::gameRound;
 		tempStream >> "PlayerAlive:" >> playerAlive;
 		int playerID;
 		for (int i = 0; i < PLAYER_NUM; i++)

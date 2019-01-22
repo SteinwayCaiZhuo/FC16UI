@@ -5,16 +5,10 @@ USING_NS_CC;
 
 namespace UI
 {
-	StartScene::StartScene(MainLogic* mainLogic):mainLogic(mainLogic)
-	{
-		if (nullptr == mainLogic)
-		{
-			
-		}
-
-	}
+	
 	Scene* StartScene::createScene()
 	{
+		
 		return StartScene::create();
 	}
 
@@ -29,7 +23,7 @@ namespace UI
 		Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
 		//auto closeItem = MenuItemImage::create("closeNormal.png", "closeSelected.png",CC_CALLBACK_1(....))
-		auto loadFileItem = MenuItemImage::create("loadFileNormal.png", "loadFileSelected.png", CC_CALLBACK_1(StartScene::loadFileClickedCallback, this));
+		auto loadFileItem = MenuItemImage::create("loadFileNormal.jpg", "loadFileSelected.jpg", CC_CALLBACK_1(StartScene::loadFileClickedCallback, this));
 		
 		
 
@@ -38,6 +32,6 @@ namespace UI
 
 	void StartScene::loadFileClickedCallback(cocos2d::Ref* pSender)
 	{
-		mainLogic->LoadData();
+		MainLogic::LoadData();
 	}
 }
