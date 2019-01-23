@@ -1,4 +1,4 @@
-/**/
+﻿/**/
 
 #include "main.h"
 #include "src\Logic\MainLogic.h"
@@ -19,10 +19,8 @@ int WINAPI _tWinMain(HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     // create the application instance
-	
-	UI::MainLogic::WriteLog("Before construction of MainLogic");
-    UI::MainLogic mainLogic;
-	UI::MainLogic::WriteLog( "MainLogic constructed\n");
+	UI::MainLogic app;
+	UI::MainLogic::m_pInstance = &app;
 	return Application::getInstance()->run();
 }
 

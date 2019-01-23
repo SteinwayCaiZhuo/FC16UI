@@ -1,5 +1,6 @@
-#include "MainLogic.h"
+﻿#include "MainLogic.h"
 #include "../UI/StartScene.h"
+#include <tchar.h>
 #include <windows.h>
 #include <thread>
 #include <chrono>
@@ -18,45 +19,29 @@ using namespace CocosDenshion;
 
 USING_NS_CC;
 
+using namespace std;
+
 static cocos2d::Size designResolutionSize = cocos2d::Size(1024, 768);
 static cocos2d::Size smallResolutionSize = cocos2d::Size(480, 320);
 static cocos2d::Size mediumResolutionSize = cocos2d::Size(1024, 768);
 static cocos2d::Size largeResolutionSize = cocos2d::Size(2048, 1536);
 
-
-
-
-
-
 namespace UI
 {
-
-	std::ofstream MainLogic::logFile(logFileName
-		, std::ios::out);
-	MainLogic::GameState MainLogic::gameState = GameState::GAME_NOT_START;
-	int MainLogic::gameRound = 0;
-	LONGLONG MainLogic::delayPerRound = 100;
-	
-	int MainLogic::playerAlive=4;
-	
-
-	std::string MainLogic::loadFileName = "../result.txt";
-	FILE* MainLogic::loadFilePtr = nullptr;
-	
-	std::vector<UI::TTower*>MainLogic::towers = *(new std::vector<UI::TTower*>());
-	std::vector<UI::TSoldier*>MainLogic::soldiers = *(new std::vector<UI::TSoldier*>());
-	std::vector<UI::TPlayer*>MainLogic::players = *(new std::vector<UI::TPlayer*>());
-	
-	std::string MainLogic::mapFile = "gameMap.png";
+	MainLogic *MainLogic::m_pInstance = nullptr;
 
 	MainLogic::MainLogic()
 	{
-		//Start Scene
-		
-		
-
+		gameState = GameState::GAME_NOT_START;
+		mapFile = "gameMap.png";
+		loadFileName = "./EnResult.txt";
+		playerAlive = 4;
+		delayPerRound = 100;
+		gameRound = 0;
+		towers = *(new vector<UI::TTower*>());
+		soldiers = *(new vector<UI::TSoldier*>());
+		players = *(new vector<UI::TPlayer*>());
 	}
-	
 
 	MainLogic::~MainLogic()
 	{
@@ -65,7 +50,6 @@ namespace UI
 #elif USE_SIMPLE_AUDIO_ENGINE
 		SimpleAudioEngine::end();
 #endif
-		MainLogic::logFile.close();
 	}
 
 	void MainLogic::initGLContextAttrs()
@@ -111,9 +95,6 @@ namespace UI
 		}
 
 		auto scene = StartScene::createScene();
-		
-
-
 		director->runWithScene(scene);
 		return true;
 	}
@@ -130,7 +111,6 @@ namespace UI
 #endif
 	}
 
-
 	void MainLogic::applicationWillEnterForeground()
 	{
 		Director::getInstance()->startAnimation();
@@ -145,152 +125,121 @@ namespace UI
 
 	void MainLogic::GameStart()
 	{
-		if (MainLogic::gameState != GameState::GAME_NOT_START)
+		if (gameState != GameState::GAME_NOT_START)
 			return;
 
-		MainLogic::gameRound = 0;
-		MainLogic::gameState = GameState::GAME_RUNNING;
-		MainLogic::clearData();
-		while (MainLogic::gameRound < MAX_ROUND)
+		gameRound = 0;
+		gameState = GameState::GAME_RUNNING;
+		clearData();
+		while (gameRound < MAX_ROUND)
 		{
-			MainLogic::GameLoop();
+			GameLoop();
 		};
-		MainLogic::GameOver();
+		GameOver();
 	}
 
 	void MainLogic::GameLoop()
 	{
-		if (MainLogic::gameState != GameState::GAME_RUNNING)
+		if (gameState != GameState::GAME_RUNNING)
 		{
 			return;
 		}
 		else
 		{
-			MainLogic::LogicUpdate();
-			MainLogic::UIUpdate();
-			std::this_thread::sleep_for(std::chrono::milliseconds(delayPerRound));
-			
+			LogicUpdate();
+			UIUpdate();
+			this_thread::sleep_for(chrono::milliseconds(delayPerRound));
 		}
 	}
 
 	void MainLogic::GameOver()
 	{
-		if (MainLogic::gameState == GameState::GAME_NOT_START)
+		if (gameState == GameState::GAME_NOT_START)
 		{
 			return;
 		}
 
 		else
 		{
-			MainLogic::gameRound = 0;
-			MainLogic::gameState = GameState::GAME_NOT_START;
-			MainLogic::clearData();
+			gameRound = 0;
+			gameState = GameState::GAME_NOT_START;
+			clearData();
 		}
 
 	}
 
 	void MainLogic::GamePause()
 	{
-		if (MainLogic::gameState != GameState::GAME_RUNNING)
+		if (gameState != GameState::GAME_RUNNING)
 			return;
 		else
 		{
-			MainLogic::gameState = GameState::GAME_PAUSE;
+			gameState = GameState::GAME_PAUSE;
 		}
 	}
 
 	void MainLogic::GameResume()
 	{
-		if (MainLogic::gameState != GameState::GAME_PAUSE)
+		if (gameState != GameState::GAME_PAUSE)
 			return;
 		else
 		{
-			MainLogic::gameState = GameState::GAME_RUNNING;
+			gameState = GameState::GAME_RUNNING;
 		}
 	}
 
-	std::string MainLogic::getFileDialogName()
+	void MainLogic::UIUpdate()
 	{
-		OPENFILENAME ofn;       // common dialog box structure
-		char szFile[260];       // buffer for file name
-		HWND hwnd = GetActiveWindow();              // owner window
-		HANDLE hf;              // file handle
+	}
 
-								// Initialize OPENFILENAME
-		ZeroMemory(&ofn, sizeof(ofn));
-		ofn.lStructSize = sizeof(ofn);
-		ofn.hwndOwner = hwnd;
-		ofn.lpstrFile = LPWSTR(szFile);
-		// Set lpstrFile[0] to '\0' so that GetOpenFileName does not 
-		// use the contents of szFile to initialize itself.
-		ofn.lpstrFile[0] = '\0';
-		ofn.nMaxFile = sizeof(szFile);
-		ofn.lpstrFilter = LPCWSTR("All\0*.*\0*.csv\0*.txt\0");
-		ofn.nFilterIndex = 1;
-		ofn.lpstrFileTitle = NULL;
-		ofn.nMaxFileTitle = 0;
-		ofn.lpstrInitialDir = NULL;
+	string MainLogic::GetFileNameByDialog()
+	{
+		constexpr int nMaxFileName = 256;
+		char filename[nMaxFileName] = "";
+		TCHAR buffer[nMaxFileName] = _T("");
+		OPENFILENAME ofn;
+		ofn.lpstrFile = buffer;
+		ofn.lStructSize = sizeof(OPENFILENAME);
+		ofn.hwndOwner = NULL;
+		ofn.lpstrFilter = _T("All\0*.*\0*.csv\0*.txt\0");
 		ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
-
-		// Display the Open dialog box.
-		char filename[260] = "";
-
+		ofn.nMaxFile = nMaxFileName;
+		ofn.nFilterIndex = 1;
+		ofn.lpstrFileTitle = _T("读取比赛结果文件");
+		ofn.lpstrInitialDir = _T(".\\");
 		if (GetOpenFileName(&ofn) == TRUE)
 		{
-			hf = CreateFile(ofn.lpstrFile,
-				GENERIC_READ,
-				0,
-				(LPSECURITY_ATTRIBUTES)NULL,
-				OPEN_EXISTING,
-				FILE_ATTRIBUTE_NORMAL,
-				(HANDLE)NULL);
-			bool first = true;
-			MainLogic::WriteLog("The szFile");
-			
-			int j = 0;
-			for (int i = 0; i < 260; i++)
-			{
-				if (szFile[i] != '\0')
-					filename[j++] = szFile[i];
-				if (j > 4 && std::string(filename + j - 4, 4) == ".txt")
-				{
-					filename[j] = '\0';
-					break;
-				}
-			}
+			wcstombs(filename, ofn.lpstrFile, nMaxFileName);
 		}
-		return std::string(filename);
+		return filename;
 	}
-
 	void MainLogic::LoadData()
 	{
-		loadFileName = getFileDialogName();
-		MainLogic::WriteLog("Loading file from  " + loadFileName);
+		loadFileName = GetFileNameByDialog();
 		if (!loadFileName.size())
 		{
 			return;
 		}
-		fopen_s(&MainLogic::loadFilePtr, MainLogic::loadFileName.c_str(), "r");
-		if (loadFilePtr == nullptr)
-		{
-			return;
-		}
+		// TODO : Try to deal with open failure.
+		ifsGameResult.open(loadFileName, ios::in);
+		// if (!ifsGameResult.is_open()) return;
+		// ifsGameResult.close();
 	}
 
 	void MainLogic::LogicUpdate()
 	{
-		FILE* fp = MainLogic::loadFilePtr;
+		// NEED ENTIRE REVIEW & RECONSTITUTION.
+		// WATCH OUT.
+		/*
+		FILE* fp;
 		int playerID;
 		int a, b, c, d, e, f, g, o, p;
-		
-		
-		
 		char h[30], m[30];
-		if (fscanf_s(fp, "Round %d\n", &MainLogic::gameRound) != 2)
+		if (fscanf_s(fp, "Round %d\n", &gameRound) != 2)
 		{
 			GameOver();
 		}
-		fscanf_s(fp, "PlayerAlive: %d\n", &MainLogic::playerAlive);
+		fscanf_s(fp, "PlayerAlive: %d\n", &playerAlive);
 		
 
 		for (int i = 0; i < PLAYER_NUM; i++)
@@ -300,39 +249,39 @@ namespace UI
 			fscanf_s(fp, "Info\n");
 			
 			fscanf_s(fp, "Rank %d Score %d KillNum %d TowerNum %d SurvivalRound %d SoldierNum %d Resource %d MaxPopulation %d Population %d\n", &a, &b, &c, &d, &e, &f, &g, &o, &p);
-			MainLogic::players[playerID]->rank = a;
-			MainLogic::players[playerID]->score = b;
-			MainLogic::players[playerID]->killNum = c;
-			MainLogic::players[playerID]->towerNum = d;
-			MainLogic::players[playerID]->survivalRound = e;
-			MainLogic::players[playerID]->soldierNum = f;
-			MainLogic::players[playerID]->resource = g;
-			MainLogic::players[playerID]->maxPopulation = o;
-			MainLogic::players[playerID]->population = p;
+			players[playerID]->rank = a;
+			players[playerID]->score = b;
+			players[playerID]->killNum = c;
+			players[playerID]->towerNum = d;
+			players[playerID]->survivalRound = e;
+			players[playerID]->soldierNum = f;
+			players[playerID]->resource = g;
+			players[playerID]->maxPopulation = o;
+			players[playerID]->population = p;
 		}
 		
 		//Towers
-		for (auto item : MainLogic::towers)
+		for (auto item : towers)
 			delete item;
-		MainLogic::towers.clear();
+		towers.clear();
 		TTower* newTower;
 
 		fscanf_s(fp, "TowerInfo\n");
 		while(fscanf_s(fp, "TowerID %d Owner %d Level %d Blood %d Recruiting %d RecruitingRound %d RecruitingType %s\n",
 				&a, &b, &c, &d, &e, &f, h, 20)==7)
 		{
-			newTower = new TTower(a, b, c, d, e, f, std::string(h));
-			MainLogic::towers.push_back(newTower);
+			newTower = new TTower(a, b, c, d, e, f, string(h));
+			towers.push_back(newTower);
 		}
 		fscanf_s(fp, "SoldierInfo\n");
-		for (auto item : MainLogic::soldiers)
+		for (auto item : soldiers)
 			delete item;
-		MainLogic::soldiers.clear();
+		soldiers.clear();
 		TSoldier* newSoldier=nullptr;
 		while (fscanf_s(fp, "SoldierID %d Owner %d Type %s Level %d Blood %d X_Position %d Y_Position %d\n", &a, &b, h, 20, &d, &e, &f, &g) == 7)
 		{
 			newSoldier = new TSoldier(a, b, h, d, e, f, g);
-			MainLogic::soldiers.push_back(newSoldier);
+			soldiers.push_back(newSoldier);
 		}
 
 		fscanf_s(fp, "CommandsInfo\n");
@@ -347,11 +296,11 @@ namespace UI
 				{
 					try
 					{
-						MainLogic::soldiers[a]->soldierMove.move = true;
-						MainLogic::soldiers[a]->soldierMove.moveDirection = moveDirStr2Enum(std::string(h));
-						MainLogic::soldiers[a]->soldierMove.moveDistance = b;
+						soldiers[a]->soldierMove.move = true;
+						soldiers[a]->soldierMove.moveDirection = moveDirStr2Enum(string(h));
+						soldiers[a]->soldierMove.moveDistance = b;
 					}
-					catch (const std::exception&)
+					catch (const exception&)
 					{
 						//Nothing
 					}
@@ -361,12 +310,12 @@ namespace UI
 				{
 					try
 					{
-						if (std::string(h) == "Soldier")
-							MainLogic::soldiers[a]->victim = MainLogic::soldiers[b];
-						else if (std::string(h) == "Tower")
-							MainLogic::soldiers[a]->victim = MainLogic::towers[b];
+						if (string(h) == "Soldier")
+							soldiers[a]->victim = soldiers[b];
+						else if (string(h) == "Tower")
+							soldiers[a]->victim = towers[b];
 					}
-					catch (const std::exception&)
+					catch (const exception&)
 					{
 						//Nothing
 					}
@@ -376,9 +325,9 @@ namespace UI
 				{
 					try
 					{
-						MainLogic::towers[a]->upgrade = true;
+						towers[a]->upgrade = true;
 					}
-					catch (const std::exception&)
+					catch (const exception&)
 					{
 
 					}
@@ -389,10 +338,10 @@ namespace UI
 				{
 					try
 					{
-						MainLogic::towers[a]->produceSoldier.is_produce = true;
-						MainLogic::towers[a]->produceSoldier.soldierType = SoldierTypeStr2Enum(std::string(h));
+						towers[a]->produceSoldier.is_produce = true;
+						towers[a]->produceSoldier.soldierType = SoldierTypeStr2Enum(string(h));
 					}
-					catch (const std::exception&)
+					catch (const exception&)
 					{
 
 					}
@@ -402,25 +351,20 @@ namespace UI
 					break;
 				}
 			}
-		}
-
-	}
-
-	void MainLogic::UIUpdate()
-	{
+		}*/
 	}
 
 	void MainLogic::clearData()
 	{
-		loadFileName = "";
-		
-		
-					
+		loadFileName = "";			
 	}
-
-
-	void MainLogic::WriteLog(std::string  message)
+	MainLogic * MainLogic::GetInstance()
 	{
-		logFile << message << std::endl;
+		return m_pInstance;
+	}
+	void MainLogic::DestroyInstance()
+	{
+		// No delete for stack object
+		// REVIEW NEEDED.
 	}
 }
