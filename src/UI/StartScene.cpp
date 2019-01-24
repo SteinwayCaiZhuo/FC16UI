@@ -1,4 +1,4 @@
-#include "StartScene.h"
+﻿#include "StartScene.h"
 #include "SimpleAudioEngine.h"
 #include "../Logic/MainLogic.h"
 USING_NS_CC;
@@ -32,7 +32,7 @@ namespace UI
 			loadFileItem->getContentSize().width <= 0 ||
 			loadFileItem->getContentSize().height <= 0)
 		{
-			MainLogic::WriteLog("'CloseNormal.png' and 'CloseSelected.png'");
+			//
 		}
 		else
 		{
@@ -50,6 +50,6 @@ namespace UI
 
 	void StartScene::loadFileClickedCallback(cocos2d::Ref* pSender)
 	{
-		MainLogic::LoadData();
+		MainLogic::GetInstance()->LoadData();
 	}
 }

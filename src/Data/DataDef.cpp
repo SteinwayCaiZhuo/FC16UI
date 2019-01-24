@@ -1,4 +1,4 @@
-#include "DataDef.h"
+﻿#include "DataDef.h"
 #include "../Logic/MainLogic.h"
 
 namespace UI
@@ -22,7 +22,7 @@ namespace UI
 	{
 		this->ID = towerID;
 		if(owner!=-1)
-			this->owner = MainLogic::players[owner];
+			this->owner = MainLogic::GetInstance()->players[owner];
 		else
 		{
 			this->owner = nullptr;
@@ -56,7 +56,7 @@ namespace UI
 	TSoldier::TSoldier(int soldierID, int owner, std::string type, int level, int blood, int x_position, int y_position)
 	{
 		this->ID = soldierID;
-		this->owner = MainLogic::players[owner];
+		this->owner = MainLogic::GetInstance()->players[owner];
 		this->type = SoldierTypeStr2Enum(type);
 		this->level = level;
 		this->blood = blood;
