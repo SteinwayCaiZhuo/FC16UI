@@ -1,8 +1,9 @@
-#pragma once
+ï»¿#pragma once
 #include <vector>
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <map>
 #include "cocos2d.h"
 
 namespace UI
@@ -10,65 +11,58 @@ namespace UI
 	extern std::string logFileName;
 	extern int MAX_ROUND;
 	extern int PLAYER_NUM;
-	
-	class MainLogic;
-	class StartScene;
-	class PlayScene;
-	
-	
-	enum MoveDirection
-	{
-		UP = 1
-		, DOWN = 2
-		, LEFT = 3
-		, RIGHT = 4
-	};
-
+	enum MoveDirection { UP = 1, DOWN = 2, LEFT = 3, RIGHT = 4 };
+	enum UIObjectType { NoneObjectType = 1, PlayerType = 2, TowerType = 3, SoldierType = 4 };
 	MoveDirection moveDirStr2Enum(std::string str);
 
 	class UIObject
 	{
+	protected:
+		UIObjectType m_nType;
+		bool m_bVisible;
+		bool m_bGenerated;
 	public:
-		enum UIObjectType
-		{
-			NoneObjectType,
-			PlayerType,
-			TowerType,
-			SoldierType
-		};
-		UIObjectType uiObjectType;
-		bool visiable;
-		UIObject(UIObjectType uiObjectType = NoneObjectType, bool visiable = true);
-		//UIObject() {};
-		~UIObject();
-		
-		virtual void clear() = 0;
+		// Constructor & Destructor
+		UIObject(const UIObjectType &ut = NoneObjectType,const bool &v = false);
+		UIObject(UIObjectType &&ut = NoneObjectType, bool &&v = false);
+		virtual ~UIObject();
+		// Properties
+		void SetVisible(const bool &);
+		bool GetVisible();
+		void SetType(const UIObjectType &);
+		UIObjectType GetType();
+		bool IsGenerated();
+		// Interfaces
+		virtual void Generate(const std::string &) = 0;
+		virtual void Clear() = 0;
 		virtual void UIUpdate() = 0;
 	};
 
-	class TPlayer;
 	class TTower;
 	class TSoldier;
 
 	class TPlayer: public UIObject
 	{
+	private:
+		static std::map<std::string, int> LUTPLAYER;
 	public:
-		int ID;
-		std::vector<TTower*>Halls;
-		std::vector<TSoldier*>Soldiers;
-		int rank;
-		int resource;
-		int score;
-		int killNum;
-		int towerNum;
-		int survivalRound;
-		int maxPopulation;
-		int population;
-		int soldierNum;
+		int m_nID;
+		std::vector<TTower*> m_vecrHalls;
+		std::vector<TSoldier*> m_vecrSoldiers;
+		int m_nRank;
+		int m_nResource;
+		int m_nScore;
+		int m_nKillNum;
+		int m_nTowerNum;
+		int m_nSurvivalRound;
+		int m_nMaxPopulation;
+		int m_nPopulation;
+		int m_nSoldierNum;
 
 		TPlayer();
-		~TPlayer();
-		virtual void clear();
+		virtual ~TPlayer();
+		virtual void Generate(const std::string &);
+		virtual void Clear();
 		virtual void UIUpdate();
 	};
 
@@ -77,13 +71,13 @@ namespace UI
 	public:
 		enum SoldierType
 		{
-			LightInfantry = 1  //Çá²½±ø
-			, LightArcher = 2   //Çá¹­±ø
-			, LightKnight = 3   //ÇáÆï±ø
-			, Mangonel = 4      //Í¶Ê¯»ú
-			, HeavyInfantry = 5 //ÖØ²½±ø
-			, HeavyArcher = 6   //ÖØ¹­±ø
-			, HeavyKnight = 7   //ÖØÆï±ø
+			LightInfantry = 1  //è½»æ­¥å…µ
+			, LightArcher = 2   //è½»å¼“å…µ
+			, LightKnight = 3   //è½»éª‘å…µ
+			, Mangonel = 4      //æŠ•çŸ³æœº
+			, HeavyInfantry = 5 //é‡æ­¥å…µ
+			, HeavyArcher = 6   //é‡å¼“å…µ
+			, HeavyKnight = 7   //é‡éª‘å…µ
 			, NoneSoldierType
 		};
 		struct SoldierMoveType
@@ -159,10 +153,10 @@ namespace UI
 	public:
 		enum CommandType
 		{
-			Attack       //¹¥»÷(Ê¿±øid£¬Ä¿±êµãx£¬Ä¿±êµãy)
-			, Move       //ÒÆ¶¯£¨Ê¿±øid£¬·½Ïò£¬ÒÆ¶¯¾àÀë£©
-			, Upgrade    //Éı¼¶£¨Ê³ÌÃid£©
-			, Produce    //Éú²ú£¨Ê³ÌÃid£¬Ê¿±øÀàĞÍ£©
+			Attack       //æ”»å‡»(å£«å…µidï¼Œç›®æ ‡ç‚¹xï¼Œç›®æ ‡ç‚¹y)
+			, Move       //ç§»åŠ¨ï¼ˆå£«å…µidï¼Œæ–¹å‘ï¼Œç§»åŠ¨è·ç¦»ï¼‰
+			, Upgrade    //å‡çº§ï¼ˆé£Ÿå ‚idï¼‰
+			, Produce    //ç”Ÿäº§ï¼ˆé£Ÿå ‚idï¼Œå£«å…µç±»å‹ï¼‰
 		};
 		
 		CommandType type;
@@ -184,19 +178,19 @@ namespace UI
 
 	enum TLandForm
 	{
-		Road      //µÀÂ·
-		, Forest   //É­ÁÖ
-		, River    //ºÓÁ÷
-		, Mountain //É½µØ
-		, Dorm     //ËŞÉá
-		, Classroom//½ÌÊÒ
+		Road      //é“è·¯
+		, Forest   //æ£®æ—
+		, River    //æ²³æµ
+		, Mountain //å±±åœ°
+		, Dorm     //å®¿èˆ
+		, Classroom//æ•™å®¤
 	};
 	enum TOccupiedType
 	{
-		NoneOccupied      //Ã»±»Õ¼¾İ
-		, SoldierOccupied  //Ê¿±ø
-		, TowerOccupied    //Ëş
-		, UnKnownOccupied  //ÊÓÒ°Ö®Íâ
+		NoneOccupied      //æ²¡è¢«å æ®
+		, SoldierOccupied  //å£«å…µ
+		, TowerOccupied    //å¡”
+		, UnKnownOccupied  //è§†é‡ä¹‹å¤–
 	};
 	
 	struct TPoint
@@ -206,10 +200,10 @@ namespace UI
 	//	TPosition y;
 		TLandForm land;
 		bool occupied;
-		bool visible;//ÊÇ·ñ¿É¼û
-		TOccupiedType occupied_type;//¶ÔÓ¦µÄÕ¼¾İÀàĞÍ
-	//	TSoldierID soldier;//¶ÔÓ¦µÄsoldier
-	//	TTowerID tower;//¶ÔÓ¦µÄtower
+		bool visible;//æ˜¯å¦å¯è§
+		TOccupiedType occupied_type;//å¯¹åº”çš„å æ®ç±»å‹
+	//	TSoldierID soldier;//å¯¹åº”çš„soldier
+	//	TTowerID tower;//å¯¹åº”çš„tower
 
 		bool player0_visible;
 		bool player1_visible;
