@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="win32">
+      <UniqueIdentifier>{84a8ebd7-7cf0-47f6-b75e-d441df67da40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="other">
+      <UniqueIdentifier>{26ab7497-ce4a-497b-972a-8f439535c9bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{24d89296-78a9-4053-99c6-4579f035e850}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Data">
+      <UniqueIdentifier>{dfeb6280-ae72-48a8-808a-99e9511ac49c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Logic">
+      <UniqueIdentifier>{02d1e5f3-35fe-459a-9197-972217baaf36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\UI">
+      <UniqueIdentifier>{b2ecd4d2-72ec-4f73-86fd-aef11cb85166}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FC16UI_Resource">
+      <UniqueIdentifier>{25655bac-d784-46c1-917a-652f802961f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FC16UI_Resource\tileset">
+      <UniqueIdentifier>{c63f5496-1505-4dd0-be46-c30b06690c05}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Data\DataDef.cpp">
+      <Filter>src\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Logic\MainLogic.cpp">
+      <Filter>src\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\StartScene.cpp">
+      <Filter>src\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\PlayScene.cpp">
+      <Filter>src\UI</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="main.h">
+      <Filter>win32</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Data\DataDef.h">
+      <Filter>src\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Logic\MainLogic.h">
+      <Filter>src\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\StartScene.h">
+      <Filter>src\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\PlayScene.h">
+      <Filter>src\UI</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md">
+      <Filter>other</Filter>
+    </None>
+    <None Include="FC16UIResource\terrains.tsx">
+      <Filter>FC16UI_Resource</Filter>
+    </None>
+    <None Include="FC16UIResource\test.tmx">
+      <Filter>FC16UI_Resource</Filter>
+    </None>
+    <None Include="FC16UIResource\tileset\merge_script.py">
+      <Filter>FC16UI_Resource\tileset</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="FC16UIResource\game.ico">
+      <Filter>FC16UI_Resource</Filter>
+    </Image>
+    <Image Include="FC16UIResource\s_test.png">
+      <Filter>FC16UI_Resource</Filter>
+    </Image>
+    <Image Include="FC16UIResource\tileset\dormitory.png">
+      <Filter>FC16UI_Resource\tileset</Filter>
+    </Image>
+    <Image Include="FC16UIResource\tileset\forest.png">
+      <Filter>FC16UI_Resource\tileset</Filter>
+    </Image>
+    <Image Include="FC16UIResource\tileset\mountain.png">
+      <Filter>FC16UI_Resource\tileset</Filter>
+    </Image>
+    <Image Include="FC16UIResource\tileset\river.png">
+      <Filter>FC16UI_Resource\tileset</Filter>
+    </Image>
+    <Image Include="FC16UIResource\tileset\RMXP版RMVX素材包-自动地图图块 (17)_爱给网_aigei_com.png">
+      <Filter>FC16UI_Resource\tileset</Filter>
+    </Image>
+    <Image Include="FC16UIResource\tileset\road.png">
+      <Filter>FC16UI_Resource\tileset</Filter>
+    </Image>
+    <Image Include="FC16UIResource\tileset\RPG Marker VX自带-平铺(TileD)_爱给网_aigei_com.png">
+      <Filter>FC16UI_Resource\tileset</Filter>
+    </Image>
+    <Image Include="FC16UIResource\tileset\teaching_area.png">
+      <Filter>FC16UI_Resource\tileset</Filter>
+    </Image>
+    <Image Include="FC16UIResource\tileset\terrains_list.png">
+      <Filter>FC16UI_Resource\tileset</Filter>
+    </Image>
+    <Image Include="FC16UIResource\tileset\tower.png">
+      <Filter>FC16UI_Resource\tileset</Filter>
+    </Image>
+    <Image Include="FC16UIResource\tileset\tower_small.png">
+      <Filter>FC16UI_Resource\tileset</Filter>
+    </Image>
+    <Image Include="FC16UIResource\tileset\VX森林整合-pic2197_VX森林素材整合_爱给网_aigei_com.png">
+      <Filter>FC16UI_Resource\tileset</Filter>
+    </Image>
+    <Image Include="FC16UIResource\tileset\口袋妖怪-的地图-海23tq1ko(sea23tq1ko)_爱给网_aigei_com.png">
+      <Filter>FC16UI_Resource\tileset</Filter>
+    </Image>
+    <Image Include="FC16UIResource\tileset\日站素材集01-TileC_爱给网_aigei_com.png">
+      <Filter>FC16UI_Resource\tileset</Filter>
+    </Image>
+    <Image Include="FC16UIResource\tileset\日站素材集01-布龙嫩(brunnen)_爱给网_aigei_com.png">
+      <Filter>FC16UI_Resource\tileset</Filter>
+    </Image>
+    <Image Include="FC16UIResource\tileset\永恒乐章-地图图块-TileA2_爱给网_aigei_com.png">
+      <Filter>FC16UI_Resource\tileset</Filter>
+    </Image>
+    <Image Include="FC16UIResource\button_test.jpg">
+      <Filter>FC16UI_Resource</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
