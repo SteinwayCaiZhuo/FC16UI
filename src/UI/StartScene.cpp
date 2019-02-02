@@ -1,6 +1,9 @@
 ﻿#include "StartScene.h"
 #include "SimpleAudioEngine.h"
 #include "../Logic/MainLogic.h"
+#include "ui/CocosGUI.h"
+#include "ui/UIButton.h"
+
 USING_NS_CC;
 
 namespace UI
@@ -26,30 +29,28 @@ namespace UI
 		startSprite->setScale(0.5);
 		startSprite->setPosition(500, 300);
 		this->addChild(startSprite, 0);
-		//auto closeItem = MenuItemImage::create("closeNormal.png", "closeSelected.png",CC_CALLBACK_1(....))
-		auto loadFileItem = MenuItemImage::create("loadFileNormal.jpg", "loadFileSelected.jpg", CC_CALLBACK_1(StartScene::loadFileClickedCallback, this));
-		if (loadFileItem == nullptr ||
-			loadFileItem->getContentSize().width <= 0 ||
-			loadFileItem->getContentSize().height <= 0)
-		{
-			//
-		}
-		else
-		{
-			float x = origin.x + visibleSize.width - loadFileItem->getContentSize().width / 2;
-			float y = origin.y + loadFileItem->getContentSize().height / 2;
-			loadFileItem->setPosition(Vec2(x, y));
-		}
+		
+		ui::Button* openFileButton = ui::Button::create();
+		openFileButton->setTitleText("Select a File");
+		openFileButton->setPosition(Vec2(600, 400));
+		openFileButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type) {
+			switch (type) {
+			case cocos2d::ui::Widget::TouchEventType::ENDED:
+				this->loadFileClickedCallback(sender);
+				break;
+			default:
+				break;
+			}
+		});
 
-		auto menu = Menu::create(loadFileItem, nullptr);
-		menu->setPosition(Vec2::ZERO);
-		this->addChild(menu, 1);
-
+		this->addChild(openFileButton, 1);
 		return true;
 	}
 
 	void StartScene::loadFileClickedCallback(cocos2d::Ref* pSender)
 	{
+		MainLogic::GetInstance()->WriteLog("Load File Clicked Call back");
 		MainLogic::GetInstance()->LoadData();
 	}
 }
+

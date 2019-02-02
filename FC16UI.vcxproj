@@ -14,7 +14,7 @@
     <ProjectGuid>{76A39BB2-9B84-4C65-98A5-654D86B86F2A}</ProjectGuid>
     <RootNamespace>test_win32</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -108,7 +108,7 @@
   <ItemDefinitionGroup>
     <CustomBuildStep>
       <Command>if not exist "$(OutDir)" mkdir "$(OutDir)"
-xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
+xcopy "$(ProjectDir).\FC16UIResource" "$(OutDir)" /D /E /I /F /Y
       </Command>
       <Outputs>$(TargetName).cab</Outputs>
       <Inputs>$(TargetFileName)</Inputs>
@@ -175,10 +175,31 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="game.rc" />
+    <None Include="FC16UIResource\terrains.tsx" />
+    <None Include="FC16UIResource\test.tmx" />
+    <None Include="FC16UIResource\tileset\merge_script.py" />
+    <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="README.md" />
+    <Image Include="FC16UIResource\button_test.jpg" />
+    <Image Include="FC16UIResource\game.ico" />
+    <Image Include="FC16UIResource\s_test.png" />
+    <Image Include="FC16UIResource\tileset\dormitory.png" />
+    <Image Include="FC16UIResource\tileset\forest.png" />
+    <Image Include="FC16UIResource\tileset\mountain.png" />
+    <Image Include="FC16UIResource\tileset\river.png" />
+    <Image Include="FC16UIResource\tileset\RMXP版RMVX素材包-自动地图图块 (17)_爱给网_aigei_com.png" />
+    <Image Include="FC16UIResource\tileset\road.png" />
+    <Image Include="FC16UIResource\tileset\RPG Marker VX自带-平铺(TileD)_爱给网_aigei_com.png" />
+    <Image Include="FC16UIResource\tileset\teaching_area.png" />
+    <Image Include="FC16UIResource\tileset\terrains_list.png" />
+    <Image Include="FC16UIResource\tileset\tower.png" />
+    <Image Include="FC16UIResource\tileset\tower_small.png" />
+    <Image Include="FC16UIResource\tileset\VX森林整合-pic2197_VX森林素材整合_爱给网_aigei_com.png" />
+    <Image Include="FC16UIResource\tileset\口袋妖怪-的地图-海23tq1ko(sea23tq1ko)_爱给网_aigei_com.png" />
+    <Image Include="FC16UIResource\tileset\日站素材集01-TileC_爱给网_aigei_com.png" />
+    <Image Include="FC16UIResource\tileset\日站素材集01-布龙嫩(brunnen)_爱给网_aigei_com.png" />
+    <Image Include="FC16UIResource\tileset\永恒乐章-地图图块-TileA2_爱给网_aigei_com.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

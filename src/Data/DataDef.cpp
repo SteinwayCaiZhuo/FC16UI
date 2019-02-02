@@ -1,110 +1,59 @@
 ﻿#include "DataDef.h"
 #include "../Logic/MainLogic.h"
 
-using namespace std;
-
 namespace UI
 {
 	int PLAYER_NUM = 4;
 	int MAX_ROUND = 300;
+	int TOWER_NUM = 19;
 	std::string logFileName = "Log/log.txt";
 	
-	map<string, int> TPlayer::LUTPLAYER;
+	std::map<std::string, int>TPlayer::LUTPLAYER;
+	std::map<std::string, int>TTower::LUTTOWER;
+	std::map<std::string, int>TSoldier::LUTSOLDIER;
 
-	UIObject::UIObject(const UIObjectType &ut, const bool &v) : m_nType(ut), m_bVisible(v)
+	UIObject::UIObject(const UIObjectType& uiObjectType, const bool& visiable):m_nUIType(uiObjectType), m_bVisible(visiable)
 	{
 		m_bGenerated = false;
 	}
-
-	UIObject::UIObject(UIObjectType &&ut, bool &&v) : m_nType(ut), m_bVisible(v)
-	{
-		m_bGenerated = false;
-	}
-
+	
 	UIObject::~UIObject()
 	{
-
+		m_bGenerated = false;
 	}
 
-	void UIObject::SetVisible(const bool &v)
+	void UIObject::setVisible(const bool&visible)
 	{
-		m_bVisible = v;
+		m_bVisible = visible;
 	}
 
-	bool UIObject::GetVisible()
+	bool UIObject::getVisible()
 	{
 		return m_bVisible;
 	}
 
-	void UIObject::SetType(const UIObjectType &ut)
+	void UIObject::setUIType(const UIObjectType& UIType)
 	{
-		m_nType = ut;
+		m_nUIType = UIType;
 	}
 
-	UIObjectType UIObject::GetType()
+	UIObjectType UIObject::getUIType()
 	{
-		return m_nType;
+		return m_nUIType;
 	}
 
 	bool UIObject::IsGenerated()
 	{
 		return m_bGenerated;
 	}
-	
-	
-	TTower::TTower() :UIObject(UIObjectType::TowerType)
+
+	TPlayer::TPlayer() :UIObject(TypeAsPlayer)
 	{
+		if(LUTPLAYER.empty())
+			LUT_INIT();
 	}
 
-	TTower::TTower(int towerID, int owner, int level, int blood, int recruiting, int recruitingRound, std::string recruitingType):UIObject(UIObjectType::TowerType)
-	{
-		this->ID = towerID;
-		if(owner!=-1)
-			this->owner = MainLogic::GetInstance()->players[owner];
-		else
-		{
-			this->owner = nullptr;
-		}
-		this->level = TTower::TowerLEVEL(level);
-		this->blood = blood;
-		this->recruiting = recruiting;
-		this->recruitingRound = recruitingRound;
-		this->recruitingType = SoldierTypeStr2Enum(recruitingType);
-
-		this->upgrade = false;
-		this->produceSoldier = ProduceType{ false, TSoldier::NoneSoldierType };
-	}
-
-	TTower::~TTower()
-	{
-	}
-
-	void TTower::clear()
-	{
-	}
-
-	void TTower::UIUpdate()
-	{
-	}
-
-	TSoldier::TSoldier() :UIObject(UIObjectType::SoldierType)
-	{
-	}
-
-
-	TSoldier::~TSoldier()
-	{
-	}
-
-	void TSoldier::clear()
-	{
-	}
-
-	void TSoldier::UIUpdate()
-	{
-	}
-
-	TPlayer::TPlayer() : UIObject(UIObjectType::PlayerType)
+	void TPlayer::LUT_INIT()
 	{
 		if (LUTPLAYER.empty())
 		{
@@ -119,22 +68,20 @@ namespace UI
 			LUTPLAYER.emplace("Population", 8);
 		}
 	}
-
 	TPlayer::~TPlayer()
 	{
 	}
-
 	void TPlayer::Generate(const std::string &strLine)
 	{
-		string strHolder;
-		stringstream ssFormat(strLine);
+		std::string strHolder;
+		std::stringstream ssFormat(strLine);
 		while (!ssFormat.eof())
 		{
 			ssFormat >> strHolder;
 			switch (LUTPLAYER[strHolder])
 			{
 			default:
-				throw exception("Unexpected identifier in line.");
+				throw std::exception("Unexpected identifier in line.");
 				break;
 			case 0:
 				ssFormat >> m_nRank;
@@ -170,32 +117,253 @@ namespace UI
 
 	void TPlayer::Clear()
 	{
-		
 	}
 
 	void TPlayer::UIUpdate()
 	{
 	}
+	
+	TTower::TTower() : UIObject(TypeAsTower)
+	{
+		
+	}
+	
+
+	TTower::TTower(const int& towerID, const int& owner, const int& level, const int& blood, const int& recruiting, const int& recruitingRound, const std::string& recruitingType):UIObject(UIObjectType::TypeAsTower)
+	{
+		if (LUTTOWER.empty())
+			LUT_INIT();
+		this->m_nID = towerID;
+		if(owner!=-1)
+			this->m_pOwner = MainLogic::GetInstance()->players[owner];
+		else
+		{
+			this->m_pOwner = nullptr;
+		}
+		this->m_nLevel =level;
+		this->m_nBlood = blood;
+		this->m_bRecruiting = (recruiting != 0);
+		this->m_nRecruitingRound = recruitingRound;
+		this->m_nRecruitingType = SoldierTypeStr2Enum(recruitingType);
+
+		this->m_bUpgrade = false;
+		this->m_strctProduceSoldier = ProduceType{ false, NoneSoldierType };
+	}
+
+	TTower::~TTower()
+	{
+		if (LUTTOWER.empty())
+			LUT_INIT();
+	}
+
+	void TTower::LUT_INIT()
+	{
+		if (LUTTOWER.empty())
+		{
+			LUTTOWER.emplace("TowerID", 0);
+			LUTTOWER.emplace("Owner", 1);
+			LUTTOWER.emplace("Level", 2);
+			LUTTOWER.emplace("Blood", 3);
+			LUTTOWER.emplace("Recruiting", 4);
+			LUTTOWER.emplace("RecruitingRound", 5);
+			LUTTOWER.emplace("RecruitingType", 6);
+		}
+	}
+
+	void TTower::Generate(const std::string& strLine)
+	{
+		std::string strHolder;
+		std::stringstream ssFormat(strLine);
+		int temp_int;
+		std::string temp_str;
+		while (!ssFormat.eof())
+		{
+			ssFormat >> strHolder;
+			switch (LUTTOWER[strHolder])
+			{
+			case 0:
+				ssFormat >> m_nID; break;
+			case 1:
+				ssFormat >> temp_int;
+				try
+				{
+					m_pOwner = MainLogic::GetInstance()->players[temp_int];
+				}
+				catch (const std::exception&)
+				{
+					m_pOwner = nullptr;
+				}
+				break;
+			case 2:
+				ssFormat >> m_nLevel;
+				break;
+			case 3:
+				ssFormat >> m_nBlood;
+				break;
+			case 4:
+				ssFormat >> temp_int;
+				m_bRecruiting = (temp_int != 0);
+				break;
+			case 5:
+				ssFormat >> m_nRecruitingRound;
+				break;
+			case 6:
+				ssFormat >> temp_str;
+				m_nRecruitingType = SoldierTypeStr2Enum(temp_str);
+				break;
+			default:
+				throw std::exception("Unexpected identifier in line.");
+				break;
+			}
+		}
+	}
+
+	void TTower::Clear()
+	{
+
+	}
+
+	void TTower::UIUpdate()
+	{
+	}
+
+	TSoldier::TSoldier() :UIObject(TypeAsSoldier)
+	{
+		if (LUTSOLDIER.empty())
+			LUT_INIT();
+	}
+
+	TSoldier::TSoldier(int soldierID, int owner, std::string type, int level, int blood, int x_position, int y_position)
+	{
+		if (LUTSOLDIER.empty())
+			LUT_INIT();
+		this->m_nID = soldierID;
+		try
+		{
+			this->m_pOwner = MainLogic::GetInstance()->players[owner];
+		}
+		catch (const std::exception&)
+		{
+			this->m_pOwner = nullptr;
+		}
+		this->m_nSoldierType = SoldierTypeStr2Enum(type);
+		this->m_nLevel = level;
+		this->m_nBlood = blood;
+		this->m_vec2Position = cocos2d::Vec2(x_position, y_position);
+		this->m_strctSoldierMove = SoldierMoveType{ false, UP, 0 };
+		this->m_pVictim = nullptr;
+		
+		this->m_bFreshman = true;
+		this->m_bDead = (blood <= 0);
+	}
+
+	TSoldier::~TSoldier()
+	{
+	}
+
+	void TSoldier::LUT_INIT()
+	{
+		if (LUTSOLDIER.empty())
+		{
+			LUTSOLDIER.emplace("SoldierID", 0);
+			LUTSOLDIER.emplace("Owner", 1);
+			LUTSOLDIER.emplace("Type", 2);
+			LUTSOLDIER.emplace("Level", 3);
+			LUTSOLDIER.emplace("Blood", 4);
+			LUTSOLDIER.emplace("X_Position", 5);
+			LUTSOLDIER.emplace("Y_Position", 6);
+		}
+	}
+	void TSoldier::Generate(const std::string&strLine)
+	{
+		std::string strHolder;
+		std::stringstream ssFormat(strLine);
+		int temp_int, x_pos = -1, y_pos = -1;
+		std::string temp_str;
+		while (!ssFormat.eof())
+		{
+			ssFormat >> strHolder;
+			switch (LUTSOLDIER[strHolder])
+			{
+			case 0:
+				ssFormat >> m_nID;
+				break;
+			case 1:
+				ssFormat >> temp_int;
+				try
+				{
+					m_pOwner = MainLogic::GetInstance()->players[temp_int];
+				}
+				catch (const std::exception&)
+				{
+					m_pOwner = nullptr;//This should not happen
+				}
+				break;
+			case 2:
+				ssFormat >> temp_str;
+				m_nSoldierType = SoldierTypeStr2Enum(temp_str);
+				break;
+			case 3:
+				ssFormat >> m_nLevel;
+				break;
+			case 4:
+				ssFormat >> m_nBlood;
+				break;
+			case 5:
+				ssFormat >> x_pos;
+				break;
+			case 6:
+				ssFormat >> y_pos;
+				break;
+
+			default:
+				throw std::exception("Unexpected identifier in line.");
+				break;
+			}
+		}
+		
+		m_vec2Position = cocos2d::Vec2(x_pos, y_pos);
+		if (m_nBlood <= 0)
+			m_bDead = true;
+	}
+
+	void TSoldier::Clear()
+	{
+	}
+
+	void TSoldier::UIUpdate()
+	{
+	}
+
+	Command::Command()
+	{}
+
+	Command::~Command()
+	{}
 
 
-	TSoldier::SoldierType SoldierTypeStr2Enum(std::string str)
+	
+	
+
+
+	SoldierType SoldierTypeStr2Enum(std::string str)
 	{
 		if (str == "LightInfantry")
-			return TSoldier::LightInfantry;
+			return LightInfantry;
 		else if (str == "LightArcher")
-			return TSoldier::LightArcher;
+			return LightArcher;
 		else if (str == "LightKnight")
-			return TSoldier::LightKnight;
+			return LightKnight;
 		else if (str == "Mangonel")
-			return TSoldier::Mangonel;
+			return Mangonel;
 		else if (str == "HeavyInfantry")
-			return TSoldier::HeavyInfantry;
+			return HeavyInfantry;
 		else if (str == "HeavyArcher")
-			return TSoldier::HeavyArcher;
+			return HeavyArcher;
 		else if (str == "HeavyKnight")
-			return TSoldier::HeavyKnight;
+			return HeavyKnight;
 		else
-			return TSoldier::NoneSoldierType;
+			return NoneSoldierType;
 	}
 	MoveDirection moveDirStr2Enum(std::string str)
 	{

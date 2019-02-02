@@ -1,7 +1,7 @@
 {
     "copy_resources": [
         {
-            "from": "../Resources",
+            "from": "./FC16UIResource",
             "to": ""
         }
     ]

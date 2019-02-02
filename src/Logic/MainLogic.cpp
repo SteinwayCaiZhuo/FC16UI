@@ -1,6 +1,7 @@
 ﻿#include "MainLogic.h"
 #include "../UI/StartScene.h"
-#include <tchar.h>
+#include "../UI/PlayScene.h"
+ 
 #include <windows.h>
 #include <thread>
 #include <chrono>
@@ -19,8 +20,6 @@ using namespace CocosDenshion;
 
 USING_NS_CC;
 
-using namespace std;
-
 static cocos2d::Size designResolutionSize = cocos2d::Size(1024, 768);
 static cocos2d::Size smallResolutionSize = cocos2d::Size(480, 320);
 static cocos2d::Size mediumResolutionSize = cocos2d::Size(1024, 768);
@@ -28,20 +27,25 @@ static cocos2d::Size largeResolutionSize = cocos2d::Size(2048, 1536);
 
 namespace UI
 {
-	MainLogic *MainLogic::m_pInstance = nullptr;
 
+	MainLogic* MainLogic::m_pInstance = nullptr;	
+	
 	MainLogic::MainLogic()
 	{
 		gameState = GameState::GAME_NOT_START;
 		mapFile = "gameMap.png";
 		loadFileName = "./EnResult.txt";
+		logFileStream.open("Log/log.txt", std::ios::app);
+		logFileStream << "\n\n\n\n\n\n\n\nStarting...\n";
 		playerAlive = 4;
 		delayPerRound = 100;
 		gameRound = 0;
-		towers = *(new vector<UI::TTower*>());
-		soldiers = *(new vector<UI::TSoldier*>());
-		players = *(new vector<UI::TPlayer*>());
+		towers = *(new std::vector<UI::TTower*>());
+		soldiers = *(new std::map<int, UI::TSoldier*>());
+		players = *(new std::vector<UI::TPlayer*>());
+		MainLogic::m_pInstance = this;
 	}
+
 
 	MainLogic::~MainLogic()
 	{
@@ -50,6 +54,7 @@ namespace UI
 #elif USE_SIMPLE_AUDIO_ENGINE
 		SimpleAudioEngine::end();
 #endif
+		logFileStream.close();
 	}
 
 	void MainLogic::initGLContextAttrs()
@@ -70,7 +75,7 @@ namespace UI
 		}
 
 		// turn on display FPS
-		director->setDisplayStats(true);
+		//director->setDisplayStats(true);
 
 		// set FPS. the default value is 1.0/60 if you don't call this
 		director->setAnimationInterval(1.0f / 60);
@@ -130,12 +135,12 @@ namespace UI
 
 		gameRound = 0;
 		gameState = GameState::GAME_RUNNING;
-		clearData();
+		MainLogic::clearData();
 		while (gameRound < MAX_ROUND)
 		{
-			GameLoop();
+			MainLogic::GameLoop();
 		};
-		GameOver();
+		MainLogic::GameOver();
 	}
 
 	void MainLogic::GameLoop()
@@ -146,9 +151,9 @@ namespace UI
 		}
 		else
 		{
-			LogicUpdate();
-			UIUpdate();
-			this_thread::sleep_for(chrono::milliseconds(delayPerRound));
+			MainLogic::LogicUpdate();
+			//MainLogic::UIUpdate();
+			std::this_thread::sleep_for(std::chrono::milliseconds(MainLogic::delayPerRound));
 		}
 	}
 
@@ -163,7 +168,7 @@ namespace UI
 		{
 			gameRound = 0;
 			gameState = GameState::GAME_NOT_START;
-			clearData();
+			MainLogic::clearData();
 		}
 
 	}
@@ -188,11 +193,11 @@ namespace UI
 		}
 	}
 
-	void MainLogic::UIUpdate()
+	void MainLogic::UIUpdate(cocos2d::Scene* playScene)
 	{
 	}
 
-	string MainLogic::GetFileNameByDialog()
+	std::string MainLogic::GetFileDialogName()
 	{
 		constexpr int nMaxFileName = 256;
 		char filename[nMaxFileName] = "";
@@ -211,147 +216,200 @@ namespace UI
 		{
 			wcstombs(filename, ofn.lpstrFile, nMaxFileName);
 		}
-		return filename;
+		MainLogic::GetInstance()->WriteLog("FILENAME IS " + std::string(filename));
+		
+		return std::string(filename);
 	}
 	void MainLogic::LoadData()
 	{
-		loadFileName = GetFileNameByDialog();
+		loadFileName = GetFileDialogName();
 		if (!loadFileName.size())
 		{
 			return;
 		}
+		
+		for (int i = 0; i < PLAYER_NUM; i++)
+			MainLogic::players.push_back(new TPlayer());
+		for (int i = 0; i < TOWER_NUM; i++)
+			MainLogic::towers.push_back(new TTower());
+		
 		// TODO : Try to deal with open failure.
-		ifsGameResult.open(loadFileName, ios::in);
-		// if (!ifsGameResult.is_open()) return;
-		// ifsGameResult.close();
+		ifsGameResult.open(loadFileName, std::ios::in);
+		if (!ifsGameResult.is_open()) return;
+		
+		
+
+
+
+		//ifsGameResult.close();
 	}
 
 	void MainLogic::LogicUpdate()
 	{
-		// NEED ENTIRE REVIEW & RECONSTITUTION.
-		// WATCH OUT.
-		/*
-		FILE* fp;
-		int playerID;
-		int a, b, c, d, e, f, g, o, p;
-		char h[30], m[30];
-		if (fscanf_s(fp, "Round %d\n", &gameRound) != 2)
+		std::string strLine;
+		std::string mark_type;
+		int mark_lines;
+		std::stringstream strstrm;
+		while (true)
 		{
-			GameOver();
-		}
-		fscanf_s(fp, "PlayerAlive: %d\n", &playerAlive);
-		
-
-		for (int i = 0; i < PLAYER_NUM; i++)
-		{
-			fscanf_s(fp, "Player");
-			fscanf_s(fp, "%d", &playerID);
-			fscanf_s(fp, "Info\n");
-			
-			fscanf_s(fp, "Rank %d Score %d KillNum %d TowerNum %d SurvivalRound %d SoldierNum %d Resource %d MaxPopulation %d Population %d\n", &a, &b, &c, &d, &e, &f, &g, &o, &p);
-			players[playerID]->rank = a;
-			players[playerID]->score = b;
-			players[playerID]->killNum = c;
-			players[playerID]->towerNum = d;
-			players[playerID]->survivalRound = e;
-			players[playerID]->soldierNum = f;
-			players[playerID]->resource = g;
-			players[playerID]->maxPopulation = o;
-			players[playerID]->population = p;
-		}
-		
-		//Towers
-		for (auto item : towers)
-			delete item;
-		towers.clear();
-		TTower* newTower;
-
-		fscanf_s(fp, "TowerInfo\n");
-		while(fscanf_s(fp, "TowerID %d Owner %d Level %d Blood %d Recruiting %d RecruitingRound %d RecruitingType %s\n",
-				&a, &b, &c, &d, &e, &f, h, 20)==7)
-		{
-			newTower = new TTower(a, b, c, d, e, f, string(h));
-			towers.push_back(newTower);
-		}
-		fscanf_s(fp, "SoldierInfo\n");
-		for (auto item : soldiers)
-			delete item;
-		soldiers.clear();
-		TSoldier* newSoldier=nullptr;
-		while (fscanf_s(fp, "SoldierID %d Owner %d Type %s Level %d Blood %d X_Position %d Y_Position %d\n", &a, &b, h, 20, &d, &e, &f, &g) == 7)
-		{
-			newSoldier = new TSoldier(a, b, h, d, e, f, g);
-			soldiers.push_back(newSoldier);
-		}
-
-		fscanf_s(fp, "CommandsInfo\n");
-		
-		for (int i = 0; i < PLAYER_NUM; i++)
-		{
-			if (fscanf_s(fp, "Player%dCommands\n", &playerID) != 1)
+			getline(ifsGameResult, strLine);
+			strstrm.clear();
+			strstrm << strLine;
+			strstrm >> mark_type >> mark_lines;
+			if (mark_type.empty()||mark_type == "RoundEnd")
 				break;
-			while (true)
+			else
 			{
-				if (fscanf_s(fp, "Command Move SoldierID %d Direction %s Distance %d\n", &a, h, 20, &b)==3)
-				{
-					try
-					{
-						soldiers[a]->soldierMove.move = true;
-						soldiers[a]->soldierMove.moveDirection = moveDirStr2Enum(string(h));
-						soldiers[a]->soldierMove.moveDistance = b;
-					}
-					catch (const exception&)
-					{
-						//Nothing
-					}
-					continue;
-				}
-				else if (fscanf_s(fp, "Command Attack SoldierID %d VicType %s VictimID %d\n", &a, h, 20, &b) == 3)
-				{
-					try
-					{
-						if (string(h) == "Soldier")
-							soldiers[a]->victim = soldiers[b];
-						else if (string(h) == "Tower")
-							soldiers[a]->victim = towers[b];
-					}
-					catch (const exception&)
-					{
-						//Nothing
-					}
-					continue;
-				}
-				else if (fscanf_s(fp, "Command Upgrade TowerID %d\n", &a) == 1)
-				{
-					try
-					{
-						towers[a]->upgrade = true;
-					}
-					catch (const exception&)
-					{
+				parseLines(mark_type, mark_lines);
+			}
+			strstrm.clear();
+		}
+	}
 
-					}
+	void MainLogic::parseLines(const std::string&mark_type, const int&mark_lines)
+	{
+		std::string strLine;
+		std::stringstream strstrm;
+		
+		if (mark_type == "RoundBegin")
+		{
+			if (mark_lines != 1)
+				throw std::exception("Round info should be given in one line");
+			getline(ifsGameResult, strLine);
+			strstrm.clear();
+			strstrm << strLine;
+			strstrm >> gameRound;
+			strstrm.clear();
+		}
+		else if (mark_type == "PlayerAlive")
+		{
+			if (mark_lines != 1)
+				throw std::exception("PlayerAlive info should be given in one line");
+			getline(ifsGameResult, strLine);
+			strstrm.clear();
+			strstrm << strLine;
+			strstrm >> playerAlive;
+			strstrm.clear();
+		}
+		else if (mark_type == "PlayerInfo")
+		{
+			if (mark_lines >= 4)
+				throw std::exception("PlayerInfo should be given less than 4 lines");
+			for (int i = 0; i < 4; i++)
+			{
+				getline(ifsGameResult, strLine);
+				players[i]->Generate(strLine);
+			}
+		}
+		else if (mark_type == "TowerInfo")
+		{
+			for (int i = 0; i < mark_lines; i++)
+			{
+				getline(ifsGameResult, strLine);
+				towers[i]->Generate(strLine);
+			}
+		}
+		else if (mark_type == "SoldierInfo")
+		{
+			int maxSoldierID =(*soldiers.cend()).first;
+			
+			//Clear old soldiers
+			for (auto item : soldiers)
+			{
+				delete item.second;
+			}
+			soldiers.clear();
+
+			//Generate new soldiers
+			for (int i = 0; i < mark_lines; i++)
+			{
+				getline(ifsGameResult, strLine);
+				try
+				{
+					TSoldier* newSoldier = new TSoldier();
+					newSoldier->Generate(strLine);
+					soldiers.emplace(newSoldier->m_nID, newSoldier);
+					if (newSoldier->m_nID > maxSoldierID)
+						newSoldier->m_bFreshman = true;
 					
-					continue;
 				}
-				else if (fscanf_s(fp, "Command Produce TowerID %d Type %s\n", &a, h, 20) == 2)
+				catch (const std::exception&)
 				{
-					try
-					{
-						towers[a]->produceSoldier.is_produce = true;
-						towers[a]->produceSoldier.soldierType = SoldierTypeStr2Enum(string(h));
-					}
-					catch (const exception&)
-					{
-
-					}
-				}
-				else
-				{
-					break;
+					
 				}
 			}
-		}*/
+
+			
+		}
+		
+		//Generate Command
+		else if (mark_type == "CommandsInfo")
+		{
+			std::string mark_type_command, temp_str;
+			int mark_player_id, mark_commands_lines, mark_info_command;
+			
+			for (auto item : commands)
+				delete item;
+			commands.clear();
+			UI::Command* newCommand = nullptr;
+
+			
+
+			
+			for (int i = 0; i < mark_lines; i++)
+			{
+				getline(ifsGameResult, strLine);
+				strstrm.clear();
+				strstrm << strLine;
+				strstrm >> mark_player_id >> mark_commands_lines;
+				for (int j = 0; j < mark_commands_lines; j++)
+				{
+					getline(ifsGameResult, strLine);
+					strstrm.clear();
+					strstrm << strLine;
+					strstrm >> mark_type_command;
+					newCommand = new Command();
+
+					try
+					{
+						if (mark_type_command == "Move")
+						{
+							newCommand->m_nCommandType = UI::CommandType::Move;
+
+							//SoldierID
+							strstrm >> mark_type_command >> mark_info_command;
+							newCommand->m_pMoveSoldier = soldiers[mark_info_command];
+							//Direction
+							strstrm >> mark_type_command >> temp_str;
+							newCommand->m_nMoveDirection = moveDirStr2Enum(temp_str);
+							//Distance
+							strstrm >> mark_type_command >> mark_info_command;
+							newCommand->m_nMoveDistance = mark_info_command;
+
+						}
+						else if (mark_type_command == "Attack")
+						{
+							newCommand->m_nCommandType = UI::CommandType::Attack;
+							//SoldierID
+							strstrm >> mark_type_command >> mark_info_command;
+							newCommand->m_pAttackObject = soldiers[mark_info_command];
+							//VicType
+							strstrm >> mark_type_command >> temp_str;
+							strstrm >> mark_type_command >> mark_info_command;
+							if (temp_str == "Soldier")
+								newCommand->m_pVictimObject = soldiers[mark_info_command];
+							else if (temp_str == "Tower")
+								newCommand->m_pVictimObject = towers[mark_info_command];
+						}
+					}
+					catch (const std::exception&)
+					{
+						delete newCommand;
+						newCommand = nullptr;
+					}
+				}
+			}
+		}
 	}
 
 	void MainLogic::clearData()
@@ -366,5 +424,10 @@ namespace UI
 	{
 		// No delete for stack object
 		// REVIEW NEEDED.
+	}
+
+	void MainLogic::WriteLog(const std::string& message)
+	{
+		MainLogic::GetInstance()->logFileStream << message << "\n";
 	}
 }
