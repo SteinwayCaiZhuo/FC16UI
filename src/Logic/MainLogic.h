@@ -18,7 +18,7 @@ namespace UI {
 		GameState gameState;
 		int gameRound;
 		int playerAlive;
-		LONGLONG delayPerRound;	//ms
+		int framesPerRound;
 	public:
 		std::ofstream logFileStream;
 
@@ -59,6 +59,7 @@ namespace UI {
 		void parseLines(const std::string& mark_type, const int& mark_lines);
 		void UIUpdate(cocos2d::Scene* playscene);
 		void clearData();
+		void initData();
 		void WriteLog(const std::string& message);
 
 		void StartScene2PlayScene();

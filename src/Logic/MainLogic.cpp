@@ -1,4 +1,4 @@
-﻿#include "MainLogic.h"
+﻿ #include "MainLogic.h"
 #include "../UI/StartScene.h"
 #include "../UI/PlayScene.h"
  
@@ -35,15 +35,21 @@ namespace UI
 		gameState = GameState::GAME_NOT_START;
 		mapFile = "gameMap.png";
 		loadFileName = "./EnResult.txt";
-		logFileStream.open("Log/log.txt", std::ios::app);
+		logFileStream.open("Log/log.txt", std::ios::out);
 		logFileStream << "\n\n\n\n\n\n\n\nStarting...\n";
 		playerAlive = 4;
-		delayPerRound = 100;
+		framesPerRound = 60;//Default setting
 		gameRound = 0;
-		towers = *(new std::vector<UI::TTower*>());
-		soldiers = *(new std::map<int, UI::TSoldier*>());
-		players = *(new std::vector<UI::TPlayer*>());
-		MainLogic::m_pInstance = this;
+		
+		logFileStream << "MainLogic ptr is " << this<<std::endl;
+
+		for (int i = 0; i < PLAYER_NUM; i++)
+		{
+			players.push_back(new TPlayer());
+			logFileStream << "Add new player: " << players[i] << std::endl;
+		}
+		for (int i = 0; i < TOWER_NUM; i++)
+			towers.push_back(new TTower());
 	}
 
 
@@ -136,25 +142,12 @@ namespace UI
 		gameRound = 0;
 		gameState = GameState::GAME_RUNNING;
 		MainLogic::clearData();
-		while (gameRound < MAX_ROUND)
-		{
-			MainLogic::GameLoop();
-		};
-		MainLogic::GameOver();
+		
 	}
 
 	void MainLogic::GameLoop()
 	{
-		if (gameState != GameState::GAME_RUNNING)
-		{
-			return;
-		}
-		else
-		{
-			MainLogic::LogicUpdate();
-			//MainLogic::UIUpdate();
-			std::this_thread::sleep_for(std::chrono::milliseconds(MainLogic::delayPerRound));
-		}
+		
 	}
 
 	void MainLogic::GameOver()
@@ -220,35 +213,32 @@ namespace UI
 			wcstombs(filename, ofn.lpstrFile, nMaxFileName);
 		}
 		MainLogic::GetInstance()->WriteLog("FILENAME IS " + std::string(filename));
-		
+
 		return std::string(filename);
 	}
 	void MainLogic::LoadData()
 	{
 		loadFileName = GetFileDialogName();
+		//loadFileName = "result.txt";
 		if (!loadFileName.size())
 		{
 			return;
 		}
 		
-		for (int i = 0; i < PLAYER_NUM; i++)
-			MainLogic::players.push_back(new TPlayer());
-		for (int i = 0; i < TOWER_NUM; i++)
-			MainLogic::towers.push_back(new TTower());
+		
 		
 		// TODO : Try to deal with open failure.
 		ifsGameResult.open(loadFileName, std::ios::in);
 		if (!ifsGameResult.is_open()) return;
-		
-		
-
-
-
+		MainLogic::GetInstance()->WriteLog("Succesfully loaded the file");
 		//ifsGameResult.close();
+
+		StartScene2PlayScene();
 	}
 
 	void MainLogic::LogicUpdate()
 	{
+		
 		std::string strLine;
 		std::string mark_type;
 		int mark_lines;
@@ -259,13 +249,21 @@ namespace UI
 			strstrm.clear();
 			strstrm << strLine;
 			strstrm >> mark_type >> mark_lines;
+			strstrm.clear();
 			if (mark_type.empty()||mark_type == "RoundEnd")
 				break;
 			else
 			{
-				parseLines(mark_type, mark_lines);
+				try
+				{
+					parseLines(mark_type, mark_lines);
+				}
+				catch (std::exception&)
+				{
+					MainLogic::GetInstance()->WriteLog("Logic Update error!");
+				}
 			}
-			strstrm.clear();
+			
 		}
 	}
 
@@ -296,13 +294,29 @@ namespace UI
 		}
 		else if (mark_type == "PlayerInfo")
 		{
-			if (mark_lines >= 4)
+			if (players.size() < PLAYER_NUM)
+			{
+				clearData();
+				initData();
+			}
+			if (mark_lines > PLAYER_NUM)
 				throw std::exception("PlayerInfo should be given less than 4 lines");
-			for (int i = 0; i < 4; i++)
+			std::string temp_str;
+			int id;
+			
+			for (int i = 0; i < mark_lines; i++)
 			{
 				getline(ifsGameResult, strLine);
-				players[i]->Generate(strLine);
+				strstrm.clear();
+				strstrm << strLine;
+				strstrm >> temp_str >> id;
+				strstrm.clear();
+				getline(ifsGameResult, strLine);
+				logFileStream.close();
+				logFileStream.open("result.txt", std::ios::app);
+				players[id]->Generate(strLine);
 			}
+			MainLogic::GetInstance()->WriteLog("Successfully loaded PlayerInfo");
 		}
 		else if (mark_type == "TowerInfo")
 		{
@@ -314,7 +328,11 @@ namespace UI
 		}
 		else if (mark_type == "SoldierInfo")
 		{
-			int maxSoldierID =(*soldiers.cend()).first;
+			int maxSoldierID;
+			if (soldiers.size() <= 0)
+				maxSoldierID = -1;
+			else
+				maxSoldierID =(*soldiers.cend()).first;
 			
 			//Clear old soldiers
 			for (auto item : soldiers)
@@ -417,8 +435,31 @@ namespace UI
 
 	void MainLogic::clearData()
 	{
-		loadFileName = "";			
+		WriteLog("ClearData...");
+		loadFileName = "";
+
+		for (auto item : players)
+			delete item;
+		players.clear();
+		for (auto item : towers)
+			delete item;
+		towers.clear();
+		for (auto item : soldiers)
+			delete item.second;
+		soldiers.clear();
+		for (auto item : commands)
+			delete item;
+		commands.clear();
 	}
+
+	void MainLogic::initData()
+	{
+		for (int i = 0; i < PLAYER_NUM; i++)
+			players.push_back(new TPlayer());
+		for (int i = 0; i < TOWER_NUM; i++)
+			towers.push_back(new TTower());
+	}
+
 	MainLogic * MainLogic::GetInstance()
 	{
 		return m_pInstance;
@@ -431,6 +472,10 @@ namespace UI
 
 	void MainLogic::WriteLog(const std::string& message)
 	{
-		MainLogic::GetInstance()->logFileStream << message << "\n";
+		logFileStream << message <<"   #### WHILE players.size =  "<<players.size()<< "\n";
+	}
+	void MainLogic::StartScene2PlayScene()
+	{
+		Director::getInstance()->replaceScene(PlayScene::createScene());
 	}
 }

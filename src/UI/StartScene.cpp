@@ -51,6 +51,7 @@ namespace UI
 	{
 		MainLogic::GetInstance()->WriteLog("Load File Clicked Call back");
 		MainLogic::GetInstance()->LoadData();
+		
 	}
 }
 

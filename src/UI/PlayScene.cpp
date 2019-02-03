@@ -40,14 +40,16 @@ bool UI::PlayScene::init()
 	});
 
 	this->addChild(start_btn, 1);
-
+	MainLogic::GetInstance()->WriteLog("before shedule");
 	this->schedule(schedule_selector(UI::PlayScene::RefreshMap), 2.0f);
+	MainLogic::GetInstance()->WriteLog("After this->schedule");
 	this->is_pause = true;
 	return true;
 }
 
 void UI::PlayScene::RefreshMap(float dt)
 {
+	MainLogic::GetInstance()->WriteLog("RefreshMap began");
 	if (is_pause) {
 		this->_scheduler->pauseTarget(this);
 		return;
@@ -61,7 +63,7 @@ void UI::PlayScene::RefreshMap(float dt)
 	}
 
 	//refreshmap
-	//MainLogic::LogicUpdate();
+	MainLogic::GetInstance()->LogicUpdate();
 	TMXLayer* background = map_widget->getLayer("background");
 	TMXLayer* soldiers = map_widget->getLayer("soldiers");
 
@@ -84,7 +86,7 @@ void UI::PlayScene::RefreshMap(float dt)
 
 void UI::PlayScene::StartClickedCallback()
 {
-	//MainLogic::GameStart();
+	MainLogic::GetInstance()->GameStart();
 	start_btn->setTitleText("stop");
 	is_pause = false;
 	this->_scheduler->resumeTarget(this);

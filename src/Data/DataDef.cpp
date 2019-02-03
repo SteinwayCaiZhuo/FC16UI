@@ -172,6 +172,7 @@ namespace UI
 
 	void TTower::Generate(const std::string& strLine)
 	{
+		MainLogic::GetInstance()->WriteLog("In tower.Generate()");
 		std::string strHolder;
 		std::stringstream ssFormat(strLine);
 		int temp_int;
@@ -187,7 +188,10 @@ namespace UI
 				ssFormat >> temp_int;
 				try
 				{
-					m_pOwner = MainLogic::GetInstance()->players[temp_int];
+					if (temp_int < 0)
+						m_pOwner = nullptr;
+					else 
+						m_pOwner = MainLogic::GetInstance()->players[temp_int];
 				}
 				catch (const std::exception&)
 				{
@@ -240,7 +244,10 @@ namespace UI
 		this->m_nID = soldierID;
 		try
 		{
-			this->m_pOwner = MainLogic::GetInstance()->players[owner];
+			if (owner < 0)
+				m_pOwner = nullptr;
+			else 
+				this->m_pOwner = MainLogic::GetInstance()->players[owner];
 		}
 		catch (const std::exception&)
 		{
@@ -292,7 +299,10 @@ namespace UI
 				ssFormat >> temp_int;
 				try
 				{
-					m_pOwner = MainLogic::GetInstance()->players[temp_int];
+					if (temp_int < 0)
+						m_pOwner = nullptr;
+					else 
+						m_pOwner = MainLogic::GetInstance()->players[temp_int];
 				}
 				catch (const std::exception&)
 				{
