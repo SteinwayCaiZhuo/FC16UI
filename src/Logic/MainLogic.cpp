@@ -203,14 +203,17 @@ namespace UI
 		char filename[nMaxFileName] = "";
 		TCHAR buffer[nMaxFileName] = _T("");
 		OPENFILENAME ofn;
+		ZeroMemory(&ofn, sizeof(ofn));
 		ofn.lpstrFile = buffer;
 		ofn.lStructSize = sizeof(OPENFILENAME);
 		ofn.hwndOwner = NULL;
-		ofn.lpstrFilter = _T("All\0*.*\0*.csv\0*.txt\0");
+		ofn.lpstrFilter = _T("All Files\0*.*\0*.csv\0*.txt\0");
 		ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
 		ofn.nMaxFile = nMaxFileName;
 		ofn.nFilterIndex = 1;
-		ofn.lpstrFileTitle = _T("读取比赛结果文件");
+		ofn.lpstrTitle = _T("读取比赛结果文件");
+		ofn.lpstrFileTitle = NULL;
+		ofn.nMaxFileTitle = 0;
 		ofn.lpstrInitialDir = _T(".\\");
 		if (GetOpenFileName(&ofn) == TRUE)
 		{
