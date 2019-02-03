@@ -390,13 +390,18 @@ namespace UI
 
 	void MyClear(std::stringstream & ifs)
 	{
-		int last = ifs.end;
-		while (ifs.tellg()>=last)
+		ifs.clear();
+		int last = 0;
+		while (ifs.tellg())
 		{
-			ifs.seekg(++last);
+			ifs.seekg(last+1);
+			if (int(ifs.tellg()) == -1)
+				break;
+			last++;
 		}
 		ifs.clear();
-		ifs.seekg(last - 1);
+		ifs.seekg(last);
+		MainLogic::GetInstance()->WriteLog("Last = " + std::to_string(last));
 	}
 }
 

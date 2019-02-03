@@ -243,7 +243,7 @@ namespace UI
 		std::string strLine;
 		std::string mark_type;
 		int mark_lines;
-		std::stringstream strstrm;
+		std::stringstream strstrm("test");
 		while (true)
 		{
 			getline(ifsGameResult, strLine);
@@ -273,7 +273,7 @@ namespace UI
 	void MainLogic::parseLines(const std::string&mark_type, const int&mark_lines)
 	{
 		std::string strLine;
-		std::stringstream strstrm;
+		std::stringstream strstrm("init");
 		
 		if (mark_type == "RoundBegin")
 		{
@@ -302,7 +302,7 @@ namespace UI
 			{
 				clearData();
 				initData();
-				WriteLog("Init data in loading playerInfo");
+				
 			}
 			if (mark_lines > PLAYER_NUM)
 				throw std::exception("PlayerInfo should be given less than 4 lines");
@@ -321,7 +321,7 @@ namespace UI
 				players[id]->Generate(strLine);
 				players[id]->m_nID = id;
 			}
-			MainLogic::GetInstance()->WriteLog("Successfully loaded PlayerInfo");
+			
 		}
 		else if (mark_type == "TowerInfo")
 		{
@@ -466,6 +466,7 @@ namespace UI
 			players.push_back(new TPlayer());
 		for (int i = 0; i < TOWER_NUM; i++)
 			towers.push_back(new TTower());
+		WriteLog("Initializing data...");
 	}
 
 	MainLogic * MainLogic::GetInstance()
