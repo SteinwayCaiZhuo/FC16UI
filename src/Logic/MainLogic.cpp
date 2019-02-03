@@ -34,9 +34,9 @@ namespace UI
 	{
 		gameState = GameState::GAME_NOT_START;
 		mapFile = "gameMap.png";
-		loadFileName = "./EnResult.txt";
+		loadFileName = "result.txt";
 		logFileStream.open("Log/log.txt", std::ios::out);
-		logFileStream << "\n\n\n\n\n\n\n\nStarting...\n";
+		logFileStream << "\n\n\n\n\n\n\n\nStarting..\n";
 		playerAlive = 4;
 		framesPerRound = 60;//Default setting
 		gameRound = 0;
@@ -60,6 +60,7 @@ namespace UI
 #elif USE_SIMPLE_AUDIO_ENGINE
 		SimpleAudioEngine::end();
 #endif
+		logFileStream << "MainLogic destruction..\n";
 		logFileStream.close();
 	}
 
@@ -246,10 +247,12 @@ namespace UI
 		while (true)
 		{
 			getline(ifsGameResult, strLine);
-			strstrm.clear();
+			MyClear(strstrm);
+			
 			strstrm << strLine;
 			strstrm >> mark_type >> mark_lines;
-			strstrm.clear();
+			MyClear(strstrm);
+			WriteLog("Got mark_type is: " + mark_type);
 			if (mark_type.empty()||mark_type == "RoundEnd")
 				break;
 			else
@@ -277,20 +280,21 @@ namespace UI
 			if (mark_lines != 1)
 				throw std::exception("Round info should be given in one line");
 			getline(ifsGameResult, strLine);
-			strstrm.clear();
+			MyClear(strstrm);
 			strstrm << strLine;
 			strstrm >> gameRound;
-			strstrm.clear();
+			MyClear(strstrm);
+			WriteLog("in Game round: " + std::to_string(gameRound) + "\n");
 		}
 		else if (mark_type == "PlayerAlive")
 		{
 			if (mark_lines != 1)
 				throw std::exception("PlayerAlive info should be given in one line");
 			getline(ifsGameResult, strLine);
-			strstrm.clear();
+			MyClear(strstrm);
 			strstrm << strLine;
 			strstrm >> playerAlive;
-			strstrm.clear();
+			MyClear(strstrm);
 		}
 		else if (mark_type == "PlayerInfo")
 		{
@@ -298,6 +302,7 @@ namespace UI
 			{
 				clearData();
 				initData();
+				WriteLog("Init data in loading playerInfo");
 			}
 			if (mark_lines > PLAYER_NUM)
 				throw std::exception("PlayerInfo should be given less than 4 lines");
@@ -307,14 +312,14 @@ namespace UI
 			for (int i = 0; i < mark_lines; i++)
 			{
 				getline(ifsGameResult, strLine);
-				strstrm.clear();
+				MyClear(strstrm);
 				strstrm << strLine;
 				strstrm >> temp_str >> id;
-				strstrm.clear();
+				MyClear(strstrm);
 				getline(ifsGameResult, strLine);
-				logFileStream.close();
-				logFileStream.open("result.txt", std::ios::app);
+				
 				players[id]->Generate(strLine);
+				players[id]->m_nID = id;
 			}
 			MainLogic::GetInstance()->WriteLog("Successfully loaded PlayerInfo");
 		}
@@ -380,15 +385,18 @@ namespace UI
 			for (int i = 0; i < mark_lines; i++)
 			{
 				getline(ifsGameResult, strLine);
-				strstrm.clear();
+				MyClear(strstrm);
 				strstrm << strLine;
 				strstrm >> mark_player_id >> mark_commands_lines;
+				MyClear(strstrm);
+
 				for (int j = 0; j < mark_commands_lines; j++)
 				{
 					getline(ifsGameResult, strLine);
-					strstrm.clear();
+					MyClear(strstrm);
 					strstrm << strLine;
 					strstrm >> mark_type_command;
+					MyClear(strstrm);
 					newCommand = new Command();
 
 					try
@@ -435,7 +443,7 @@ namespace UI
 
 	void MainLogic::clearData()
 	{
-		WriteLog("ClearData...");
+		WriteLog("ClearData..");
 		loadFileName = "";
 
 		for (auto item : players)
@@ -472,7 +480,7 @@ namespace UI
 
 	void MainLogic::WriteLog(const std::string& message)
 	{
-		logFileStream << message <<"   #### WHILE players.size =  "<<players.size()<< "\n";
+		logFileStream << message<<std::endl; //<< "   #### WHILE players.size =  " << players.size() << "\n";
 	}
 	void MainLogic::StartScene2PlayScene()
 	{

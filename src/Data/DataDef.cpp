@@ -172,7 +172,7 @@ namespace UI
 
 	void TTower::Generate(const std::string& strLine)
 	{
-		MainLogic::GetInstance()->WriteLog("In tower.Generate()");
+		
 		std::string strHolder;
 		std::stringstream ssFormat(strLine);
 		int temp_int;
@@ -375,6 +375,7 @@ namespace UI
 		else
 			return NoneSoldierType;
 	}
+	
 	MoveDirection moveDirStr2Enum(std::string str)
 	{
 		if (str == "UP")
@@ -385,6 +386,17 @@ namespace UI
 			return MoveDirection::LEFT;
 		else //if (str == "RIGHT")
 			return MoveDirection::RIGHT;
+	}
+
+	void MyClear(std::stringstream & ifs)
+	{
+		int last = ifs.end;
+		while (ifs.tellg()>=last)
+		{
+			ifs.seekg(++last);
+		}
+		ifs.clear();
+		ifs.seekg(last - 1);
 	}
 }
 

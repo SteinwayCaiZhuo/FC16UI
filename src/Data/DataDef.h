@@ -225,4 +225,6 @@ namespace UI
 		Command();
 		~Command();
 	};
+
+	void MyClear(std::stringstream& ifs);
 }

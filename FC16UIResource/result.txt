@@ -38157,3 +38157,1111 @@ In tower.Generate()   #### WHILE players.size =  4
 In tower.Generate()   #### WHILE players.size =  4
 In tower.Generate()   #### WHILE players.size =  4
 In tower.Generate()   #### WHILE players.size =  4
+Successfully loaded PlayerInfo   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+Successfully loaded PlayerInfo   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+RefreshMap began   #### WHILE players.size =  4
+Successfully loaded PlayerInfo   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+Successfully loaded PlayerInfo   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+RefreshMap began   #### WHILE players.size =  4
+Successfully loaded PlayerInfo   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+RefreshMap began   #### WHILE players.size =  4
+Successfully loaded PlayerInfo   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+Successfully loaded PlayerInfo   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+Successfully loaded PlayerInfo   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+IN Game round 2   #### WHILE players.size =  4
+RefreshMap began   #### WHILE players.size =  4
+Successfully loaded PlayerInfo   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+Successfully loaded PlayerInfo   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+IN Game round 3   #### WHILE players.size =  4
+RefreshMap began   #### WHILE players.size =  4
+Successfully loaded PlayerInfo   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+IN Game round 5   #### WHILE players.size =  4
+RefreshMap began   #### WHILE players.size =  4
+Successfully loaded PlayerInfo   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+In tower.Generate()   #### WHILE players.size =  4
+IN Game round 6   #### WHILE players.size =  4
+RefreshMap began   #### WHILE players.size =  4
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+IN Game round 2
+RefreshMap began
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+IN Game round 3
+RefreshMap began
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+IN Game round 5
+RefreshMap began
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+IN Game round 6
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+IN Game round 2
+RefreshMap began
+Refreshing map
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+IN Game round 3
+RefreshMap began
+Refreshing map
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+IN Game round 5
+RefreshMap began
+Refreshing map
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+IN Game round 6
+RefreshMap began
+Refreshing map
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+IN Game round 2
+RefreshMap began
+Refreshing map
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+IN Game round 3
+RefreshMap began
+Refreshing map
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+IN Game round 5
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+IN Game round 2
+RefreshMap began
+Refreshing map
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+IN Game round 3
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+IN Game round 2
+RefreshMap began
+Refreshing map
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+IN Game round 3
+RefreshMap began
+Refreshing map
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+IN Game round 5
+RefreshMap began
+Refreshing map
+Successfully loaded PlayerInfo
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+IN Game round 2
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+IN Game round 2
+RefreshMap began
+Refreshing map
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+IN Game round 3
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+IN Game round 2
+RefreshMap began
+Refreshing map
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+IN Game round 3
+RefreshMap began
+Refreshing map
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+IN Game round 5
+RefreshMap began
+Refreshing map
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+IN Game round 6
+RefreshMap began
+Refreshing map
+Successfully loaded PlayerInfo
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
+In tower.Generate()
