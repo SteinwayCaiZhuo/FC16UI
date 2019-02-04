@@ -33,12 +33,14 @@ TowerID 15 Owner -1 Level 1 Blood 200 Recruiting 0 RecruitingRound -1 Recruiting
 TowerID 16 Owner -1 Level 1 Blood 200 Recruiting 0 RecruitingRound -1 RecruitingType None
 TowerID 17 Owner -1 Level 1 Blood 200 Recruiting 0 RecruitingRound -1 RecruitingType None
 TowerID 18 Owner 3 Level 1 Blood 200 Recruiting 0 RecruitingRound -1 RecruitingType None
-SoldierInfo 1
-SoldierID 1 Owner 2 Type LightInfantry Level 1 Blood 100 X_Position 50 Y_Position 50
+SoldierInfo 2
+SoldierID 1 Owner 2 Type Mangonel Level 1 Blood 100 X_Position 50 Y_Position 50
+SoldierID 2 Owner 2 Type Mangonel Level 1 Blood 100 X_Position 50 Y_Position 60
 CommandsInfo 4
 0 0
 1 0
-2 1
-Produce TowerID 14 SoldierType LightInfantry
+2 2
+Move SoldierID 1 Direction DOWN Distance 2
+Move SoldierID 2 Direction LEFT Distance 2
 3 0
-RoundEnd 0
+RoundEnd

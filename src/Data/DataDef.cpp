@@ -347,7 +347,7 @@ namespace UI
 
   int TSoldier::Info2GID() 
   {
-    return SOLDIER_SET_START + ((m_pOwner->m_nID + 1) * SOLDIER_SET_COL + m_nSoldierType);
+    return SOLDIER_SET_START + ((m_pOwner->m_nID + 1) * SOLDIER_SET_COL + m_nSoldierType - 1);
   }
 
 	Command::Command()

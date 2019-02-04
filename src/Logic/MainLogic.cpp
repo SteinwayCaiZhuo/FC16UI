@@ -454,6 +454,8 @@ namespace UI
 						delete newCommand;
 						newCommand = nullptr;
 					}
+
+          MainLogic::GetInstance()->commands.push_back(newCommand);
 				}
 			}
 			MyClear(strstrm);

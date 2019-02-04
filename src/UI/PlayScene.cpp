@@ -22,16 +22,7 @@ bool UI::PlayScene::init()
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
 	map_widget = TMXTiledMap::create("test.tmx");
-	map_widget->setPosition(-200, -200);
-	map_widget->setScale(0.35f);
-  //map_widget->getLayer("background")->setScale(0.35f);
-  TMXLayer* soldiers = map_widget->getLayer("soldiers");
-  soldiers->setScale(0.5f);
-  soldiers->setPosition(1000, 1200);
-  //soldiers->setScale(0.9f);
-  /*TMXLayer* background = map_widget->getLayer("background");  
-  soldiers->setAnchorPoint(background->getAnchorPoint());
-  soldiers->setScale(background->getScale());*/
+	map_widget->setScale(Director::getInstance()->getOpenGLView()->getFrameSize().height / map_widget->getContentSize().height);
   
 	this->addChild(map_widget, 0);
 
@@ -79,18 +70,16 @@ void UI::PlayScene::RefreshMap(float dt)
 	//clear
 	for (int i = 0; i < map_widget->getMapSize().width; i++) {
 		for (int j = 0; j < map_widget->getMapSize().width; j++) {
-			//soldiers->setTileGID(SOLDIER_SET_START, Vec2(i, j));
-      soldiers->setTileGID(32, Vec2(i, j));
-      //background->setTileGID(4, Vec2(i, j));
+			soldiers->setTileGID(SOLDIER_SET_START, Vec2(i, j));
 		}
 	}
-	/*for (std::map<int, UI::TSoldier*>::iterator i = MainLogic::GetInstance()->soldiers.begin();
+	for (std::map<int, UI::TSoldier*>::iterator i = MainLogic::GetInstance()->soldiers.begin();
 		i != MainLogic::GetInstance()->soldiers.end(); ++i) {
 		//TODO : whether need coordinates change
 		//soldiers->setTileGID((*i).second->Info2GID(), (*i).second->m_vec2Position);	
-    soldiers->setTileGID(32, (*i).second->m_vec2Position);
-    background->setTileGID(4, (*i).second->m_vec2Position);
-	}*/
+    soldiers->setTileGID((*i).second->Info2GID(), (*i).second->m_vec2Position);
+    //background->setTileGID(4, (*i).second->m_vec2Position);
+	}
 
   
   for (std::vector<UI::Command*>::iterator i = MainLogic::GetInstance()->commands.begin();
@@ -111,7 +100,7 @@ void UI::PlayScene::StartClickedCallback()
 
 void UI::PlayScene::Command2Actions(UI::Command* command)
 {
-  //TODO maybe deleted next row
+  //TODO fix all command show at a time
   TMXLayer* soldiers = map_widget->getLayer("soldiers");
 
   if (command->m_nCommandType == Attack) 
@@ -127,7 +116,7 @@ void UI::PlayScene::Command2Actions(UI::Command* command)
     }
 
     soldiers->getTileAt(attacker->m_vec2Position)->runAction(
-      Blink::create(1.f, 3)
+      Blink::create(0.5f, 3)
     );
 
     //pause 0.5sec
@@ -138,11 +127,17 @@ void UI::PlayScene::Command2Actions(UI::Command* command)
     if (victim_s != nullptr)       
     {
       soldiers->getTileAt(victim_s->m_vec2Position)->runAction(
+        MoveBy::create(1.f, Vec2(0.f, 0.f))
+      );
+      soldiers->getTileAt(victim_s->m_vec2Position)->runAction(
         Blink::create(1.f, 3)
       );
     }
 
     if (victim_t != nullptr) {
+      soldiers->getTileAt(victim_t->m_vec2Position)->runAction(
+        MoveBy::create(1.f, Vec2(0.f, 0.f))
+      );
       soldiers->getTileAt(victim_t->m_vec2Position)->runAction(
         Blink::create(1.f, 3)
       );
@@ -180,12 +175,9 @@ void UI::PlayScene::Command2Actions(UI::Command* command)
       default:
         MainLogic::GetInstance()->WriteLog("error move type");
     }
-    soldiers->getTileAt(mover->m_vec2Position)->runAction(
-      MoveBy::create(
-        1.f, delta
-      )
-    );
-
+    Action* move = MoveBy::create(0.3f, delta * soldiers->getMapTileSize().height);
+    auto move_soldier = soldiers->getTileAt(mover->m_vec2Position);
+    move_soldier->runAction(move);
     return;
   }
 
