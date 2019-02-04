@@ -7,16 +7,16 @@ namespace UI
 	int MAX_ROUND = 300;
 	int TOWER_NUM = 19;
 	std::string logFileName = "Log/log.txt";
-	
+
 	std::map<std::string, int>TPlayer::LUTPLAYER;
 	std::map<std::string, int>TTower::LUTTOWER;
 	std::map<std::string, int>TSoldier::LUTSOLDIER;
 
-	UIObject::UIObject(const UIObjectType& uiObjectType, const bool& visiable):m_nUIType(uiObjectType), m_bVisible(visiable)
+	UIObject::UIObject(const UIObjectType& uiObjectType, const bool& visiable) :m_nUIType(uiObjectType), m_bVisible(visiable)
 	{
 		m_bGenerated = false;
 	}
-	
+
 	UIObject::~UIObject()
 	{
 		m_bGenerated = false;
@@ -49,7 +49,7 @@ namespace UI
 
 	TPlayer::TPlayer() :UIObject(TypeAsPlayer)
 	{
-		if(LUTPLAYER.empty())
+		if (LUTPLAYER.empty())
 			LUT_INIT();
 	}
 
@@ -122,25 +122,25 @@ namespace UI
 	void TPlayer::UIUpdate()
 	{
 	}
-	
+
 	TTower::TTower() : UIObject(TypeAsTower)
 	{
-		
-	}
-	
 
-	TTower::TTower(const int& towerID, const int& owner, const int& level, const int& blood, const int& recruiting, const int& recruitingRound, const std::string& recruitingType):UIObject(UIObjectType::TypeAsTower)
+	}
+
+
+	TTower::TTower(const int& towerID, const int& owner, const int& level, const int& blood, const int& recruiting, const int& recruitingRound, const std::string& recruitingType) :UIObject(UIObjectType::TypeAsTower)
 	{
 		if (LUTTOWER.empty())
 			LUT_INIT();
 		this->m_nID = towerID;
-		if(owner!=-1)
+		if (owner != -1)
 			this->m_pOwner = MainLogic::GetInstance()->players[owner];
 		else
 		{
 			this->m_pOwner = nullptr;
 		}
-		this->m_nLevel =level;
+		this->m_nLevel = level;
 		this->m_nBlood = blood;
 		this->m_bRecruiting = (recruiting != 0);
 		this->m_nRecruitingRound = recruitingRound;
@@ -172,7 +172,7 @@ namespace UI
 
 	void TTower::Generate(const std::string& strLine)
 	{
-		MainLogic::GetInstance()->WriteLog("In tower.Generate()");
+
 		std::string strHolder;
 		std::stringstream ssFormat(strLine);
 		int temp_int;
@@ -190,7 +190,7 @@ namespace UI
 				{
 					if (temp_int < 0)
 						m_pOwner = nullptr;
-					else 
+					else
 						m_pOwner = MainLogic::GetInstance()->players[temp_int];
 				}
 				catch (const std::exception&)
@@ -246,7 +246,7 @@ namespace UI
 		{
 			if (owner < 0)
 				m_pOwner = nullptr;
-			else 
+			else
 				this->m_pOwner = MainLogic::GetInstance()->players[owner];
 		}
 		catch (const std::exception&)
@@ -259,7 +259,7 @@ namespace UI
 		this->m_vec2Position = cocos2d::Vec2(x_position, y_position);
 		this->m_strctSoldierMove = SoldierMoveType{ false, UP, 0 };
 		this->m_pVictim = nullptr;
-		
+
 		this->m_bFreshman = true;
 		this->m_bDead = (blood <= 0);
 	}
@@ -301,7 +301,7 @@ namespace UI
 				{
 					if (temp_int < 0)
 						m_pOwner = nullptr;
-					else 
+					else
 						m_pOwner = MainLogic::GetInstance()->players[temp_int];
 				}
 				catch (const std::exception&)
@@ -331,7 +331,7 @@ namespace UI
 				break;
 			}
 		}
-		
+
 		m_vec2Position = cocos2d::Vec2(x_pos, y_pos);
 		if (m_nBlood <= 0)
 			m_bDead = true;
@@ -345,6 +345,11 @@ namespace UI
 	{
 	}
 
+  int TSoldier::Info2GID() 
+  {
+    return SOLDIER_SET_START + ((m_pOwner->m_nID + 1) * SOLDIER_SET_COL + m_nSoldierType);
+  }
+
 	Command::Command()
 	{}
 
@@ -352,8 +357,8 @@ namespace UI
 	{}
 
 
-	
-	
+
+
 
 
 	SoldierType SoldierTypeStr2Enum(std::string str)
@@ -375,6 +380,7 @@ namespace UI
 		else
 			return NoneSoldierType;
 	}
+
 	MoveDirection moveDirStr2Enum(std::string str)
 	{
 		if (str == "UP")
@@ -386,6 +392,20 @@ namespace UI
 		else //if (str == "RIGHT")
 			return MoveDirection::RIGHT;
 	}
+
+	void MyClear(std::stringstream & ifs)
+	{
+		ifs.clear();
+		int last = 0;
+		while (ifs.tellg())
+		{
+			ifs.seekg(last + 1);
+			if (int(ifs.tellg()) == -1)
+				break;
+			last++;
+		}
+		ifs.clear();
+		ifs.seekg(last);
+		
+	}
 }
-
-

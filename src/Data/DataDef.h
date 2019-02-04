@@ -8,6 +8,9 @@
 #include <tchar.h>
 #include <windows.h>
 
+#define SOLDIER_SET_START 17
+#define SOLDIER_SET_COL 7
+
 namespace UI
 {
 	extern std::string logFileName;
@@ -159,6 +162,7 @@ namespace UI
 		virtual void Clear();
 		virtual void UIUpdate();
 		virtual void LUT_INIT();
+    int Info2GID();
 	};
 
 	
@@ -203,26 +207,41 @@ namespace UI
 		
 		
 		CommandType m_nCommandType;
-
+		TPlayer* m_pOwner;
 		
 		//Move
-		UIObject* m_pMoveSoldier;
+		TSoldier* m_pMoveSoldier;
 		MoveDirection m_nMoveDirection;
 		int m_nMoveDistance;
 
 		//Attack
-		UIObject* m_pAttackObject;
+		TSoldier* m_pAttackObject;
 		UIObject* m_pVictimObject;
 
 		//Upgrade
-		UIObject* m_pUpgradeTower;
+		TTower* m_pUpgradeTower;
 		
 		//Produce
-		UIObject* m_pProduceTower;
-		SoldierType produceSoldierType;
+		TTower* m_pProduceTower;
+		SoldierType m_nProduceSoldierType;
 
 	
 		Command();
 		~Command();
 	};
+
+	void MyClear(std::stringstream& ifs);
+
+	template<class T1, class T2>
+	T1 maxKey(const std::map<T1, T2>&m)
+	{
+		T1 max = -1;
+		for (auto item : m)
+		{
+			if (item.first > max)
+				max = item.first;
+		}
+		return max;
+	}
+
 }

@@ -4,7 +4,7 @@
 //TODO delete iostream
 #include <iostream>
 USING_NS_CC;
-#define SOLDIER_SER_START 17
+
 
 cocos2d::Scene* UI::PlayScene::createScene()
 {
@@ -24,6 +24,15 @@ bool UI::PlayScene::init()
 	map_widget = TMXTiledMap::create("test.tmx");
 	map_widget->setPosition(-200, -200);
 	map_widget->setScale(0.35f);
+  //map_widget->getLayer("background")->setScale(0.35f);
+  TMXLayer* soldiers = map_widget->getLayer("soldiers");
+  soldiers->setScale(0.5f);
+  soldiers->setPosition(1000, 1200);
+  //soldiers->setScale(0.9f);
+  /*TMXLayer* background = map_widget->getLayer("background");  
+  soldiers->setAnchorPoint(background->getAnchorPoint());
+  soldiers->setScale(background->getScale());*/
+  
 	this->addChild(map_widget, 0);
 
 	start_btn = ui::Button::create();
@@ -70,16 +79,24 @@ void UI::PlayScene::RefreshMap(float dt)
 	//clear
 	for (int i = 0; i < map_widget->getMapSize().width; i++) {
 		for (int j = 0; j < map_widget->getMapSize().width; j++) {
-			soldiers->setTileGID(SOLDIER_SER_START, Vec2(i, j));
+			//soldiers->setTileGID(SOLDIER_SET_START, Vec2(i, j));
+      soldiers->setTileGID(32, Vec2(i, j));
+      //background->setTileGID(4, Vec2(i, j));
 		}
 	}
-	for (std::map<int, UI::TSoldier*>::iterator i = MainLogic::GetInstance()->soldiers.begin();
+	/*for (std::map<int, UI::TSoldier*>::iterator i = MainLogic::GetInstance()->soldiers.begin();
 		i != MainLogic::GetInstance()->soldiers.end(); ++i) {
-		//TODO : 
-		//soldiers->setTileGID((*i).second->Info2GID(), (*i).second->m_vecPosition);
-	
-	}
+		//TODO : whether need coordinates change
+		//soldiers->setTileGID((*i).second->Info2GID(), (*i).second->m_vec2Position);	
+    soldiers->setTileGID(32, (*i).second->m_vec2Position);
+    background->setTileGID(4, (*i).second->m_vec2Position);
+	}*/
 
+  
+  for (std::vector<UI::Command*>::iterator i = MainLogic::GetInstance()->commands.begin();
+    i != MainLogic::GetInstance()->commands.end(); ++i) {
+    Command2Actions(*i);
+  }
 	is_pause = true;
 	this->_scheduler->pauseTarget(this);
 }
@@ -92,6 +109,95 @@ void UI::PlayScene::StartClickedCallback()
 	this->_scheduler->resumeTarget(this);
 }
 
+void UI::PlayScene::Command2Actions(UI::Command* command)
+{
+  //TODO maybe deleted next row
+  TMXLayer* soldiers = map_widget->getLayer("soldiers");
 
+  if (command->m_nCommandType == Attack) 
+  {
+    UI::TSoldier* attacker = dynamic_cast<UI::TSoldier*>(command->m_pAttackObject);
+    UI::TSoldier* victim_s = dynamic_cast<UI::TSoldier*>(command->m_pVictimObject);
+    UI::TTower* victim_t = dynamic_cast<UI::TTower*>(command->m_pVictimObject);
 
+    if (attacker == nullptr)  
+    {
+      MainLogic::GetInstance()->WriteLog("attacker null");
+      return;
+    }
+
+    soldiers->getTileAt(attacker->m_vec2Position)->runAction(
+      Blink::create(1.f, 3)
+    );
+
+    //pause 0.5sec
+    soldiers->getTileAt(attacker->m_vec2Position)->runAction(
+      MoveBy::create(0.5f, Vec2(0.f, 0.f))
+    );
+
+    if (victim_s != nullptr)       
+    {
+      soldiers->getTileAt(victim_s->m_vec2Position)->runAction(
+        Blink::create(1.f, 3)
+      );
+    }
+
+    if (victim_t != nullptr) {
+      soldiers->getTileAt(victim_t->m_vec2Position)->runAction(
+        Blink::create(1.f, 3)
+      );
+    }
+
+    return;
+  }
+
+  if (command->m_nCommandType == Move) 
+  {
+    UI::TSoldier* mover = dynamic_cast<UI::TSoldier*>(command->m_pMoveSoldier);
+    
+    if (mover == nullptr) {
+      MainLogic::GetInstance()->WriteLog("mover null");
+      return;
+    }
+    Vec2 delta(0, 0);
+    switch (command->m_nMoveDirection) {
+      case LEFT: {
+        delta.x = -command->m_nMoveDistance;
+        break;
+      }
+      case RIGHT: {
+        delta.x = command->m_nMoveDistance;
+        break;
+      }
+      case DOWN: {
+        delta.y = -command->m_nMoveDistance;
+        break;
+      }
+      case UP: {
+        delta.y = command->m_nMoveDistance;
+        break;
+      }
+      default:
+        MainLogic::GetInstance()->WriteLog("error move type");
+    }
+    soldiers->getTileAt(mover->m_vec2Position)->runAction(
+      MoveBy::create(
+        1.f, delta
+      )
+    );
+
+    return;
+  }
+
+  //TODO tower action
+  if (command->m_nCommandType == Upgrade) 
+  {
+    return;
+  }
+
+  if (command->m_nCommandType == Produce) 
+  {
+    return;
+  }
+}
 

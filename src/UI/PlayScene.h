@@ -24,6 +24,8 @@ namespace UI
 
 		cocos2d::Scheduler* refresh_control;
 
+    void Command2Actions(UI::Command* command);
+
 	private:
 		bool is_pause;
 	};

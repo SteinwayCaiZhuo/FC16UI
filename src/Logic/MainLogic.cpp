@@ -34,9 +34,9 @@ namespace UI
 	{
 		gameState = GameState::GAME_NOT_START;
 		mapFile = "gameMap.png";
-		loadFileName = "./EnResult.txt";
+		loadFileName = "result.txt";
 		logFileStream.open("Log/log.txt", std::ios::out);
-		logFileStream << "\n\n\n\n\n\n\n\nStarting...\n";
+		logFileStream << "\n\n\n\n\n\n\n\nStarting..\n";
 		playerAlive = 4;
 		framesPerRound = 60;//Default setting
 		gameRound = 0;
@@ -60,6 +60,7 @@ namespace UI
 #elif USE_SIMPLE_AUDIO_ENGINE
 		SimpleAudioEngine::end();
 #endif
+		logFileStream << "MainLogic destruction..\n";
 		logFileStream.close();
 	}
 
@@ -242,14 +243,16 @@ namespace UI
 		std::string strLine;
 		std::string mark_type;
 		int mark_lines;
-		std::stringstream strstrm;
+		std::stringstream strstrm("test");
 		while (true)
 		{
 			getline(ifsGameResult, strLine);
-			strstrm.clear();
+			MyClear(strstrm);
+			
 			strstrm << strLine;
 			strstrm >> mark_type >> mark_lines;
-			strstrm.clear();
+			MyClear(strstrm);
+			WriteLog("Got mark_type is: " + mark_type);
 			if (mark_type.empty()||mark_type == "RoundEnd")
 				break;
 			else
@@ -270,27 +273,28 @@ namespace UI
 	void MainLogic::parseLines(const std::string&mark_type, const int&mark_lines)
 	{
 		std::string strLine;
-		std::stringstream strstrm;
+		std::stringstream strstrm("init");
 		
 		if (mark_type == "RoundBegin")
 		{
 			if (mark_lines != 1)
 				throw std::exception("Round info should be given in one line");
 			getline(ifsGameResult, strLine);
-			strstrm.clear();
+			MyClear(strstrm);
 			strstrm << strLine;
 			strstrm >> gameRound;
-			strstrm.clear();
+			MyClear(strstrm);
+			WriteLog("in Game round: " + std::to_string(gameRound) + "\n");
 		}
 		else if (mark_type == "PlayerAlive")
 		{
 			if (mark_lines != 1)
 				throw std::exception("PlayerAlive info should be given in one line");
 			getline(ifsGameResult, strLine);
-			strstrm.clear();
+			MyClear(strstrm);
 			strstrm << strLine;
 			strstrm >> playerAlive;
-			strstrm.clear();
+			MyClear(strstrm);
 		}
 		else if (mark_type == "PlayerInfo")
 		{
@@ -298,6 +302,7 @@ namespace UI
 			{
 				clearData();
 				initData();
+				
 			}
 			if (mark_lines > PLAYER_NUM)
 				throw std::exception("PlayerInfo should be given less than 4 lines");
@@ -307,16 +312,16 @@ namespace UI
 			for (int i = 0; i < mark_lines; i++)
 			{
 				getline(ifsGameResult, strLine);
-				strstrm.clear();
+				MyClear(strstrm);
 				strstrm << strLine;
 				strstrm >> temp_str >> id;
-				strstrm.clear();
+				MyClear(strstrm);
 				getline(ifsGameResult, strLine);
-				logFileStream.close();
-				logFileStream.open("result.txt", std::ios::app);
+				
 				players[id]->Generate(strLine);
+				players[id]->m_nID = id;
 			}
-			MainLogic::GetInstance()->WriteLog("Successfully loaded PlayerInfo");
+			
 		}
 		else if (mark_type == "TowerInfo")
 		{
@@ -328,11 +333,7 @@ namespace UI
 		}
 		else if (mark_type == "SoldierInfo")
 		{
-			int maxSoldierID;
-			if (soldiers.size() <= 0)
-				maxSoldierID = -1;
-			else
-				maxSoldierID =(*soldiers.cend()).first;
+			int maxSoldierID = maxKey(soldiers);
 			
 			//Clear old soldiers
 			for (auto item : soldiers)
@@ -350,6 +351,7 @@ namespace UI
 					TSoldier* newSoldier = new TSoldier();
 					newSoldier->Generate(strLine);
 					soldiers.emplace(newSoldier->m_nID, newSoldier);
+					
 					if (newSoldier->m_nID > maxSoldierID)
 						newSoldier->m_bFreshman = true;
 					
@@ -380,19 +382,23 @@ namespace UI
 			for (int i = 0; i < mark_lines; i++)
 			{
 				getline(ifsGameResult, strLine);
-				strstrm.clear();
+				MyClear(strstrm);
 				strstrm << strLine;
 				strstrm >> mark_player_id >> mark_commands_lines;
+				MyClear(strstrm);
+
 				for (int j = 0; j < mark_commands_lines; j++)
 				{
 					getline(ifsGameResult, strLine);
-					strstrm.clear();
+					MyClear(strstrm);
 					strstrm << strLine;
 					strstrm >> mark_type_command;
+					
 					newCommand = new Command();
 
 					try
 					{
+						newCommand->m_pOwner = players[mark_player_id];
 						if (mark_type_command == "Move")
 						{
 							newCommand->m_nCommandType = UI::CommandType::Move;
@@ -406,6 +412,8 @@ namespace UI
 							//Distance
 							strstrm >> mark_type_command >> mark_info_command;
 							newCommand->m_nMoveDistance = mark_info_command;
+
+							newCommand->m_pMoveSoldier->m_strctSoldierMove = UI::SoldierMoveType{ true, newCommand->m_nMoveDirection, newCommand->m_nMoveDistance };
 
 						}
 						else if (mark_type_command == "Attack")
@@ -421,8 +429,26 @@ namespace UI
 								newCommand->m_pVictimObject = soldiers[mark_info_command];
 							else if (temp_str == "Tower")
 								newCommand->m_pVictimObject = towers[mark_info_command];
+							newCommand->m_pAttackObject->m_pVictim = newCommand->m_pVictimObject;
+						}
+						else if (mark_type_command == "Upgrade")
+						{
+							newCommand->m_nCommandType = UI::CommandType::Upgrade;
+							strstrm >> temp_str>>mark_info_command;
+							newCommand->m_pUpgradeTower = towers[mark_info_command];
+
+						}
+						else if (mark_type_command == "Produce")
+						{
+							newCommand->m_nCommandType = UI::CommandType::Produce;
+							
+							strstrm >> temp_str >> mark_info_command;
+							newCommand->m_pProduceTower = towers[mark_info_command];
+							strstrm >> temp_str >> mark_type_command;
+							newCommand->m_nProduceSoldierType = UI::SoldierTypeStr2Enum(mark_type_command);
 						}
 					}
+					
 					catch (const std::exception&)
 					{
 						delete newCommand;
@@ -430,12 +456,13 @@ namespace UI
 					}
 				}
 			}
+			MyClear(strstrm);
 		}
 	}
 
 	void MainLogic::clearData()
 	{
-		WriteLog("ClearData...");
+		WriteLog("ClearData..");
 		loadFileName = "";
 
 		for (auto item : players)
@@ -458,6 +485,7 @@ namespace UI
 			players.push_back(new TPlayer());
 		for (int i = 0; i < TOWER_NUM; i++)
 			towers.push_back(new TTower());
+		WriteLog("Initializing data...");
 	}
 
 	MainLogic * MainLogic::GetInstance()
@@ -472,7 +500,7 @@ namespace UI
 
 	void MainLogic::WriteLog(const std::string& message)
 	{
-		logFileStream << message <<"   #### WHILE players.size =  "<<players.size()<< "\n";
+		logFileStream << message<<std::endl; 
 	}
 	void MainLogic::StartScene2PlayScene()
 	{
