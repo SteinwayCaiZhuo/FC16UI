@@ -21,6 +21,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance,
     // create the application instance
 	UI::MainLogic app;
 	UI::MainLogic::m_pInstance = &app;
+	
 	return Application::getInstance()->run();
 }
 

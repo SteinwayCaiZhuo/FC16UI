@@ -1,7 +1,7 @@
 ﻿#include "MainLogic.h"
 #include "../UI/StartScene.h"
 #include "../UI/PlayScene.h"
- 
+
 #include <windows.h>
 #include <thread>
 #include <chrono>
@@ -28,22 +28,34 @@ static cocos2d::Size largeResolutionSize = cocos2d::Size(2048, 1536);
 namespace UI
 {
 
-	MainLogic* MainLogic::m_pInstance = nullptr;	
+	MainLogic* MainLogic::m_pInstance = nullptr;
+
 	
+
 	MainLogic::MainLogic()
 	{
+		resetDirectory();
 		gameState = GameState::GAME_NOT_START;
 		mapFile = "gameMap.png";
-		loadFileName = "./EnResult.txt";
-		logFileStream.open("Log/log.txt", std::ios::app);
-		logFileStream << "\n\n\n\n\n\n\n\nStarting...\n";
+		loadFileName = "result.txt";
+		logFileStream.open("Log/log.txt", std::ios::out);
+		logFileStream << "Starting..\n";
 		playerAlive = 4;
-		delayPerRound = 100;
+		speed = 0.4;//Default setting
 		gameRound = 0;
-		towers = *(new std::vector<UI::TTower*>());
-		soldiers = *(new std::map<int, UI::TSoldier*>());
-		players = *(new std::vector<UI::TPlayer*>());
-		MainLogic::m_pInstance = this;
+
+		logFileStream << "MainLogic ptr is " << this << std::endl;
+
+		
+
+
+		for (int i = 0; i < PLAYER_NUM; i++)
+		{
+			players.push_back(new TPlayer());
+			logFileStream << "Add new player: " << players[i] << std::endl;
+		}
+		for (int i = 0; i < TOWER_NUM; i++)
+			towers.push_back(new TTower());
 	}
 
 
@@ -54,6 +66,7 @@ namespace UI
 #elif USE_SIMPLE_AUDIO_ENGINE
 		SimpleAudioEngine::end();
 #endif
+		logFileStream << "MainLogic destruction..\n";
 		logFileStream.close();
 	}
 
@@ -132,29 +145,16 @@ namespace UI
 	{
 		if (gameState != GameState::GAME_NOT_START)
 			return;
-
 		gameRound = 0;
 		gameState = GameState::GAME_RUNNING;
 		MainLogic::clearData();
-		while (gameRound < MAX_ROUND)
-		{
-			MainLogic::GameLoop();
-		};
-		MainLogic::GameOver();
+		
+
 	}
 
 	void MainLogic::GameLoop()
 	{
-		if (gameState != GameState::GAME_RUNNING)
-		{
-			return;
-		}
-		else
-		{
-			MainLogic::LogicUpdate();
-			//MainLogic::UIUpdate();
-			std::this_thread::sleep_for(std::chrono::milliseconds(MainLogic::delayPerRound));
-		}
+
 	}
 
 	void MainLogic::GameOver()
@@ -220,89 +220,119 @@ namespace UI
 			wcstombs(filename, ofn.lpstrFile, nMaxFileName);
 		}
 		MainLogic::GetInstance()->WriteLog("FILENAME IS " + std::string(filename));
-		
+
 		return std::string(filename);
 	}
 	void MainLogic::LoadData()
 	{
 		loadFileName = GetFileDialogName();
+		//loadFileName = "result.txt";
 		if (!loadFileName.size())
 		{
 			return;
 		}
-		
-		for (int i = 0; i < PLAYER_NUM; i++)
-			MainLogic::players.push_back(new TPlayer());
-		for (int i = 0; i < TOWER_NUM; i++)
-			MainLogic::towers.push_back(new TTower());
-		
+
+
+
 		// TODO : Try to deal with open failure.
 		ifsGameResult.open(loadFileName, std::ios::in);
 		if (!ifsGameResult.is_open()) return;
-		
-		
-
-
-
+		MainLogic::GetInstance()->WriteLog("Succesfully loaded the file");
 		//ifsGameResult.close();
+
+		StartScene2PlayScene();
 	}
 
-	void MainLogic::LogicUpdate()
+	bool MainLogic::LogicUpdate()
 	{
+
 		std::string strLine;
 		std::string mark_type;
 		int mark_lines;
-		std::stringstream strstrm;
+		std::stringstream strstrm("test");
 		while (true)
 		{
 			getline(ifsGameResult, strLine);
-			strstrm.clear();
+			
+			//End of game
+			if (strLine.empty())
+				return false;
+
+			MyClear(strstrm);
 			strstrm << strLine;
 			strstrm >> mark_type >> mark_lines;
-			if (mark_type.empty()||mark_type == "RoundEnd")
+			MyClear(strstrm);
+			WriteLog("Got mark_type is: " + mark_type);
+			if (mark_type.empty() || mark_type == "RoundEnd")
 				break;
 			else
 			{
-				parseLines(mark_type, mark_lines);
+				try
+				{
+					parseLines(mark_type, mark_lines);
+				}
+				catch (std::exception&)
+				{
+					MainLogic::GetInstance()->WriteLog("Logic Update error!");
+				}
 			}
-			strstrm.clear();
+
 		}
+		return true;
 	}
 
 	void MainLogic::parseLines(const std::string&mark_type, const int&mark_lines)
 	{
 		std::string strLine;
-		std::stringstream strstrm;
-		
+		std::stringstream strstrm("init");
+
 		if (mark_type == "RoundBegin")
 		{
 			if (mark_lines != 1)
 				throw std::exception("Round info should be given in one line");
 			getline(ifsGameResult, strLine);
-			strstrm.clear();
+			MyClear(strstrm);
 			strstrm << strLine;
 			strstrm >> gameRound;
-			strstrm.clear();
+			MyClear(strstrm);
+			WriteLog("in Game round: " + std::to_string(gameRound) + "\n");
 		}
 		else if (mark_type == "PlayerAlive")
 		{
 			if (mark_lines != 1)
 				throw std::exception("PlayerAlive info should be given in one line");
 			getline(ifsGameResult, strLine);
-			strstrm.clear();
+			MyClear(strstrm);
 			strstrm << strLine;
 			strstrm >> playerAlive;
-			strstrm.clear();
+			MyClear(strstrm);
 		}
 		else if (mark_type == "PlayerInfo")
 		{
-			if (mark_lines >= 4)
+			if (players.size() < PLAYER_NUM)
+			{
+				clearData();
+				initData();
+
+			}
+			if (mark_lines > PLAYER_NUM)
 				throw std::exception("PlayerInfo should be given less than 4 lines");
-			for (int i = 0; i < 4; i++)
+			std::string temp_str;
+			int id;
+
+			for (int i = 0; i < mark_lines; i++)
 			{
 				getline(ifsGameResult, strLine);
-				players[i]->Generate(strLine);
+				MyClear(strstrm);
+				strstrm << strLine;
+				strstrm >> temp_str >> id;
+				MyClear(strstrm);
+				getline(ifsGameResult, strLine);
+
+				players[id]->Generate(strLine);
+				players[id]->m_nID = id;
 			}
+
 		}
 		else if (mark_type == "TowerInfo")
 		{
@@ -314,8 +344,8 @@ namespace UI
 		}
 		else if (mark_type == "SoldierInfo")
 		{
-			int maxSoldierID =(*soldiers.cend()).first;
-			
+			int maxSoldierID = maxKey(soldiers);
+
 			//Clear old soldiers
 			for (auto item : soldiers)
 			{
@@ -332,49 +362,54 @@ namespace UI
 					TSoldier* newSoldier = new TSoldier();
 					newSoldier->Generate(strLine);
 					soldiers.emplace(newSoldier->m_nID, newSoldier);
+
 					if (newSoldier->m_nID > maxSoldierID)
 						newSoldier->m_bFreshman = true;
-					
+
 				}
 				catch (const std::exception&)
 				{
-					
+
 				}
 			}
 
-			
+
 		}
-		
+
 		//Generate Command
 		else if (mark_type == "CommandsInfo")
 		{
 			std::string mark_type_command, temp_str;
 			int mark_player_id, mark_commands_lines, mark_info_command;
-			
+
 			for (auto item : commands)
 				delete item;
 			commands.clear();
 			UI::Command* newCommand = nullptr;
 
-			
 
-			
+
+
 			for (int i = 0; i < mark_lines; i++)
 			{
 				getline(ifsGameResult, strLine);
-				strstrm.clear();
+				MyClear(strstrm);
 				strstrm << strLine;
 				strstrm >> mark_player_id >> mark_commands_lines;
+				MyClear(strstrm);
+
 				for (int j = 0; j < mark_commands_lines; j++)
 				{
 					getline(ifsGameResult, strLine);
-					strstrm.clear();
+					MyClear(strstrm);
 					strstrm << strLine;
 					strstrm >> mark_type_command;
+
 					newCommand = new Command();
 
 					try
 					{
+						newCommand->m_pOwner = players[mark_player_id];
 						if (mark_type_command == "Move")
 						{
 							newCommand->m_nCommandType = UI::CommandType::Move;
@@ -388,6 +423,8 @@ namespace UI
 							//Distance
 							strstrm >> mark_type_command >> mark_info_command;
 							newCommand->m_nMoveDistance = mark_info_command;
+
+							newCommand->m_pMoveSoldier->m_strctSoldierMove = UI::SoldierMoveType{ true, newCommand->m_nMoveDirection, newCommand->m_nMoveDistance };
 
 						}
 						else if (mark_type_command == "Attack")
@@ -403,22 +440,67 @@ namespace UI
 								newCommand->m_pVictimObject = soldiers[mark_info_command];
 							else if (temp_str == "Tower")
 								newCommand->m_pVictimObject = towers[mark_info_command];
+							newCommand->m_pAttackObject->m_pVictim = newCommand->m_pVictimObject;
+						}
+						else if (mark_type_command == "Upgrade")
+						{
+							newCommand->m_nCommandType = UI::CommandType::Upgrade;
+							strstrm >> temp_str >> mark_info_command;
+							newCommand->m_pUpgradeTower = towers[mark_info_command];
+
+						}
+						else if (mark_type_command == "Produce")
+						{
+							newCommand->m_nCommandType = UI::CommandType::Produce;
+
+							strstrm >> temp_str >> mark_info_command;
+							newCommand->m_pProduceTower = towers[mark_info_command];
+							strstrm >> temp_str >> mark_type_command;
+							newCommand->m_nProduceSoldierType = UI::SoldierTypeStr2Enum(mark_type_command);
 						}
 					}
+
 					catch (const std::exception&)
 					{
 						delete newCommand;
 						newCommand = nullptr;
 					}
+
+					MainLogic::GetInstance()->commands.push_back(newCommand);
 				}
 			}
+			MyClear(strstrm);
 		}
 	}
 
 	void MainLogic::clearData()
 	{
-		loadFileName = "";			
+		WriteLog("ClearData..");
+		loadFileName = "";
+
+		for (auto item : players)
+			delete item;
+		players.clear();
+		for (auto item : towers)
+			delete item;
+		towers.clear();
+		for (auto item : soldiers)
+			delete item.second;
+		soldiers.clear();
+		for (auto item : commands)
+			delete item;
+		commands.clear();
 	}
+
+	void MainLogic::initData()
+	{
+		for (int i = 0; i < PLAYER_NUM; i++)
+			players.push_back(new TPlayer());
+		for (int i = 0; i < TOWER_NUM; i++)
+			towers.push_back(new TTower());
+		WriteLog("Initializing data...");
+	}
+
 	MainLogic * MainLogic::GetInstance()
 	{
 		return m_pInstance;
@@ -431,6 +513,15 @@ namespace UI
 
 	void MainLogic::WriteLog(const std::string& message)
 	{
-		MainLogic::GetInstance()->logFileStream << message << "\n";
+		logFileStream << message << std::endl;
+	}
+	void MainLogic::StartScene2PlayScene()
+	{
+		Director::getInstance()->replaceScene(PlayScene::createScene());
+		
+	}
+	void MainLogic::PlayScene2StartScene()
+	{
+		Director::getInstance()->replaceScene(StartScene::createScene());
 	}
 }

@@ -14,6 +14,7 @@ namespace UI
 		CREATE_FUNC(PlayScene);
 
 		void RefreshMap(float dt);
+		static void ContinuousDisplay();
 
 		void StartClickedCallback();
 
@@ -22,10 +23,20 @@ namespace UI
 
 		cocos2d::ui::Button* start_btn;
 
+		cocos2d::Label* roundLabel;
+		
+		std::thread* displayThread;
+
 		cocos2d::Scheduler* refresh_control;
+
+		void Command2Actions(UI::Command* command);
+		
+		static PlayScene* m_pInstance;
 
 	private:
 		bool is_pause;
+
+		
 	};
 
 }
