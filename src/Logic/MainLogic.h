@@ -18,7 +18,7 @@ namespace UI {
 		GameState gameState;
 		int gameRound;
 		int playerAlive;
-		int framesPerRound;
+		float speed;
 	public:
 		std::ofstream logFileStream;
 
@@ -55,7 +55,7 @@ namespace UI {
 
 		std::string GetFileDialogName();
 		void LoadData();
-		void LogicUpdate();
+		bool LogicUpdate();
 		void parseLines(const std::string& mark_type, const int& mark_lines);
 		void UIUpdate(cocos2d::Scene* playscene);
 		void clearData();
@@ -63,7 +63,7 @@ namespace UI {
 		void WriteLog(const std::string& message);
 
 		void StartScene2PlayScene();
-
+		void PlayScene2StartScene();
 	
 		//Singleton.
 	public:
