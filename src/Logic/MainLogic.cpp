@@ -1,4 +1,5 @@
-﻿#include "MainLogic.h"
+﻿// TODO FIX:cannot add command of Player1 when Player0 dont have command and Player2 have command
+#include "MainLogic.h"
 #include "../UI/StartScene.h"
 #include "../UI/PlayScene.h"
 
@@ -234,7 +235,6 @@ namespace UI
 
 
 
-		// TODO : Try to deal with open failure.
 		ifsGameResult.open(loadFileName, std::ios::in);
 		if (!ifsGameResult.is_open()) return;
 		MainLogic::GetInstance()->WriteLog("Succesfully loaded the file");
@@ -340,6 +340,7 @@ namespace UI
 			{
 				getline(ifsGameResult, strLine);
 				towers[i]->Generate(strLine);
+        towers[i]->SetVec2Position(i);
 			}
 		}
 		else if (mark_type == "SoldierInfo")

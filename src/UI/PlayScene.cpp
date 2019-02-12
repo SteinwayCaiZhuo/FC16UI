@@ -8,7 +8,9 @@
 #include <thread>
 #include <chrono>
 USING_NS_CC;
-
+//TODO FIX variable speed actually means unit duration time
+//TODO FIX touch drift in layer or find a way to bandle touch and sprite
+//TODO temp FIX show in roundinfo
 
 UI::PlayScene* UI::PlayScene::m_pInstance = nullptr;
 
@@ -60,8 +62,25 @@ bool UI::PlayScene::init()
 	roundLabel->setPosition(Vec2(900, 640));
 	this->addChild(roundLabel);
 	//this->schedule(schedule_selector(UI::PlayScene::RefreshMap), 2.0f);
+
+  roundInfo = ui::EditBox::create(Size(200, 400), "start.jpg");
+  roundInfo->setPosition(Vec2(900, 300));
+  roundInfo->setFontSize(11);
+  this->addChild(roundInfo);
 	
 	this->is_pause = true;
+
+  //TODO temp load to enable load those picture in member function, try to fix it
+  auto up_arrow = Sprite::create("upgrade.png");
+  up_arrow->setPosition(Vec2(1300, 300));
+  up_arrow->setVisible(false);
+  this->addChild(up_arrow, 1);
+
+  auto new_sign = Sprite::create("produce.png");
+  new_sign->setPosition(Vec2(1300, 300));
+  new_sign->setVisible(false);
+  this->addChild(new_sign, 1);
+
 	return true;
 }
 
@@ -198,6 +217,7 @@ void UI::PlayScene::StartClickedCallback()
 void UI::PlayScene::Command2Actions(UI::Command* command)
 {
 	TMXLayer* soldiers = map_widget->getLayer("soldiers");
+  TMXLayer* background = map_widget->getLayer("background");
 
 	if (command->m_nCommandType == Attack)
 	{
@@ -233,7 +253,17 @@ void UI::PlayScene::Command2Actions(UI::Command* command)
 			while (action4->isDone() == false);
 
 			auto action5 = Blink::create(MainLogic::GetInstance()->speed*1.f, 3);
-			soldiers->getTileAt(victim_t->m_vec2Position)->runAction(action5);
+      Vec2 center = victim_t->m_vec2Position;
+			background->getTileAt(center)->runAction(action5);
+      //TODO find a better way
+      background->getTileAt(Vec2(center.x - 1, center.y - 1))->runAction(action5->clone());
+      background->getTileAt(Vec2(center.x - 1, center.y + 0))->runAction(action5->clone());
+      background->getTileAt(Vec2(center.x - 1, center.y + 1))->runAction(action5->clone());
+      background->getTileAt(Vec2(center.x + 0, center.y - 1))->runAction(action5->clone());
+      background->getTileAt(Vec2(center.x + 0, center.y + 1))->runAction(action5->clone());
+      background->getTileAt(Vec2(center.x + 1, center.y - 1))->runAction(action5->clone());
+      background->getTileAt(Vec2(center.x + 1, center.y + 0))->runAction(action5->clone());
+      background->getTileAt(Vec2(center.x + 1, center.y + 1))->runAction(action5->clone());
 			while (action5->isDone() == false);
 		}
     
@@ -281,11 +311,62 @@ void UI::PlayScene::Command2Actions(UI::Command* command)
 	//TODO tower action
 	if (command->m_nCommandType == Upgrade)
 	{
+    MainLogic::GetInstance()->WriteLog("Command2Actions----Upgrade");
+
+    auto up_arrow = Sprite::create("upgrade.png");
+    if (up_arrow == nullptr) 
+    {
+      MainLogic::GetInstance()->WriteLog("Cannot create upgrade arrow sprite");
+    }
+    //up_arrow->setScale(map_widget->getScale());
+    this->addChild(up_arrow, 2);
+    //TODO FIX anchor error
+    up_arrow->setAnchorPoint(Vec2(0.4, 0));
+    up_arrow->setPosition(background->getTileAt(command->m_pUpgradeTower->m_vec2Position)->getPosition() * map_widget->getScale());
+    auto up = MoveBy::create(MainLogic::GetInstance()->speed*1.f, Vec2(0, 5));
+    auto back = MoveBy::create(0.01f, Vec2(0, 5));
+    auto up_actions = Sequence::createWithTwoActions(up, back);
+    
+    up_arrow->runAction(up);
+    while (up->isDone() == false);
+    up_arrow->setVisible(false);
+
+    //TODO find a release way to save memory
+    /*up_arrow->runAction(up_actions);
+    while (up_actions->isDone());
+    up_arrow->setVisible(false);*/
+
+    /*while (up->isDone() == false);
+    up_arrow->runAction(back);
+    while (back->isDone() == false);
+    up_arrow->setVisible(false);*/
+
+    //up_arrow->release();
+    //delete up_arrow;
 		return;
 	}
 
 	if (command->m_nCommandType == Produce)
 	{
+    MainLogic::GetInstance()->WriteLog("Command2Actions----Produce");
+
+    auto new_sign = Sprite::create("produce.png");
+    if (new_sign == nullptr) {
+      MainLogic::GetInstance()->WriteLog("Cannot create produce arrow sprite");
+    }
+    //up_arrow->setScale(map_widget->getScale());
+    this->addChild(new_sign, 2);
+    //TODO FIX anchor error
+    new_sign->setAnchorPoint(Vec2(0.4, 0));
+    new_sign->setPosition(background->getTileAt(command->m_pProduceTower->m_vec2Position)->getPosition() * map_widget->getScale());
+    auto up = MoveBy::create(MainLogic::GetInstance()->speed*1.f, Vec2(0, 5));
+    auto back = MoveBy::create(0.01f, Vec2(0, 5));
+    auto up_actions = Sequence::createWithTwoActions(up, back);
+
+    new_sign->runAction(up);
+    while (up->isDone() == false);
+    new_sign->setVisible(false);
+
 		return;
 	}
 }

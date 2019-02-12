@@ -39,8 +39,10 @@ SoldierID 2 Owner 2 Type Mangonel Level 1 Blood 100 X_Position 51 Y_Position 51
 CommandsInfo 4
 0 0
 1 0
-2 2
+2 4
 Move SoldierID 1 Direction DOWN Distance 2
-Attack AttackerID 2 VicType Soldier VictimID 1
+Attack AttackerID 2 VicType Tower VictimID 1
+Upgrade TowerID 9
+Produce TowerID 5 SoldierType HeavyInfantry
 3 0
 RoundEnd

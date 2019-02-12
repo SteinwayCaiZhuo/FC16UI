@@ -6862,7 +6862,7 @@ SoldierID 36 Owner 2 Type LightInfantry Level 1 Blood 100 X_Position 17 Y_Positi
 CommandsInfo 4
 0 0
 1 1
-Upgrade TowerID 5
+Upgrade TowerID 1
 2 47
 Produce TowerID 7 SoldierType LightInfantry
 Move SoldierID 1 Direction DOWN Distance 1

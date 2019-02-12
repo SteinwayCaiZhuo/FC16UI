@@ -194,6 +194,7 @@ namespace UI
 		virtual void Clear();
 		virtual void UIUpdate();
 		virtual void LUT_INIT();
+    void SetVec2Position(const int& id);
 
 	};
 
