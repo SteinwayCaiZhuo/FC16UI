@@ -197,7 +197,6 @@ void UI::PlayScene::StartClickedCallback()
 
 void UI::PlayScene::Command2Actions(UI::Command* command)
 {
-	//TODO fix all command show at a time
 	TMXLayer* soldiers = map_widget->getLayer("soldiers");
 
 	if (command->m_nCommandType == Attack)
@@ -213,14 +212,9 @@ void UI::PlayScene::Command2Actions(UI::Command* command)
 			MainLogic::GetInstance()->WriteLog("attacker null");
 			return;
 		}
-		auto action1 = Blink::create(MainLogic::GetInstance()->speed*0.5f, 3);
+		auto action1 = Blink::create(MainLogic::GetInstance()->speed*0.5f, 1);
 		soldiers->getTileAt(attacker->m_vec2Position)->runAction(action1);
 		while(action1->isDone() == false);
-
-		//pause 0.5sec
-		//soldiers->getTileAt(attacker->m_vec2Position)->runAction(
-		//	MoveBy::create(0.5f, Vec2(0.f, 0.f))
-		//);
 
 		if (victim_s != nullptr)
 		{
@@ -242,13 +236,13 @@ void UI::PlayScene::Command2Actions(UI::Command* command)
 			soldiers->getTileAt(victim_t->m_vec2Position)->runAction(action5);
 			while (action5->isDone() == false);
 		}
-
+    
 		return;
 	}
 
 	if (command->m_nCommandType == Move)
 	{
-		MainLogic::GetInstance()->WriteLog("Command2Actions----Attack");
+		MainLogic::GetInstance()->WriteLog("Command2Actions----Move");
 		UI::TSoldier* mover = dynamic_cast<UI::TSoldier*>(command->m_pMoveSoldier);
 
 		if (mover == nullptr) {

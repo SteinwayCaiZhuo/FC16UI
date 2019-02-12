@@ -148,7 +148,50 @@
 
 		this->m_bUpgrade = false;
 		this->m_strctProduceSoldier = ProduceType{ false, NoneSoldierType };
-	}
+    
+    switch (m_nID) {
+    case 0:
+      this->m_vec2Position = cocos2d::Vec2(6, 13);
+    case 1:
+      this->m_vec2Position = cocos2d::Vec2(20, 16);
+    case 2:
+      this->m_vec2Position = cocos2d::Vec2(33, 10);
+    case 3:
+      this->m_vec2Position = cocos2d::Vec2(44, 25);
+    case 4:
+      this->m_vec2Position = cocos2d::Vec2(61, 28);
+    case 5:
+      this->m_vec2Position = cocos2d::Vec2(71, 14);
+    case 6:
+      this->m_vec2Position = cocos2d::Vec2(83, 25);
+    case 7:
+      this->m_vec2Position = cocos2d::Vec2(15, 43);
+    case 8:
+      this->m_vec2Position = cocos2d::Vec2(15, 59);
+    case 9:
+      this->m_vec2Position = cocos2d::Vec2(28, 51);
+    case 10:
+      this->m_vec2Position = cocos2d::Vec2(51, 48);
+    case 11:
+      this->m_vec2Position = cocos2d::Vec2(63, 53);
+    case 12:
+      this->m_vec2Position = cocos2d::Vec2(73, 56);
+    case 13:
+      this->m_vec2Position = cocos2d::Vec2(85, 50);
+    case 14:
+      this->m_vec2Position = cocos2d::Vec2(8, 86);
+    case 15:
+      this->m_vec2Position = cocos2d::Vec2(22, 81);
+    case 16:
+      this->m_vec2Position = cocos2d::Vec2(39, 92);
+    case 17:
+      this->m_vec2Position = cocos2d::Vec2(61, 77);
+    case 18:
+      this->m_vec2Position = cocos2d::Vec2(77, 87);
+    default:
+      this->m_vec2Position = cocos2d::Vec2(0, 0);
+    }
+}
 
 	TTower::~TTower()
 	{

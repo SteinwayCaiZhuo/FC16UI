@@ -41,6 +41,6 @@ CommandsInfo 4
 1 0
 2 2
 Move SoldierID 1 Direction DOWN Distance 2
-Attack AttackerID 2 VicType Soldier VictimID 1
+Move SoldierID 2 Direction LEFT Distance 2
 3 0
 RoundEnd
