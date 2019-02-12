@@ -1,4 +1,6 @@
-﻿#include "StartScene.h"
+﻿#include "cocos2d.h"
+#include "../Data/DataDef.h"
+#include "StartScene.h"
 #include "SimpleAudioEngine.h"
 #include "../Logic/MainLogic.h"
 #include "ui/CocosGUI.h"
@@ -11,7 +13,7 @@ namespace UI
 	
 	Scene* StartScene::createScene()
 	{
-		//auto layer = 
+	
 		return StartScene::create();
 	}
 
@@ -21,15 +23,22 @@ namespace UI
 		{
 			return false;
 		}
-
+		
 		auto visibleSize = Director::getInstance()->getVisibleSize();
 		Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-		auto startSprite = Sprite::create("start.jpg");
-		startSprite->setScale(0.5);
-		startSprite->setPosition(500, 300);
-		this->addChild(startSprite, 0);
-		
+		std::string filename = "start.jpg";
+		auto startSprite = Sprite::create(filename);
+		if (startSprite == nullptr)
+		{
+			MainLogic::GetInstance()->WriteLog("Cannot create start sprite");
+		}
+		else
+		{
+			startSprite->setScale(0.5);
+			startSprite->setPosition(500, 300);
+			this->addChild(startSprite, 0);
+		}
 		ui::Button* openFileButton = ui::Button::create();
 		openFileButton->setTitleText("Select a File");
 		openFileButton->setPosition(Vec2(600, 400));
@@ -49,9 +58,7 @@ namespace UI
 
 	void StartScene::loadFileClickedCallback(cocos2d::Ref* pSender)
 	{
-		MainLogic::GetInstance()->WriteLog("Load File Clicked Call back");
 		MainLogic::GetInstance()->LoadData();
-		
 	}
 }
 

@@ -1,7 +1,7 @@
 ﻿#include "DataDef.h"
 #include "../Logic/MainLogic.h"
 
-namespace UI
+	namespace UI
 {
 	int PLAYER_NUM = 4;
 	int MAX_ROUND = 300;
@@ -345,10 +345,10 @@ namespace UI
 	{
 	}
 
-  int TSoldier::Info2GID() 
-  {
-    return SOLDIER_SET_START + ((m_pOwner->m_nID + 1) * SOLDIER_SET_COL + m_nSoldierType - 1);
-  }
+	int TSoldier::Info2GID()
+	{
+		return SOLDIER_SET_START + ((m_pOwner->m_nID + 1) * SOLDIER_SET_COL + m_nSoldierType - 1);
+	}
 
 	Command::Command()
 	{}
@@ -406,6 +406,30 @@ namespace UI
 		}
 		ifs.clear();
 		ifs.seekg(last);
+
+	}
+
+	void resetDirectory()
+	{
+		char buf[1000];
+		int i = 1000;
+		constexpr int nMaxFileName = 256;
+		char filename[nMaxFileName] = "";
+		TCHAR buffer[nMaxFileName] = _T("");
+		LPWSTR lpstrFile = buffer;
+		GetCurrentDirectory(1000, lpstrFile); //得到当前工作路径
+
+		wcstombs(buf, lpstrFile, 1000);
+		std::string a;
+		a.assign(buf);
 		
+		if (a.size()<strlen("FC16UIResource") || a.substr(a.size() - strlen("FC16UIResource")) != "FC16UIResource")
+			a.append("\\FC16UIResource");
+
+		mbstowcs(lpstrFile, a.c_str(), 1000);
+		SetCurrentDirectory(lpstrFile); //设置
+										//GetCurrentDirectory(1000, LPWSTR(buf));
+										//MainLogic::GetInstance()->WriteLog("Current directory is " + std::string(buf));
+
 	}
 }

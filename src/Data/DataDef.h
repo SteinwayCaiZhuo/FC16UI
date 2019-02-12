@@ -17,8 +17,8 @@ namespace UI
 	extern int MAX_ROUND;
 	extern int PLAYER_NUM;
 	extern int TOWER_NUM;
-	
-	
+
+
 	enum UIObjectType
 	{
 		TypeAsNone,
@@ -86,11 +86,11 @@ namespace UI
 		UIObjectType m_nUIType;
 		bool m_bVisible;
 		bool m_bGenerated;
-	
+
 	public:
 		//Constructor & Destructor
 		UIObject(const UIObjectType& UIType = TypeAsNone, const bool& visible = true);
-		
+
 		virtual ~UIObject();
 		//	Properties
 		void setVisible(const bool&);
@@ -104,14 +104,14 @@ namespace UI
 		virtual void Clear() = 0;
 		virtual void UIUpdate() = 0;
 		virtual void LUT_INIT() = 0;
-		
+
 	};
 
 	class TPlayer;
 	class TTower;
 	class TSoldier;
 
-	class TPlayer: public UIObject
+	class TPlayer : public UIObject
 	{
 	private:
 		static std::map<std::string, int>LUTPLAYER;
@@ -152,7 +152,7 @@ namespace UI
 		UIObject* m_pVictim;
 		bool m_bFreshman;
 		bool m_bDead;
-		
+
 		//	Default Constructor
 		TSoldier();
 		//	Specified constructor, use this to contruct new soldier from result.txt
@@ -162,28 +162,28 @@ namespace UI
 		virtual void Clear();
 		virtual void UIUpdate();
 		virtual void LUT_INIT();
-    int Info2GID();
+		int Info2GID();
 	};
 
-	
 
-	class TTower: public UIObject
+
+	class TTower : public UIObject
 	{
 	private:
 		static std::map<std::string, int>LUTTOWER;
 	public:
-		
+
 		ProduceType m_strctProduceSoldier;
 		int m_nID;
 		TPlayer* m_pOwner;
 		int m_nLevel;
 		int m_nBlood;
-		
+
 		bool m_bRecruiting;
 		SoldierType m_nRecruitingType;
 		int m_nRecruitingRound;
 		bool m_bUpgrade; //
-		
+
 
 		cocos2d::Vec2 m_vec2Position;
 
@@ -194,21 +194,21 @@ namespace UI
 		virtual void Clear();
 		virtual void UIUpdate();
 		virtual void LUT_INIT();
-		
+
 	};
 
-	
 
-	class Command 
+
+	class Command
 	{
-	
+
 
 	public:
-		
-		
+
+
 		CommandType m_nCommandType;
 		TPlayer* m_pOwner;
-		
+
 		//Move
 		TSoldier* m_pMoveSoldier;
 		MoveDirection m_nMoveDirection;
@@ -220,18 +220,18 @@ namespace UI
 
 		//Upgrade
 		TTower* m_pUpgradeTower;
-		
+
 		//Produce
 		TTower* m_pProduceTower;
 		SoldierType m_nProduceSoldierType;
 
-	
+
 		Command();
 		~Command();
 	};
 
 	void MyClear(std::stringstream& ifs);
-
+	void resetDirectory();
 	template<class T1, class T2>
 	T1 maxKey(const std::map<T1, T2>&m)
 	{

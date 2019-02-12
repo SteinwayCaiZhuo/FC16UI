@@ -1,7 +1,7 @@
-﻿ #include "MainLogic.h"
+﻿#include "MainLogic.h"
 #include "../UI/StartScene.h"
 #include "../UI/PlayScene.h"
- 
+
 #include <windows.h>
 #include <thread>
 #include <chrono>
@@ -28,20 +28,26 @@ static cocos2d::Size largeResolutionSize = cocos2d::Size(2048, 1536);
 namespace UI
 {
 
-	MainLogic* MainLogic::m_pInstance = nullptr;	
+	MainLogic* MainLogic::m_pInstance = nullptr;
+
 	
+
 	MainLogic::MainLogic()
 	{
+		resetDirectory();
 		gameState = GameState::GAME_NOT_START;
 		mapFile = "gameMap.png";
 		loadFileName = "result.txt";
 		logFileStream.open("Log/log.txt", std::ios::out);
-		logFileStream << "\n\n\n\n\n\n\n\nStarting..\n";
+		logFileStream << "Starting..\n";
 		playerAlive = 4;
-		framesPerRound = 60;//Default setting
+		speed = 0.4;//Default setting
 		gameRound = 0;
+
+		logFileStream << "MainLogic ptr is " << this << std::endl;
+
 		
-		logFileStream << "MainLogic ptr is " << this<<std::endl;
+
 
 		for (int i = 0; i < PLAYER_NUM; i++)
 		{
@@ -139,16 +145,16 @@ namespace UI
 	{
 		if (gameState != GameState::GAME_NOT_START)
 			return;
-
 		gameRound = 0;
 		gameState = GameState::GAME_RUNNING;
 		MainLogic::clearData();
 		
+
 	}
 
 	void MainLogic::GameLoop()
 	{
-		
+
 	}
 
 	void MainLogic::GameOver()
@@ -225,9 +231,9 @@ namespace UI
 		{
 			return;
 		}
-		
-		
-		
+
+
+
 		// TODO : Try to deal with open failure.
 		ifsGameResult.open(loadFileName, std::ios::in);
 		if (!ifsGameResult.is_open()) return;
@@ -237,9 +243,9 @@ namespace UI
 		StartScene2PlayScene();
 	}
 
-	void MainLogic::LogicUpdate()
+	bool MainLogic::LogicUpdate()
 	{
-		
+
 		std::string strLine;
 		std::string mark_type;
 		int mark_lines;
@@ -247,13 +253,17 @@ namespace UI
 		while (true)
 		{
 			getline(ifsGameResult, strLine);
-			MyClear(strstrm);
 			
+			//End of game
+			if (strLine.empty())
+				return false;
+
+			MyClear(strstrm);
 			strstrm << strLine;
 			strstrm >> mark_type >> mark_lines;
 			MyClear(strstrm);
 			WriteLog("Got mark_type is: " + mark_type);
-			if (mark_type.empty()||mark_type == "RoundEnd")
+			if (mark_type.empty() || mark_type == "RoundEnd")
 				break;
 			else
 			{
@@ -266,15 +276,16 @@ namespace UI
 					MainLogic::GetInstance()->WriteLog("Logic Update error!");
 				}
 			}
-			
+
 		}
+		return true;
 	}
 
 	void MainLogic::parseLines(const std::string&mark_type, const int&mark_lines)
 	{
 		std::string strLine;
 		std::stringstream strstrm("init");
-		
+
 		if (mark_type == "RoundBegin")
 		{
 			if (mark_lines != 1)
@@ -302,13 +313,13 @@ namespace UI
 			{
 				clearData();
 				initData();
-				
+
 			}
 			if (mark_lines > PLAYER_NUM)
 				throw std::exception("PlayerInfo should be given less than 4 lines");
 			std::string temp_str;
 			int id;
-			
+
 			for (int i = 0; i < mark_lines; i++)
 			{
 				getline(ifsGameResult, strLine);
@@ -317,11 +328,11 @@ namespace UI
 				strstrm >> temp_str >> id;
 				MyClear(strstrm);
 				getline(ifsGameResult, strLine);
-				
+
 				players[id]->Generate(strLine);
 				players[id]->m_nID = id;
 			}
-			
+
 		}
 		else if (mark_type == "TowerInfo")
 		{
@@ -334,7 +345,7 @@ namespace UI
 		else if (mark_type == "SoldierInfo")
 		{
 			int maxSoldierID = maxKey(soldiers);
-			
+
 			//Clear old soldiers
 			for (auto item : soldiers)
 			{
@@ -351,34 +362,34 @@ namespace UI
 					TSoldier* newSoldier = new TSoldier();
 					newSoldier->Generate(strLine);
 					soldiers.emplace(newSoldier->m_nID, newSoldier);
-					
+
 					if (newSoldier->m_nID > maxSoldierID)
 						newSoldier->m_bFreshman = true;
-					
+
 				}
 				catch (const std::exception&)
 				{
-					
+
 				}
 			}
 
-			
+
 		}
-		
+
 		//Generate Command
 		else if (mark_type == "CommandsInfo")
 		{
 			std::string mark_type_command, temp_str;
 			int mark_player_id, mark_commands_lines, mark_info_command;
-			
+
 			for (auto item : commands)
 				delete item;
 			commands.clear();
 			UI::Command* newCommand = nullptr;
 
-			
 
-			
+
+
 			for (int i = 0; i < mark_lines; i++)
 			{
 				getline(ifsGameResult, strLine);
@@ -393,7 +404,7 @@ namespace UI
 					MyClear(strstrm);
 					strstrm << strLine;
 					strstrm >> mark_type_command;
-					
+
 					newCommand = new Command();
 
 					try
@@ -434,28 +445,28 @@ namespace UI
 						else if (mark_type_command == "Upgrade")
 						{
 							newCommand->m_nCommandType = UI::CommandType::Upgrade;
-							strstrm >> temp_str>>mark_info_command;
+							strstrm >> temp_str >> mark_info_command;
 							newCommand->m_pUpgradeTower = towers[mark_info_command];
 
 						}
 						else if (mark_type_command == "Produce")
 						{
 							newCommand->m_nCommandType = UI::CommandType::Produce;
-							
+
 							strstrm >> temp_str >> mark_info_command;
 							newCommand->m_pProduceTower = towers[mark_info_command];
 							strstrm >> temp_str >> mark_type_command;
 							newCommand->m_nProduceSoldierType = UI::SoldierTypeStr2Enum(mark_type_command);
 						}
 					}
-					
+
 					catch (const std::exception&)
 					{
 						delete newCommand;
 						newCommand = nullptr;
 					}
 
-          MainLogic::GetInstance()->commands.push_back(newCommand);
+					MainLogic::GetInstance()->commands.push_back(newCommand);
 				}
 			}
 			MyClear(strstrm);
@@ -502,10 +513,15 @@ namespace UI
 
 	void MainLogic::WriteLog(const std::string& message)
 	{
-		logFileStream << message<<std::endl; 
+		logFileStream << message << std::endl;
 	}
 	void MainLogic::StartScene2PlayScene()
 	{
 		Director::getInstance()->replaceScene(PlayScene::createScene());
+		
+	}
+	void MainLogic::PlayScene2StartScene()
+	{
+		Director::getInstance()->replaceScene(StartScene::createScene());
 	}
 }
