@@ -8,7 +8,9 @@
 #include <thread>
 #include <chrono>
 USING_NS_CC;
-
+//TODO FIX variable speed actually means unit duration time
+//TODO FIX touch drift in layer or find a way to bandle touch and sprite
+//TODO temp FIX show in roundinfo
 
 UI::PlayScene* UI::PlayScene::m_pInstance = nullptr;
 
@@ -55,17 +57,75 @@ bool UI::PlayScene::init()
 	});
 
 	this->addChild(start_btn, 1);
+	auto back_btn = ui::Button::create();
+	back_btn->setTitleText("Back");
+	back_btn->setPosition(Vec2(880, 600));
+	back_btn->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type) {
+		switch (type) {
+		case cocos2d::ui::Widget::TouchEventType::ENDED:
+			clear();
+			MainLogic::GetInstance()->PlayScene2StartScene();
+			break;
+		default:
+			break;
+		}
+	});
 
+	this->addChild(back_btn);
 	roundLabel = Label::createWithTTF("Game Not Start", "fonts/Marker Felt.ttf", 24);
 	roundLabel->setPosition(Vec2(900, 640));
 	this->addChild(roundLabel);
-	//this->schedule(schedule_selector(UI::PlayScene::RefreshMap), 2.0f);
+	auto speed_decrease = ui::Button::create();
+	speed_decrease->setTitleText("SLOWER");
+	speed_decrease->setPosition(Vec2(880, 680));
+	speed_decrease->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type) {
+		switch (type) {
+		case cocos2d::ui::Widget::TouchEventType::ENDED:
+			MainLogic::GetInstance()->speed *= 1.1;
+			break;
+		default:
+			break;
+		}
+	});
+	this->addChild(speed_decrease);
+	auto speed_increase = ui::Button::create();
+	speed_increase->setTitleText("FASTER");
+	speed_increase->setPosition(Vec2(980, 680));
+	speed_increase->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type) {
+		switch (type) {
+		case cocos2d::ui::Widget::TouchEventType::ENDED:
+			MainLogic::GetInstance()->speed *= 0.9;
+			break;
+		default:
+			break;
+		}
+	});
+	this->addChild(speed_increase);
+  roundInfo = ui::EditBox::create(Size(200, 400), "start.jpg");
+  roundInfo->setPosition(Vec2(900, 300));
+  roundInfo->setFontSize(11);
+  this->addChild(roundInfo);
 	
 	this->is_pause = true;
+
+  //TODO temp load to enable load those picture in member function, try to fix it
+  auto up_arrow = Sprite::create("upgrade.png");
+  up_arrow->setPosition(Vec2(1300, 300));
+  up_arrow->setVisible(false);
+  this->addChild(up_arrow, 1);
+
+  auto new_sign = Sprite::create("produce.png");
+  new_sign->setPosition(Vec2(1300, 300));
+  new_sign->setVisible(false);
+  this->addChild(new_sign, 1);
+
 	return true;
 }
 
-
+void UI::PlayScene::clear()
+{
+	exit_thread_flag = true;
+}
 
 void UI::PlayScene::RefreshMap(float dt)
 {
@@ -112,60 +172,46 @@ void UI::PlayScene::RefreshMap(float dt)
 
 void UI::PlayScene::ContinuousDisplay()
 {
-	while (UI::PlayScene::m_pInstance->is_pause == false)
+	while (UI::PlayScene::m_pInstance->exit_thread_flag == false)
 	{
 		MainLogic::GetInstance()->WriteLog("RefreshMap began");
 
-		//refreshmap
-		if (!MainLogic::GetInstance()->LogicUpdate())
-		{
-			MainLogic::GetInstance()->WriteLog("logic update failed");
-			break;
-		}
-		MainLogic::GetInstance()->WriteLog("Logic update finished ");
-		TMXLayer* background = UI::PlayScene::m_pInstance->map_widget->getLayer("background");
-		TMXLayer* soldiers = UI::PlayScene::m_pInstance->map_widget->getLayer("soldiers");
-
-		//clear
-		for (int i = 0; i < UI::PlayScene::m_pInstance->map_widget->getMapSize().width; i++) {
-			for (int j = 0; j < UI::PlayScene::m_pInstance->map_widget->getMapSize().width; j++) {
-				soldiers->setTileGID(SOLDIER_SET_START, Vec2(i, j));
+			//refreshmap
+			if (!MainLogic::GetInstance()->LogicUpdate())
+			{
+				MainLogic::GetInstance()->WriteLog("logic update failed");
+				break;
 			}
-		}
-		for (std::map<int, UI::TSoldier*>::iterator i = MainLogic::GetInstance()->soldiers.begin();
-			i != MainLogic::GetInstance()->soldiers.end(); ++i) {
-			//TODO : whether need coordinates change
-			//soldiers->setTileGID((*i).second->Info2GID(), (*i).second->m_vec2Position);	
-			soldiers->setTileGID((*i).second->Info2GID(), (*i).second->m_vec2Position);
-			//background->setTileGID(4, (*i).second->m_vec2Position);
-		}
+			MainLogic::GetInstance()->WriteLog("Logic update finished ");
+			TMXLayer* background = UI::PlayScene::m_pInstance->map_widget->getLayer("background");
+			TMXLayer* soldiers = UI::PlayScene::m_pInstance->map_widget->getLayer("soldiers");
 
-		MainLogic::GetInstance()->WriteLog("Beginning command actions");
-		//auto delay1 = DelayTime::create(0.001);
-		//auto delay2 = delay1->clone();
-		//auto my_prevSeq = Sequence::create(delay1,delay2);
-		//auto my_newSeq= my_prevSeq;
-		for (auto item:MainLogic::GetInstance()->commands) {
-			
-			//my_newSeq = Sequence::create(my_prevSeq, cocos2d::CallFunc::create([&]() {
-			//	UI::PlayScene::m_pInstance->Command2Actions(*i);
-			//}), DelayTime::create(1));
-			//my_prevSeq = my_newSeq;
-			UI::PlayScene::m_pInstance->Command2Actions(item);
-		}
-		//my_newSeq = Sequence::create(my_prevSeq, nullptr);
-		//UI::PlayScene::m_pInstance->runAction(my_newSeq);
+			//clear
+			for (int i = 0; i < UI::PlayScene::m_pInstance->map_widget->getMapSize().width; i++) {
+				for (int j = 0; j < UI::PlayScene::m_pInstance->map_widget->getMapSize().width; j++) {
+					if (UI::PlayScene::m_pInstance->exit_thread_flag)
+						return;
+					else
+						soldiers->setTileGID(SOLDIER_SET_START, Vec2(i, j));
+					
+				}
+			}
+			for (std::map<int, UI::TSoldier*>::iterator i = MainLogic::GetInstance()->soldiers.begin();
+				i != MainLogic::GetInstance()->soldiers.end(); ++i) {
+				//TODO : whether need coordinates change
+				soldiers->setTileGID((*i).second->Info2GID(), (*i).second->m_vec2Position);
+			}
 
+			MainLogic::GetInstance()->WriteLog("Beginning command actions");
+			for (auto item : MainLogic::GetInstance()->commands) {
+				UI::PlayScene::m_pInstance->Command2Actions(item);
+			}
+			UI::PlayScene::m_pInstance->roundLabel->setString("Round " + std::to_string(MainLogic::GetInstance()->gameRound));
 
-		UI::PlayScene::m_pInstance->removeChild(UI::PlayScene::m_pInstance->roundLabel);
-		UI::PlayScene::m_pInstance->roundLabel->release();
-		UI::PlayScene::m_pInstance->roundLabel = Label::createWithTTF("Round "+ std::to_string(MainLogic::GetInstance()->gameRound), "fonts/Marker Felt.ttf", 24);
-		UI::PlayScene::m_pInstance->roundLabel->setPosition(Vec2(900, 640));
-		UI::PlayScene::m_pInstance->addChild(UI::PlayScene::m_pInstance->roundLabel);
-
-		std::this_thread::sleep_for(std::chrono::duration<int, std::milli>(int(MainLogic::GetInstance()->speed*1000)));
+			std::this_thread::sleep_for(std::chrono::duration<int, std::milli>(int(MainLogic::GetInstance()->speed * 1000)));
+		
 	}
-	MainLogic::GetInstance()->PlayScene2StartScene();
+	
 }
 
 void UI::PlayScene::StartClickedCallback()
@@ -176,7 +222,7 @@ void UI::PlayScene::StartClickedCallback()
 		MainLogic::GetInstance()->GameStart();
 		start_btn->setTitleText("stop");
 		is_pause = false;
-		//std::thread t(&UI::PlayScene::ContinuousDisplay, this);
+		exit_thread_flag = false;
 		std::thread t([] {
 			MainLogic::GetInstance()->WriteLog("My thread");
 			UI::PlayScene::ContinuousDisplay();
@@ -186,21 +232,16 @@ void UI::PlayScene::StartClickedCallback()
 	}
 	else if (start_btn->getTitleText() == "stop")
 	{
-		if (displayThread != nullptr)
-		{
-			displayThread->~thread();
-			displayThread = nullptr;
-		}
+		
+		exit_thread_flag = true;
 		start_btn->setTitleText("start");
-
 	}
-	//this->_scheduler->resumeTarget(this);
 }
 
 void UI::PlayScene::Command2Actions(UI::Command* command)
 {
-	//TODO fix all command show at a time
 	TMXLayer* soldiers = map_widget->getLayer("soldiers");
+  TMXLayer* background = map_widget->getLayer("background");
 
 	if (command->m_nCommandType == Attack)
 	{
@@ -215,14 +256,9 @@ void UI::PlayScene::Command2Actions(UI::Command* command)
 			MainLogic::GetInstance()->WriteLog("attacker null");
 			return;
 		}
-		auto action1 = Blink::create(MainLogic::GetInstance()->speed*0.5f, 3);
+		auto action1 = Blink::create(MainLogic::GetInstance()->speed*0.5f, 1);
 		soldiers->getTileAt(attacker->m_vec2Position)->runAction(action1);
 		while(action1->isDone() == false);
-
-		//pause 0.5sec
-		//soldiers->getTileAt(attacker->m_vec2Position)->runAction(
-		//	MoveBy::create(0.5f, Vec2(0.f, 0.f))
-		//);
 
 		if (victim_s != nullptr)
 		{
@@ -241,16 +277,26 @@ void UI::PlayScene::Command2Actions(UI::Command* command)
 			while (action4->isDone() == false);
 
 			auto action5 = Blink::create(MainLogic::GetInstance()->speed*1.f, 3);
-			soldiers->getTileAt(victim_t->m_vec2Position)->runAction(action5);
+      Vec2 center = victim_t->m_vec2Position;
+			background->getTileAt(center)->runAction(action5);
+      //TODO find a better way
+      background->getTileAt(Vec2(center.x - 1, center.y - 1))->runAction(action5->clone());
+      background->getTileAt(Vec2(center.x - 1, center.y + 0))->runAction(action5->clone());
+      background->getTileAt(Vec2(center.x - 1, center.y + 1))->runAction(action5->clone());
+      background->getTileAt(Vec2(center.x + 0, center.y - 1))->runAction(action5->clone());
+      background->getTileAt(Vec2(center.x + 0, center.y + 1))->runAction(action5->clone());
+      background->getTileAt(Vec2(center.x + 1, center.y - 1))->runAction(action5->clone());
+      background->getTileAt(Vec2(center.x + 1, center.y + 0))->runAction(action5->clone());
+      background->getTileAt(Vec2(center.x + 1, center.y + 1))->runAction(action5->clone());
 			while (action5->isDone() == false);
 		}
-
+    
 		return;
 	}
 
 	if (command->m_nCommandType == Move)
 	{
-		MainLogic::GetInstance()->WriteLog("Command2Actions----Attack");
+		MainLogic::GetInstance()->WriteLog("Command2Actions----Move");
 		UI::TSoldier* mover = dynamic_cast<UI::TSoldier*>(command->m_pMoveSoldier);
 
 		if (mover == nullptr) {
@@ -289,11 +335,62 @@ void UI::PlayScene::Command2Actions(UI::Command* command)
 	//TODO tower action
 	if (command->m_nCommandType == Upgrade)
 	{
+    MainLogic::GetInstance()->WriteLog("Command2Actions----Upgrade");
+
+    auto up_arrow = Sprite::create("upgrade.png");
+    if (up_arrow == nullptr) 
+    {
+      MainLogic::GetInstance()->WriteLog("Cannot create upgrade arrow sprite");
+    }
+    //up_arrow->setScale(map_widget->getScale());
+    this->addChild(up_arrow, 2);
+    //TODO FIX anchor error
+    up_arrow->setAnchorPoint(Vec2(0.4, 0));
+    up_arrow->setPosition(background->getTileAt(command->m_pUpgradeTower->m_vec2Position)->getPosition() * map_widget->getScale());
+    auto up = MoveBy::create(MainLogic::GetInstance()->speed*1.f, Vec2(0, 5));
+    auto back = MoveBy::create(0.01f, Vec2(0, 5));
+    auto up_actions = Sequence::createWithTwoActions(up, back);
+    
+    up_arrow->runAction(up);
+    while (up->isDone() == false);
+    up_arrow->setVisible(false);
+
+    //TODO find a release way to save memory
+    /*up_arrow->runAction(up_actions);
+    while (up_actions->isDone());
+    up_arrow->setVisible(false);*/
+
+    /*while (up->isDone() == false);
+    up_arrow->runAction(back);
+    while (back->isDone() == false);
+    up_arrow->setVisible(false);*/
+
+    //up_arrow->release();
+    //delete up_arrow;
 		return;
 	}
 
 	if (command->m_nCommandType == Produce)
 	{
+    MainLogic::GetInstance()->WriteLog("Command2Actions----Produce");
+
+    auto new_sign = Sprite::create("produce.png");
+    if (new_sign == nullptr) {
+      MainLogic::GetInstance()->WriteLog("Cannot create produce arrow sprite");
+    }
+    //up_arrow->setScale(map_widget->getScale());
+    this->addChild(new_sign, 2);
+    //TODO FIX anchor error
+    new_sign->setAnchorPoint(Vec2(0.4, 0));
+    new_sign->setPosition(background->getTileAt(command->m_pProduceTower->m_vec2Position)->getPosition() * map_widget->getScale());
+    auto up = MoveBy::create(MainLogic::GetInstance()->speed*1.f, Vec2(0, 5));
+    auto back = MoveBy::create(0.01f, Vec2(0, 5));
+    auto up_actions = Sequence::createWithTwoActions(up, back);
+
+    new_sign->runAction(up);
+    while (up->isDone() == false);
+    new_sign->setVisible(false);
+
 		return;
 	}
 }

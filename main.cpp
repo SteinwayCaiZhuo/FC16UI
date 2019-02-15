@@ -17,11 +17,10 @@ int WINAPI _tWinMain(HINSTANCE hInstance,
 {
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
-
+	std::cout << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n";
     // create the application instance
 	UI::MainLogic app;
 	UI::MainLogic::m_pInstance = &app;
-	
 	return Application::getInstance()->run();
 }
 

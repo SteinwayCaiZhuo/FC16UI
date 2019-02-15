@@ -143,7 +143,7 @@ namespace UI
 		static std::map<std::string, int>LUTSOLDIER;
 	public:
 		int m_nID;
-		TPlayer* m_pOwner;
+		TPlayer* m_pOwner;	
 		int m_nBlood;
 		SoldierType m_nSoldierType;
 		cocos2d::Vec2 m_vec2Position;
@@ -163,6 +163,7 @@ namespace UI
 		virtual void UIUpdate();
 		virtual void LUT_INIT();
 		int Info2GID();
+		int getOwnerID()const;
 	};
 
 
@@ -194,7 +195,8 @@ namespace UI
 		virtual void Clear();
 		virtual void UIUpdate();
 		virtual void LUT_INIT();
-
+		void SetVec2Position(const int& id);
+		int getOwnerID()const;
 	};
 
 

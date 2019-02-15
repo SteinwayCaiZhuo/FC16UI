@@ -19,10 +19,10 @@
     <Filter Include="src\UI">
       <UniqueIdentifier>{b2ecd4d2-72ec-4f73-86fd-aef11cb85166}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FC16UIResource">
+    <Filter Include="FC16UI_Resource">
       <UniqueIdentifier>{25655bac-d784-46c1-917a-652f802961f1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FC16UIResource\tileset">
+    <Filter Include="FC16UI_Resource\tileset">
       <UniqueIdentifier>{c63f5496-1505-4dd0-be46-c30b06690c05}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -65,75 +65,72 @@
       <Filter>other</Filter>
     </None>
     <None Include="FC16UIResource\terrains.tsx">
-      <Filter>FC16UIResource</Filter>
+      <Filter>FC16UI_Resource</Filter>
     </None>
     <None Include="FC16UIResource\test.tmx">
-      <Filter>FC16UIResource</Filter>
+      <Filter>FC16UI_Resource</Filter>
     </None>
     <None Include="FC16UIResource\tileset\merge_script.py">
-      <Filter>FC16UIResource\tileset</Filter>
+      <Filter>FC16UI_Resource\tileset</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="FC16UIResource\game.ico">
-      <Filter>FC16UIResource</Filter>
+      <Filter>FC16UI_Resource</Filter>
     </Image>
     <Image Include="FC16UIResource\s_test.png">
-      <Filter>FC16UIResource</Filter>
+      <Filter>FC16UI_Resource</Filter>
     </Image>
     <Image Include="FC16UIResource\tileset\dormitory.png">
-      <Filter>FC16UIResource\tileset</Filter>
+      <Filter>FC16UI_Resource\tileset</Filter>
     </Image>
     <Image Include="FC16UIResource\tileset\forest.png">
-      <Filter>FC16UIResource\tileset</Filter>
+      <Filter>FC16UI_Resource\tileset</Filter>
     </Image>
     <Image Include="FC16UIResource\tileset\mountain.png">
-      <Filter>FC16UIResource\tileset</Filter>
+      <Filter>FC16UI_Resource\tileset</Filter>
     </Image>
     <Image Include="FC16UIResource\tileset\river.png">
-      <Filter>FC16UIResource\tileset</Filter>
+      <Filter>FC16UI_Resource\tileset</Filter>
     </Image>
     <Image Include="FC16UIResource\tileset\RMXP版RMVX素材包-自动地图图块 (17)_爱给网_aigei_com.png">
-      <Filter>FC16UIResource\tileset</Filter>
+      <Filter>FC16UI_Resource\tileset</Filter>
     </Image>
     <Image Include="FC16UIResource\tileset\road.png">
-      <Filter>FC16UIResource\tileset</Filter>
+      <Filter>FC16UI_Resource\tileset</Filter>
     </Image>
     <Image Include="FC16UIResource\tileset\RPG Marker VX自带-平铺(TileD)_爱给网_aigei_com.png">
-      <Filter>FC16UIResource\tileset</Filter>
+      <Filter>FC16UI_Resource\tileset</Filter>
     </Image>
     <Image Include="FC16UIResource\tileset\teaching_area.png">
-      <Filter>FC16UIResource\tileset</Filter>
+      <Filter>FC16UI_Resource\tileset</Filter>
     </Image>
     <Image Include="FC16UIResource\tileset\terrains_list.png">
-      <Filter>FC16UIResource\tileset</Filter>
+      <Filter>FC16UI_Resource\tileset</Filter>
     </Image>
     <Image Include="FC16UIResource\tileset\tower.png">
-      <Filter>FC16UIResource\tileset</Filter>
+      <Filter>FC16UI_Resource\tileset</Filter>
     </Image>
     <Image Include="FC16UIResource\tileset\tower_small.png">
-      <Filter>FC16UIResource\tileset</Filter>
+      <Filter>FC16UI_Resource\tileset</Filter>
     </Image>
     <Image Include="FC16UIResource\tileset\VX森林整合-pic2197_VX森林素材整合_爱给网_aigei_com.png">
-      <Filter>FC16UIResource\tileset</Filter>
+      <Filter>FC16UI_Resource\tileset</Filter>
     </Image>
     <Image Include="FC16UIResource\tileset\口袋妖怪-的地图-海23tq1ko(sea23tq1ko)_爱给网_aigei_com.png">
-      <Filter>FC16UIResource\tileset</Filter>
+      <Filter>FC16UI_Resource\tileset</Filter>
     </Image>
     <Image Include="FC16UIResource\tileset\日站素材集01-TileC_爱给网_aigei_com.png">
-      <Filter>FC16UIResource\tileset</Filter>
+      <Filter>FC16UI_Resource\tileset</Filter>
     </Image>
     <Image Include="FC16UIResource\tileset\日站素材集01-布龙嫩(brunnen)_爱给网_aigei_com.png">
-      <Filter>FC16UIResource\tileset</Filter>
+      <Filter>FC16UI_Resource\tileset</Filter>
     </Image>
     <Image Include="FC16UIResource\tileset\永恒乐章-地图图块-TileA2_爱给网_aigei_com.png">
-      <Filter>FC16UIResource\tileset</Filter>
+      <Filter>FC16UI_Resource\tileset</Filter>
     </Image>
     <Image Include="FC16UIResource\button_test.jpg">
-      <Filter>FC16UIResource</Filter>
-    </Image>
-    <Image Include="FC16UIResource\start.jpg">
-      <Filter>FC16UIResource</Filter>
+      <Filter>FC16UI_Resource</Filter>
     </Image>
   </ItemGroup>
 </Project>

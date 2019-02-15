@@ -1,4 +1,5 @@
-﻿#include "MainLogic.h"
+﻿// TODO FIX:cannot add command of Player1 when Player0 dont have command and Player2 have command
+#include "MainLogic.h"
 #include "../UI/StartScene.h"
 #include "../UI/PlayScene.h"
 
@@ -41,13 +42,10 @@ namespace UI
 		logFileStream.open("Log/log.txt", std::ios::out);
 		logFileStream << "Starting..\n";
 		playerAlive = 4;
-		speed = 0.4;//Default setting
+		speed = 1;//Default setting
 		gameRound = 0;
 
 		logFileStream << "MainLogic ptr is " << this << std::endl;
-
-		
-
 
 		for (int i = 0; i < PLAYER_NUM; i++)
 		{
@@ -229,12 +227,11 @@ namespace UI
 		//loadFileName = "result.txt";
 		if (!loadFileName.size())
 		{
+			MainLogic::GetInstance()->WriteLog("File name is empty");
 			return;
 		}
-
-
-
-		// TODO : Try to deal with open failure.
+		if (ifsGameResult.is_open())
+			ifsGameResult.close();
 		ifsGameResult.open(loadFileName, std::ios::in);
 		if (!ifsGameResult.is_open()) return;
 		MainLogic::GetInstance()->WriteLog("Succesfully loaded the file");
@@ -295,7 +292,7 @@ namespace UI
 			strstrm << strLine;
 			strstrm >> gameRound;
 			MyClear(strstrm);
-			WriteLog("in Game round: " + std::to_string(gameRound) + "\n");
+			WriteLog("Game round: " + std::to_string(gameRound));
 		}
 		else if (mark_type == "PlayerAlive")
 		{
@@ -306,6 +303,7 @@ namespace UI
 			strstrm << strLine;
 			strstrm >> playerAlive;
 			MyClear(strstrm);
+			
 		}
 		else if (mark_type == "PlayerInfo")
 		{
@@ -331,6 +329,9 @@ namespace UI
 
 				players[id]->Generate(strLine);
 				players[id]->m_nID = id;
+				
+				WriteLog("Player " + std::to_string(id));
+				WriteInfo(players[id]);
 			}
 
 		}
@@ -340,6 +341,8 @@ namespace UI
 			{
 				getline(ifsGameResult, strLine);
 				towers[i]->Generate(strLine);
+				towers[i]->SetVec2Position(i);
+				WriteInfo(towers[i]);
 			}
 		}
 		else if (mark_type == "SoldierInfo")
@@ -365,11 +368,11 @@ namespace UI
 
 					if (newSoldier->m_nID > maxSoldierID)
 						newSoldier->m_bFreshman = true;
-
+					WriteInfo(newSoldier);
 				}
 				catch (const std::exception&)
 				{
-
+					MainLogic::GetInstance()->WriteLog("Error generating soldiers");
 				}
 			}
 
@@ -386,25 +389,22 @@ namespace UI
 				delete item;
 			commands.clear();
 			UI::Command* newCommand = nullptr;
-
-
-
-
 			for (int i = 0; i < mark_lines; i++)
 			{
 				getline(ifsGameResult, strLine);
-				MyClear(strstrm);
-				strstrm << strLine;
-				strstrm >> mark_player_id >> mark_commands_lines;
-				MyClear(strstrm);
-
+				WriteLog(strLine);
+				{
+					std::stringstream strstrm(strLine);
+					strstrm >> mark_player_id >> mark_commands_lines;
+				}
+				WriteLog(std ::to_string(mark_player_id)+ " has "+std ::to_string(mark_commands_lines)+" commands");
 				for (int j = 0; j < mark_commands_lines; j++)
 				{
 					getline(ifsGameResult, strLine);
-					MyClear(strstrm);
-					strstrm << strLine;
+					
+					std::stringstream strstrm(strLine);
 					strstrm >> mark_type_command;
-
+					
 					newCommand = new Command();
 
 					try
@@ -462,11 +462,15 @@ namespace UI
 
 					catch (const std::exception&)
 					{
+						WriteLog("Command read error");
 						delete newCommand;
 						newCommand = nullptr;
 					}
-
-					MainLogic::GetInstance()->commands.push_back(newCommand);
+					if (newCommand != nullptr)
+					{
+						MainLogic::GetInstance()->commands.push_back(newCommand);
+						WriteInfo(newCommand);
+					}
 				}
 			}
 			MyClear(strstrm);
@@ -523,5 +527,51 @@ namespace UI
 	void MainLogic::PlayScene2StartScene()
 	{
 		Director::getInstance()->replaceScene(StartScene::createScene());
+	}
+
+	void MainLogic::WriteInfo(const UI::TPlayer*player)
+	{
+		logFileStream << "Rank " << player->m_nRank << " Score " << player->m_nScore
+			<< " KillNum " << player->m_nKillNum << " TowerNum " << player->m_nTowerNum
+			<< " SurvivalRound " << player->m_nSurvivalRound << " SoldierNum " << player->m_nSoldierNum
+			<< " Resource " << player->m_nResource << " MaxPopulation " << player->m_nMaxPopulation
+			<< " Population " << player->m_nPopulation << "\n";
+	}
+
+	void MainLogic::WriteInfo(const UI::TSoldier*soldier)
+	{
+		logFileStream << "SoldierID " << soldier->m_nID << " Owner " << soldier->getOwnerID()
+			<< " Type " << soldier->m_nSoldierType << " Level " << soldier->m_nLevel << " Blood " << soldier->m_nBlood
+			<< " position (" << soldier->m_vec2Position.x<<", "<<soldier->m_vec2Position.y << "\n";
+	}
+	
+	void MainLogic::WriteInfo(const UI::TTower*tower)
+	{
+		logFileStream << "TowerID " << tower->m_nID << " Owner " << tower->getOwnerID()
+			<< " Level " << tower->m_nLevel << " Blood " << tower->m_nBlood
+			<< " Recruiting " << tower->m_bRecruiting << " RecruitingRound " << tower->m_nRecruitingRound
+			<< " RecruitingType " << tower->m_nRecruitingType<<"\n";
+	}
+
+	void MainLogic::WriteInfo(const UI::Command*command)
+	{
+		switch (command->m_nCommandType)
+		{
+		case UI::CommandType::Attack:
+			logFileStream << "Attack " << command->m_pAttackObject->m_nID << " type " << command->m_pVictimObject->m_nUIType << " " << command->m_pVictimObject; 
+			break;
+		case UI::CommandType::Move:
+			logFileStream << "Move " << command->m_pMoveSoldier->m_nID << " Direction " << command->m_nMoveDirection << " Distance " << command->m_nMoveDistance;
+			break;
+		case UI::CommandType::Produce:
+			logFileStream << "Produce " << "towerID " << command->m_pProduceTower->m_nID << " SoldierType " << command->m_nProduceSoldierType;
+			break;
+		case UI::CommandType::Upgrade:
+			logFileStream << "Upgrade " << " TowerID " << command->m_pUpgradeTower->m_nID;
+			break;
+		default:
+			break;
+		}
+		logFileStream << "\n";
 	}
 }

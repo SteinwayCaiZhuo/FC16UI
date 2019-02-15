@@ -61,6 +61,10 @@ namespace UI {
 		void clearData();
 		void initData();
 		void WriteLog(const std::string& message);
+		void WriteInfo(const UI::TPlayer*player);
+		void WriteInfo(const UI::TSoldier*soldier);
+		void WriteInfo(const UI::TTower*tower);
+		void WriteInfo(const UI::Command*command);
 
 		void StartScene2PlayScene();
 		void PlayScene2StartScene();

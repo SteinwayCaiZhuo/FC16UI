@@ -33,7 +33,8 @@ TowerID 15 Owner -1 Level 1 Blood 200 Recruiting 0 RecruitingRound -1 Recruiting
 TowerID 16 Owner -1 Level 1 Blood 200 Recruiting 0 RecruitingRound -1 RecruitingType None
 TowerID 17 Owner -1 Level 1 Blood 200 Recruiting 0 RecruitingRound -1 RecruitingType None
 TowerID 18 Owner 3 Level 1 Blood 200 Recruiting 0 RecruitingRound -1 RecruitingType None
-SoldierInfo 0
+SoldierInfo 1
+SoldierID 1 Owner 2 Type Mangonel Level 1 Blood 100 X_Position 50 Y_Position 50
 CommandsInfo 4
 0 0
 1 0
@@ -74,7 +75,8 @@ TowerID 15 Owner -1 Level 1 Blood 200 Recruiting 0 RecruitingRound -1 Recruiting
 TowerID 16 Owner -1 Level 1 Blood 200 Recruiting 0 RecruitingRound -1 RecruitingType None
 TowerID 17 Owner -1 Level 1 Blood 200 Recruiting 0 RecruitingRound -1 RecruitingType None
 TowerID 18 Owner 3 Level 1 Blood 200 Recruiting 0 RecruitingRound -1 RecruitingType None
-SoldierInfo 0
+SoldierInfo 1
+SoldierID 1 Owner 2 Type Mangonel Level 1 Blood 100 X_Position 50 Y_Position 50
 CommandsInfo 4
 0 0
 1 0
@@ -114,7 +116,8 @@ TowerID 15 Owner -1 Level 1 Blood 200 Recruiting 0 RecruitingRound -1 Recruiting
 TowerID 16 Owner -1 Level 1 Blood 200 Recruiting 0 RecruitingRound -1 RecruitingType None
 TowerID 17 Owner -1 Level 1 Blood 200 Recruiting 0 RecruitingRound -1 RecruitingType None
 TowerID 18 Owner 3 Level 1 Blood 200 Recruiting 0 RecruitingRound -1 RecruitingType None
-SoldierInfo 0
+SoldierInfo 1
+SoldierID 1 Owner 2 Type Mangonel Level 1 Blood 100 X_Position 50 Y_Position 50
 CommandsInfo 4
 0 0
 1 1
@@ -155,7 +158,8 @@ TowerID 15 Owner -1 Level 1 Blood 200 Recruiting 0 RecruitingRound -1 Recruiting
 TowerID 16 Owner -1 Level 1 Blood 200 Recruiting 0 RecruitingRound -1 RecruitingType None
 TowerID 17 Owner -1 Level 1 Blood 200 Recruiting 0 RecruitingRound -1 RecruitingType None
 TowerID 18 Owner 3 Level 1 Blood 200 Recruiting 0 RecruitingRound -1 RecruitingType None
-SoldierInfo 0
+SoldierInfo 1
+SoldierID 1 Owner 2 Type Mangonel Level 1 Blood 100 X_Position 50 Y_Position 50
 CommandsInfo 4
 0 0
 1 0
@@ -195,7 +199,8 @@ TowerID 15 Owner -1 Level 1 Blood 200 Recruiting 0 RecruitingRound -1 Recruiting
 TowerID 16 Owner -1 Level 1 Blood 200 Recruiting 0 RecruitingRound -1 RecruitingType None
 TowerID 17 Owner -1 Level 1 Blood 200 Recruiting 0 RecruitingRound -1 RecruitingType None
 TowerID 18 Owner 3 Level 1 Blood 200 Recruiting 0 RecruitingRound -1 RecruitingType None
-SoldierInfo 0
+SoldierInfo 1
+SoldierID 1 Owner 2 Type Mangonel Level 1 Blood 100 X_Position 50 Y_Position 50
 CommandsInfo 4
 0 0
 1 0

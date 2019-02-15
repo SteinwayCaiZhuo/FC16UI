@@ -1,7 +1,7 @@
 #pragma once
 #include "../Data/DataDef.h"
 #include "ui/CocosGUI.h"
-
+#include <atomic>
 namespace UI
 {
 	class PlayScene : public cocos2d::Scene
@@ -12,7 +12,7 @@ namespace UI
 		virtual bool init();
 
 		CREATE_FUNC(PlayScene);
-
+		void clear();
 		void RefreshMap(float dt);
 		static void ContinuousDisplay();
 
@@ -24,6 +24,9 @@ namespace UI
 		cocos2d::ui::Button* start_btn;
 
 		cocos2d::Label* roundLabel;
+		std::atomic<bool>exit_thread_flag{ true};
+		
+    cocos2d::ui::EditBox* roundInfo;
 		
 		std::thread* displayThread;
 
