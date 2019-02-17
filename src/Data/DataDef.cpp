@@ -148,7 +148,8 @@
 
 		this->m_bUpgrade = false;
 		this->m_strctProduceSoldier = ProduceType{ false, NoneSoldierType };
-	}
+    
+}
 
 	TTower::~TTower()
 	{
@@ -169,6 +170,71 @@
 			LUTTOWER.emplace("RecruitingType", 6);
 		}
 	}
+
+  void TTower::SetVec2Position(const int & id) 
+  {
+    switch (id) {
+    case 0:
+      this->m_vec2Position = cocos2d::Vec2(6, 13);
+      break;
+    case 1:
+      this->m_vec2Position = cocos2d::Vec2(20, 16);
+      break;
+    case 2:
+      this->m_vec2Position = cocos2d::Vec2(33, 10);
+      break;
+    case 3:
+      this->m_vec2Position = cocos2d::Vec2(44, 25);
+      break;
+    case 4:
+      this->m_vec2Position = cocos2d::Vec2(61, 28);
+      break;
+    case 5:
+      this->m_vec2Position = cocos2d::Vec2(71, 14);
+      break;
+    case 6:
+      this->m_vec2Position = cocos2d::Vec2(83, 25);
+      break;
+    case 7:
+      this->m_vec2Position = cocos2d::Vec2(15, 43);
+      break;
+    case 8:
+      this->m_vec2Position = cocos2d::Vec2(15, 59);
+      break;
+    case 9:
+      this->m_vec2Position = cocos2d::Vec2(28, 51);
+      break;
+    case 10:
+      this->m_vec2Position = cocos2d::Vec2(51, 48);
+      break;
+    case 11:
+      this->m_vec2Position = cocos2d::Vec2(63, 53);
+      break;
+    case 12:
+      this->m_vec2Position = cocos2d::Vec2(73, 56);
+      break;
+    case 13:
+      this->m_vec2Position = cocos2d::Vec2(85, 50);
+      break;
+    case 14:
+      this->m_vec2Position = cocos2d::Vec2(8, 86);
+      break;
+    case 15:
+      this->m_vec2Position = cocos2d::Vec2(22, 81);
+      break;
+    case 16:
+      this->m_vec2Position = cocos2d::Vec2(39, 92);
+      break;
+    case 17:
+      this->m_vec2Position = cocos2d::Vec2(61, 77);
+      break;
+    case 18:
+      this->m_vec2Position = cocos2d::Vec2(77, 87);
+      break;
+    default:
+      this->m_vec2Position = cocos2d::Vec2(0, 0);
+    }
+  }
 
 	void TTower::Generate(const std::string& strLine)
 	{

@@ -24,7 +24,9 @@ namespace UI
 		cocos2d::ui::Button* start_btn;
 
 		cocos2d::Label* roundLabel;
-		
+
+    cocos2d::ui::EditBox* roundInfo;
+
 		std::thread* displayThread;
 
 		cocos2d::Scheduler* refresh_control;
