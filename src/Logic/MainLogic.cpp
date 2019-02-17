@@ -1,4 +1,3 @@
-﻿// TODO FIX:cannot add command of Player1 when Player0 dont have command and Player2 have command
 #include "MainLogic.h"
 #include "../UI/StartScene.h"
 #include "../UI/PlayScene.h"
@@ -232,7 +231,6 @@ namespace UI
 		{
 			return;
 		}
-
 
 
 		ifsGameResult.open(loadFileName, std::ios::in);

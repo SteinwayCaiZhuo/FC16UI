@@ -8,9 +8,6 @@
 #include <thread>
 #include <chrono>
 USING_NS_CC;
-//TODO FIX variable speed actually means unit duration time
-//TODO FIX touch drift in layer or find a way to bandle touch and sprite
-//TODO temp FIX show in roundinfo
 
 UI::PlayScene* UI::PlayScene::m_pInstance = nullptr;
 
@@ -235,7 +232,7 @@ void UI::PlayScene::Command2Actions(UI::Command* command)
 		auto action1 = Blink::create(MainLogic::GetInstance()->speed*0.5f, 1);
 		soldiers->getTileAt(attacker->m_vec2Position)->runAction(action1);
 		while(action1->isDone() == false);
-
+    
 		if (victim_s != nullptr)
 		{
 			auto action2 = MoveBy::create(MainLogic::GetInstance()->speed*1.f, Vec2(0.f, 0.f));
@@ -273,6 +270,7 @@ void UI::PlayScene::Command2Actions(UI::Command* command)
 	if (command->m_nCommandType == Move)
 	{
 		MainLogic::GetInstance()->WriteLog("Command2Actions----Move");
+
 		UI::TSoldier* mover = dynamic_cast<UI::TSoldier*>(command->m_pMoveSoldier);
 
 		if (mover == nullptr) {
@@ -348,6 +346,7 @@ void UI::PlayScene::Command2Actions(UI::Command* command)
 
 	if (command->m_nCommandType == Produce)
 	{
+
     MainLogic::GetInstance()->WriteLog("Command2Actions----Produce");
 
     auto new_sign = Sprite::create("produce.png");
