@@ -11,7 +11,6 @@ USING_NS_CC;
 //TODO FIX variable speed actually means unit duration time
 //TODO FIX touch drift in layer or find a way to bandle touch and sprite
 //TODO temp FIX show in roundinfo
-
 UI::PlayScene* UI::PlayScene::m_pInstance = nullptr;
 
 cocos2d::Scene* UI::PlayScene::createScene()
@@ -75,6 +74,7 @@ bool UI::PlayScene::init()
 	roundLabel = Label::createWithTTF("Game Not Start", "fonts/Marker Felt.ttf", 24);
 	roundLabel->setPosition(Vec2(900, 640));
 	this->addChild(roundLabel);
+
 	auto speed_decrease = ui::Button::create();
 	speed_decrease->setTitleText("SLOWER");
 	speed_decrease->setPosition(Vec2(880, 680));
@@ -101,6 +101,7 @@ bool UI::PlayScene::init()
 		}
 	});
 	this->addChild(speed_increase);
+
   roundInfo = ui::EditBox::create(Size(200, 400), "start.jpg");
   roundInfo->setPosition(Vec2(900, 300));
   roundInfo->setFontSize(11);
@@ -202,6 +203,7 @@ void UI::PlayScene::ContinuousDisplay()
 				soldiers->setTileGID((*i).second->Info2GID(), (*i).second->m_vec2Position);
 			}
 
+
 			MainLogic::GetInstance()->WriteLog("Beginning command actions");
 			for (auto item : MainLogic::GetInstance()->commands) {
 				UI::PlayScene::m_pInstance->Command2Actions(item);
@@ -211,7 +213,7 @@ void UI::PlayScene::ContinuousDisplay()
 			std::this_thread::sleep_for(std::chrono::duration<int, std::milli>(int(MainLogic::GetInstance()->speed * 1000)));
 		
 	}
-	
+
 }
 
 void UI::PlayScene::StartClickedCallback()
@@ -297,6 +299,7 @@ void UI::PlayScene::Command2Actions(UI::Command* command)
 	if (command->m_nCommandType == Move)
 	{
 		MainLogic::GetInstance()->WriteLog("Command2Actions----Move");
+
 		UI::TSoldier* mover = dynamic_cast<UI::TSoldier*>(command->m_pMoveSoldier);
 
 		if (mover == nullptr) {
@@ -372,6 +375,7 @@ void UI::PlayScene::Command2Actions(UI::Command* command)
 
 	if (command->m_nCommandType == Produce)
 	{
+
     MainLogic::GetInstance()->WriteLog("Command2Actions----Produce");
 
     auto new_sign = Sprite::create("produce.png");

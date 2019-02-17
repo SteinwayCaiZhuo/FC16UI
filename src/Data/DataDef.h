@@ -38,13 +38,13 @@ namespace UI
 
 	enum SoldierType
 	{
-		LightInfantry = 1  //Çá²½±ø
-		, LightArcher = 2   //Çá¹­±ø
-		, LightKnight = 3   //ÇáÆï±ø
-		, Mangonel = 4      //Í¶Ê¯»ú
-		, HeavyInfantry = 5 //ÖØ²½±ø
-		, HeavyArcher = 6   //ÖØ¹­±ø
-		, HeavyKnight = 7   //ÖØÆï±ø
+		LightInfantry = 1  //è½»æ­¥å…µ
+		, LightArcher = 2   //è½»å¼“å…µ
+		, LightKnight = 3   //è½»éª‘å…µ
+		, Mangonel = 4      //æŠ•çŸ³æœº
+		, HeavyInfantry = 5 //é‡æ­¥å…µ
+		, HeavyArcher = 6   //é‡å¼“å…µ
+		, HeavyKnight = 7   //é‡éª‘å…µ
 		, NoneSoldierType
 	};
 	SoldierType SoldierTypeStr2Enum(std::string str);

@@ -24,6 +24,7 @@ namespace UI
 		cocos2d::ui::Button* start_btn;
 
 		cocos2d::Label* roundLabel;
+    
 		std::atomic<bool>exit_thread_flag{ true};
 		
     cocos2d::ui::EditBox* roundInfo;

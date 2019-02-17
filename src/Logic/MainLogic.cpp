@@ -1,4 +1,4 @@
-﻿// TODO FIX:cannot add command of Player1 when Player0 dont have command and Player2 have command
+// TODO FIX:cannot add command of Player1 when Player0 dont have command and Player2 have command
 #include "MainLogic.h"
 #include "../UI/StartScene.h"
 #include "../UI/PlayScene.h"
@@ -341,6 +341,7 @@ namespace UI
 			{
 				getline(ifsGameResult, strLine);
 				towers[i]->Generate(strLine);
+
 				towers[i]->SetVec2Position(i);
 				WriteInfo(towers[i]);
 			}
