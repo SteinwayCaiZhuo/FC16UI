@@ -1,4 +1,4 @@
-# FC16UI
+# FC16UI (deprecated, refer to https://github.com/zhuocai/fcui_qt
 UI project of FC16, Department of Automation, Tsinghua University.
 
 # Get Started
